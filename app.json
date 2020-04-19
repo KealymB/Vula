@@ -1,0 +1,17 @@
+{
+  "name": "Vula",
+  "displayName": "Vula",
+  "expo": {
+    "name": "Vula",
+    "slug": "Vula",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
