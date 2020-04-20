@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { AsyncStorage } from 'react-native';
-let CookieManager = require("@react-native-community/cookies");
 var FormData = require('form-data')
-
 
 const instructions = Platform.select({
   ios: `Press Cmd+R to reload,\nCmd+D or shake fordev menu`,
@@ -12,13 +10,8 @@ const instructions = Platform.select({
 
 export default function App() {
   let formdata = new FormData();
-    formdata.append('_username', 'USERNAME')
-    formdata.append('_password', 'PASSWORD')
-
-    CookieManager.clearAll()
-      .then((res) => {
-        console.log('CookieManager.clearAll =>', res);
-      });
+    formdata.append('_username', '')
+    formdata.append('_password', '')
 
     function makeRequest(path, params) {
       fetch(path, {
@@ -29,12 +22,10 @@ export default function App() {
         },
         body: params
       }).then((response) => response.headers['map']['set-cookie']).then(cookie => {
-        AsyncStorage.setItem('cookie', JSON.stringify(cookie))
+        if(cookie){AsyncStorage.setItem('cookie', JSON.stringify(cookie))}
       }).catch(err => {
-        console.log(err)
+        alert('Cookie2: ' + err)
       })
-
-
     }
 
     async function get() {
@@ -42,7 +33,6 @@ export default function App() {
       let cookie = await AsyncStorage.getItem('cookie')
       alert('Cookie: ' + cookie)
     }
-
     get()
   
 
