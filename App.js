@@ -1,4 +1,6 @@
+import 'react-native-gesture-handler';
 import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { AsyncStorage } from 'react-native';
 var FormData = require('form-data')
