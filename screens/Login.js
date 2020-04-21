@@ -3,12 +3,8 @@ import { AsyncStorage} from 'react-native';
 import { Component } from 'react';
 import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button } from 'react-native';
 
-
-var FormData = require('form-data')
+var FormData = require('form-data');
 let formdata = new FormData();
-
-formdata.append('_username', '')//add into login
-formdata.append('_password', '')//add info login
 
 function makeRequest(path, params) {
     fetch(path, {
@@ -18,34 +14,40 @@ function makeRequest(path, params) {
         'Connection': 'keep-alive'
       },
       body: params
-    }).then((response) => response.headers['map']['set-cookie']).then(cookie => {
-      if(cookie){AsyncStorage.setItem('cookie', JSON.stringify(cookie))}
+    }).then((response) => response.headers['map']['set-cookie']).then(cookie => {if(cookie){
+      AsyncStorage.setItem('cookie', cookie)
+    }
+      
     }).catch(err => {
-      alert('Cookie2: ' + err)
+      alert('Username/Password incorrect')
     })
 }
 
 async function get() {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
     let cookie = await AsyncStorage.getItem('cookie')
-    alert('Cookie: ' + cookie)
+    alert('cookie:'+cookie)
 }
 
 state={
-    uname:"",
-    password:""
+    uname:'',
+    password:''
 }
-  
 
 class Login extends Component{
     render(){
-        
         return(
             <View style={styles.container}>
+                <View style={styles.logo} >
+                  <Text style={styles.logo}>
+                    vula
+                  </Text>
+                </View>
+
                 <View style={styles.inputView} >
                     <TextInput  
                         style={styles.inputText}
-                        placeholder="Email..." 
+                        placeholder="UserName..." 
                         placeholderTextColor="#003f5c"
                         onChangeText={text => this.setState({uname:text})}/>
                 </View>
@@ -61,7 +63,12 @@ class Login extends Component{
 
                 <TouchableOpacity style={styles.loginBtn}>
                     <Button  onPress={() => {
+                        const { navigate } = this.props.navigation;
+                        console.log(this.state.uname, this.state.password)
+                        formdata.append('_username', this.state.uname)
+                        formdata.append('_password', this.state.password)
                         get();
+                        navigate("Home");
                     }} title="Login">
                         <Text style={styles.loginText}>LOGIN</Text>
                     </Button>
@@ -74,9 +81,8 @@ class Login extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#003f5c',
+    backgroundColor: '#1f4166',
     alignItems: 'center',
-    justifyContent: 'center',
   },  
   
   inputView:{
@@ -87,5 +93,11 @@ const styles = StyleSheet.create({
     marginBottom:20,
     justifyContent:"center",
     padding:20
+  },
+  logo:{
+    fontWeight:"bold",
+    fontSize:50,
+    color:"#f8f8f8",
+    marginBottom:40
   },
 });
