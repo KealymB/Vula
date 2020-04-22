@@ -6,9 +6,7 @@ import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button } from 'rea
 var FormData = require('form-data');
 let formdata = new FormData();
 
-navigationOptions: {
-  drawerLockMode: 'locked-closed'
-}
+let test = '';
 
 async function makeRequest(path, params) {
     let response = await fetch(path, {
@@ -19,15 +17,15 @@ async function makeRequest(path, params) {
         'Connection': 'keep-alive',
       },
       body: params
-    }).then((response) => (response).headers.get('set-cookie')).then(cookie => {
-      AsyncStorage.setItem('cookie', JSON.stringify(cookie))
-      console.log(cookie)
+    }).then((response) => (response).headers.get('set-cookie')).then(async cookie => {
+      await AsyncStorage.setItem('cookie', JSON.stringify(cookie))
     })
 }
 
 async function get() {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
-    console.log(JSON.stringify(AsyncStorage.getItem('cookie')))
+    let cookie = await AsyncStorage.getItem('cookie');
+    console.log(cookie)
 }
 
 state={
