@@ -6,6 +6,10 @@ import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button } from 'rea
 var FormData = require('form-data');
 let formdata = new FormData();
 
+navigationOptions: {
+  drawerLockMode: 'locked-closed'
+}
+
 async function makeRequest(path, params) {
     let response = await fetch(path, {
       credentials: 'same-origin',
@@ -15,14 +19,15 @@ async function makeRequest(path, params) {
         'Connection': 'keep-alive',
       },
       body: params
-    }).then((response) => (response).headers.get('entityid')).then(cookie => {
-      AsyncStorage.setItem('cookie', cookie)
+    }).then((response) => (response).headers.get('set-cookie')).then(cookie => {
+      AsyncStorage.setItem('cookie', JSON.stringify(cookie))
       console.log(cookie)
     })
 }
 
 async function get() {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
+    console.log(JSON.stringify(AsyncStorage.getItem('cookie')))
 }
 
 state={
@@ -94,6 +99,7 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
     fontSize:50,
     color:"#f8f8f8",
-    marginBottom:40
+    marginBottom:40,
+    marginTop:40
   },
 });
