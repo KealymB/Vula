@@ -9,7 +9,6 @@ import Home from './screens/Home';
 
 const Stack = createStackNavigator();
 
-
 async function clearCookies() {
   const asyncStorageKeys = await AsyncStorage.getAllKeys();
   if (asyncStorageKeys.length > 0) {

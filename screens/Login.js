@@ -6,32 +6,29 @@ import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button } from 'rea
 var FormData = require('form-data');
 let formdata = new FormData();
 
-function makeRequest(path, params) {
-    fetch(path, {
+async function makeRequest(path, params) {
+    let response = await fetch(path, {
+      credentials: 'same-origin',
       method: 'POST',
       headers: {
-        'User-Agent': 'react-native',
-        'Connection': 'keep-alive'
+        'User': 'react-native',
+        'Connection': 'keep-alive',
       },
       body: params
-    }).then((response) => response.headers['map']['set-cookie']).then(cookie => {if(cookie){
+    }).then((response) => (response).headers.get('entityid')).then(cookie => {
       AsyncStorage.setItem('cookie', cookie)
-    }
-      
-    }).catch(err => {
-      alert('Username/Password incorrect')
+      console.log(cookie)
     })
 }
 
 async function get() {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
-    let cookie = await AsyncStorage.getItem('cookie')
-    alert('cookie:'+cookie)
 }
 
 state={
     uname:'',
-    password:''
+    password:'',
+    cookie:''
 }
 
 class Login extends Component{
@@ -64,9 +61,8 @@ class Login extends Component{
                 <TouchableOpacity style={styles.loginBtn}>
                     <Button  onPress={() => {
                         const { navigate } = this.props.navigation;
-                        console.log(this.state.uname, this.state.password)
-                        formdata.append('_username', this.state.uname)
-                        formdata.append('_password', this.state.password)
+                        formdata.append('_username', (this.state.uname));
+                        formdata.append('_password', (this.state.password));
                         get();
                         navigate("Home");
                     }} title="Login">
