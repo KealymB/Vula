@@ -2,12 +2,13 @@ import * as React from 'react';
 import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button } from 'react-native';
 import { Component } from 'react';
 import { AsyncStorage} from 'react-native';
+import { StackActions } from '@react-navigation/native';
 
-async function makeRequest(path, params) {
+var data;
+
+async function makeRequest(path) {
   let cookie = await AsyncStorage.getItem('cookie');
   let id = (JSON.stringify(cookie).slice(3,59));
-
-  console.log('session id:'+id)
 
   let response = await fetch(path, {
     credentials: 'include',
@@ -18,21 +19,28 @@ async function makeRequest(path, params) {
     }
   }).then((response) => (response).json())
   .then(text => {
-    var data = text.site_collection.map(function(item) {
+    data = text.site_collection.map(function(item) {
       return {
         key: item.id,
         label: item.title
       };
     });
 
-    console.log(data)
-  })
+
+  })    
+  return{
+    data
+  }
 }
 
 async function get() {
   let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
-  let cookie = await AsyncStorage.getItem('cookie');
-  console.log('init cookie:' + cookie)
+  var i;
+  for (i = 0; i < (a).data.length; i++) {
+    console.log((a).data[i].key)
+    const pushAction = StackActions.push((a).data[i].label, { id: (a).data[i].key });
+    this.props.navigate.dispatch(pushAction);
+  }
 }
 
 class Home extends Component{
