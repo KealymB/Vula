@@ -18,7 +18,7 @@ async function makeRequest(path, params) {
       },
       body: params
     }).then((response) => (response).headers.get('set-cookie')).then(async cookie => {
-      await AsyncStorage.setItem('cookie', JSON.stringify(cookie))
+      if(cookie){await AsyncStorage.setItem('cookie', JSON.stringify(cookie))}
     })
 }
 
@@ -62,13 +62,13 @@ class Login extends Component{
                 </View>
 
                 <TouchableOpacity style={styles.loginBtn}>
-                    <Button  onPress={() => {
+                    <Button  onPress={() => {if(this.state.uname&&this.state.password){
                         const { navigate } = this.props.navigation;
                         formdata.append('_username', (this.state.uname));
                         formdata.append('_password', (this.state.password));
                         get();
                         navigate("Home");
-                    }} title="Login">
+                    }}} title="Login">
                         <Text style={styles.loginText}>LOGIN</Text>
                     </Button>
                 </TouchableOpacity>

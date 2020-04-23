@@ -3,10 +3,42 @@ import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button } from 'rea
 import { Component } from 'react';
 import { AsyncStorage} from 'react-native';
 
+async function makeRequest(path, params) {
+  let cookie = await AsyncStorage.getItem('cookie');
+  let id = (JSON.stringify(cookie).slice(3,59));
+
+  console.log('session id:'+id)
+
+  let response = await fetch(path, {
+    credentials: 'include',
+    method: 'GET',
+    headers: {
+      'User': 'react-native',
+      'Connection': 'keep-alive',
+    }
+  }).then((response) => (response).json())
+  .then(text => {
+    var data = text.site_collection.map(function(item) {
+      return {
+        key: item.id,
+        label: item.title
+      };
+    });
+
+    console.log(data)
+  })
+}
+
+async function get() {
+  let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
+  let cookie = await AsyncStorage.getItem('cookie');
+  console.log('init cookie:' + cookie)
+}
+
 class Home extends Component{
-    async componentDidmount() {
-        const cookie = await AsyncStorage.getItem('cookie');
-        alert(cookie);
+    componentDidMount() {
+      get();
+      console.log('ran this');
     }
 
     render(){

@@ -16,7 +16,7 @@ async function clearCookies() {
   }
 }
 
-clearCookies();
+//clearCookies();
 
 export default function App() {
   return (
