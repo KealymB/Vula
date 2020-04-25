@@ -3,6 +3,7 @@ import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button } from 'rea
 import { Component } from 'react';
 import { AsyncStorage} from 'react-native';
 import { StackActions } from '@react-navigation/native';
+import { SearchBar } from 'react-native-elements';
 
 var data;
 
@@ -11,47 +12,56 @@ async function makeRequest(path) {
   let id = (JSON.stringify(cookie).slice(3,59));
 
   let response = await fetch(path, {
-    credentials: 'include',
     method: 'GET',
-    headers: {
+    headers: { 
       'User': 'react-native',
       'Connection': 'keep-alive',
     }
-  }).then((response) => (response).json())
-  .then(text => {
-    data = text.site_collection.map(function(item) {
-      return {
-        key: item.id,
-        label: item.title
-      };
-    });
-
-
+  }).then((response) => response.json())
+    .then(text => {
+      data = text.site_collection.map(function(item) {
+        return {
+          key: item.id,
+          label: item.title
+        };
+      });
+      console.log(data);
   })    
   return{
     data
   }
 }
 
-async function get() {
-  let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
-  var i;
-  for (i = 0; i < (a).data.length; i++) {
-    console.log((a).data[i].key)
-    const pushAction = StackActions.push((a).data[i].label, { id: (a).data[i].key });
-    this.props.navigate.dispatch(pushAction);
-  }
-}
-
 class Home extends Component{
+  state = {
+    search: '',
+  };
+  
+  updateSearch = search => {
+    this.setState({ search });
+  };
+
     componentDidMount() {
-      get();
-      console.log('ran this');
+      Get(this.props);
+
+      async function Get(props) {
+        let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
+        var i;
+        for (i = 0; i < (a).data.length; i++) {
+          console.log((a).data[i].key)
+        }
+      }
     }
 
     render(){
+      const { search } = this.state;
         return(        
             <View>
+               <SearchBar
+                  placeholder="Type Here..."
+                  onChangeText={this.updateSearch}
+                  value={search}
+                />
             </View>
         );
     }

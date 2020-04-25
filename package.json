@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@expo/vector-icons": "^10.0.6",
     "@react-native-community/cookies": "^2.0.8",
     "@react-native-community/masked-view": "^0.1.9",
     "@react-navigation/drawer": "^5.5.0",
@@ -20,6 +21,7 @@
     "react-dom": "~16.9.0",
     "react-native": "~0.61.5",
     "react-native-cookies": "^3.3.0",
+    "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-keychain": "^6.0.0",
     "react-native-reanimated": "^1.7.1",

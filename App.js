@@ -7,8 +7,14 @@ import { AsyncStorage} from 'react-native';
 
 import Login from './screens/Login';
 import Home from './screens/Home';
+import Site from './screens/Site';
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator(  {
+  initialRouteName: "Home",
+  unmountInactiveRoutes: true,
+  headerMode: "none",
+  contentComponent: props => <Site {...props} />
+});
 
 async function clearCookies() {
   const asyncStorageKeys = await AsyncStorage.getAllKeys();
@@ -25,6 +31,8 @@ export default function App() {
       <Drawer.Navigator initialRouteName="Login">
         <Drawer.Screen name="Login" component={Login} />
         <Drawer.Screen name="Home" component={Home} />
+        <Drawer.Screen name="EBE Undergrad Orientation" component={Site} />
+        <Drawer.Screen name="Test" component={Site} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
