@@ -62,14 +62,16 @@ class Login extends Component{
                 </View>
 
                 <TouchableOpacity style={styles.loginBtn}>
-                    <Button  onPress={() => {if(this.state.uname&&this.state.password){
-                        const { navigate } = this.props.navigation;
-                        formdata.append('_username', (this.state.uname));
-                        formdata.append('_password', (this.state.password));
-                        get();
-                        navigate("Site");
-                    }}} title="Login">
-                        <Text style={styles.loginText}>LOGIN</Text>
+                    <Button  
+                      onPress={() => {
+                        if(this.state.uname&&this.state.password){
+                            const { navigate } = this.props.navigation;
+                            formdata.append('_username', (this.state.uname));
+                            formdata.append('_password', (this.state.password));
+                            get();
+                            navigate("Site", {title: 'Home'});
+                        }}} title="Login">
+                      <Text style={styles.loginText}>LOGIN</Text>
                     </Button>
                 </TouchableOpacity>
             </View>

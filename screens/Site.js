@@ -2,20 +2,24 @@ import * as React from 'react';
 import { View, StyleSheet, Text} from 'react-native';
 import { Component } from 'react';
 
-import SiteSearch from './components/SiteSearch';
-import Site from './screens/Site';
+import SiteSearch from '../components/SiteSearch';
 
 class Site extends Component{
     render(){
-      const { navigate } = this.props.navigation;
+      console.log(this.props.route.params.title);
         return(        
           <View style={styles.container}>
-            <Text style={styles.logo}>
-              {navigate.title}
-            </Text>
-            <Text>
-              {SiteSearch}
-            </Text>
+            <View style={styles.header}>
+              <View style={styles.logoview}>
+                <Text style={styles.logo}>
+                  {this.props.route.params.title}
+                </Text>
+              </View>
+
+              <View style={styles.search}>
+                <SiteSearch/>
+              </View>
+            </View>
           </View>
         );
     }
@@ -25,23 +29,20 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#1f4166',
-      alignItems: 'center',
-    },  
-    
-    inputView:{
-      width:"80%",
-      backgroundColor:"#465881",
-      borderRadius:25,
-      height:65,
-      marginBottom:20,
-      justifyContent:"center",
-      padding:20
+    },
+    logoview:{
+      flex:2,
     },
     logo:{
       fontWeight:"bold",
-      fontSize:50,
+      fontSize:30,
       color:"#f8f8f8",
-      marginBottom:40,
-      marginTop:40
     },
+    search:{
+      flex:4,
+    },
+    header:{
+      marginTop:20,
+      flexDirection: 'row',
+    }
 })

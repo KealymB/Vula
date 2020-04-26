@@ -2,6 +2,7 @@ import * as React from 'react';
 import { AsyncStorage} from 'react-native';
 import { Component } from 'react';
 import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 
 var data;
 

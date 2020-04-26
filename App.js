@@ -21,6 +21,7 @@ function CustomDrawerContent(props) {
   for(var i=0;i<arr.length;i++){
     elements.push(
       <DrawerItem 
+      key={i.toString()}
       label={ arr[i] } 
       onPress={() => Linking.openUrl('https://mywebsite.com/help')
     }/>
@@ -38,7 +39,7 @@ export default function App() {
     <NavigationContainer>
       <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
         <Drawer.Screen name="Login" component={Login} />
-        <Drawer.Screen name="Site" component={Site} initialParams={{ title: 'Home' }} />
+        <Drawer.Screen name="Site" component={Site} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
