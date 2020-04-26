@@ -67,7 +67,7 @@ class Login extends Component{
                         formdata.append('_username', (this.state.uname));
                         formdata.append('_password', (this.state.password));
                         get();
-                        navigate("Home");
+                        navigate("Site");
                     }}} title="Login">
                         <Text style={styles.loginText}>LOGIN</Text>
                     </Button>

@@ -1,12 +1,22 @@
 import * as React from 'react';
-import { View, StyleSheet} from 'react-native';
+import { View, StyleSheet, Text} from 'react-native';
 import { Component } from 'react';
+
+import SiteSearch from './components/SiteSearch';
+import Site from './screens/Site';
 
 class Site extends Component{
     render(){
+      const { navigate } = this.props.navigation;
         return(        
-            <View>
-            </View>
+          <View style={styles.container}>
+            <Text style={styles.logo}>
+              {navigate.title}
+            </Text>
+            <Text>
+              {SiteSearch}
+            </Text>
+          </View>
         );
     }
 } export default Site;

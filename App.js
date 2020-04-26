@@ -2,37 +2,43 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { AsyncStorage} from 'react-native';
-
 
 import Login from './screens/Login';
-import Home from './screens/Home';
 import Site from './screens/Site';
 
-const Drawer = createDrawerNavigator(  {
-  initialRouteName: "Home",
-  unmountInactiveRoutes: true,
-  headerMode: "none",
-  contentComponent: props => <Site {...props} />
-});
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from '@react-navigation/drawer';
 
-async function clearCookies() {
-  const asyncStorageKeys = await AsyncStorage.getAllKeys();
-  if (asyncStorageKeys.length > 0) {
-    AsyncStorage.clear();
-  }
+const Drawer = createDrawerNavigator();
+
+var arr=["one", "two", "three", "four"]; //need to replace with site tools
+var elements=[];
+
+function CustomDrawerContent(props) {
+  for(var i=0;i<arr.length;i++){
+    elements.push(
+      <DrawerItem 
+      label={ arr[i] } 
+      onPress={() => Linking.openUrl('https://mywebsite.com/help')
+    }/>
+  );
 }
-
-//clearCookies();
+  return (
+    <DrawerContentScrollView {...props}>
+      {elements}
+    </DrawerContentScrollView>
+  );
+}
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Login">
+      <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
         <Drawer.Screen name="Login" component={Login} />
-        <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="EBE Undergrad Orientation" component={Site} />
-        <Drawer.Screen name="Test" component={Site} />
+        <Drawer.Screen name="Site" component={Site} initialParams={{ title: 'Home' }} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
