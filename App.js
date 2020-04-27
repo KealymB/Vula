@@ -39,7 +39,7 @@ export default function App() {
     <NavigationContainer>
       <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
         <Drawer.Screen name="Login" component={Login} />
-        <Drawer.Screen name="Site" component={Site} />
+        <Drawer.Screen name="Site" component={Site} initialParams={title='Home'}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );

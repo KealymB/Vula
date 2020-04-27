@@ -4,6 +4,7 @@ import { Component } from 'react';
 import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
+
 var data;
 
 async function makeRequest(path) {
@@ -54,14 +55,14 @@ class SiteSearch extends Component{
   
       render(){
         const { search } = this.state;
-          return(        
-              <View>
-                 <SearchBar
-                    placeholder="Type Here..."
-                    onChangeText={this.updateSearch}
-                    value={search}
-                  />
-              </View>
+          return(
+            <View>
+                <SearchBar
+                  placeholder="Type Here..."
+                  onChangeText={this.updateSearch}
+                  value={search}
+                />
+            </View>
           );
       }
   } export default SiteSearch;

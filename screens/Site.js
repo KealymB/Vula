@@ -1,27 +1,37 @@
 import * as React from 'react';
-import { View, StyleSheet, Text} from 'react-native';
+import { View, StyleSheet, Text, Button} from 'react-native';
 import { Component } from 'react';
 
-import SiteSearch from '../components/SiteSearch';
+import Header from '../components/Header';
+
+async function makeRequest(path) {
+  let response = await fetch(path, {
+    method: 'GET',
+    headers: { 
+      'User': 'react-native',
+      'Connection': 'keep-alive',
+    }
+  }).then((response) => response.json())
+    .then(text => {
+      data = text.site_collection.map(function(item) {
+        return {
+          key: item.id,
+          label: item.title,
+        };
+      });
+      
+  })    
+  return{
+    data
+  }
+}
 
 class Site extends Component{
-    render(){
-      console.log(this.props.route.params.title);
-        return(        
-          <View style={styles.container}>
-            <View style={styles.header}>
-              <View style={styles.logoview}>
-                <Text style={styles.logo}>
-                  {this.props.route.params.title}
-                </Text>
-              </View>
 
-              <View style={styles.search}>
-                <SiteSearch/>
-              </View>
-            </View>
-          </View>
-        );
+    render(){
+      return(
+        <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
+      );
     }
 } export default Site;
 
