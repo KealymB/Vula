@@ -6,7 +6,6 @@ import { SearchBar } from 'react-native-elements';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-
 async function makeRequest(path) {
   let response = await fetch(path, {
     method: 'GET',
@@ -20,6 +19,7 @@ async function makeRequest(path) {
         return {
           key: item.id,
           label: item.title,
+          tools: item.sitePages,
         };
       });
       
@@ -30,37 +30,28 @@ async function makeRequest(path) {
 }
 
 class SitesList extends Component {
-  state={
-    data:[],
-    dataS:[],
-  }
-
-  async componentDidMount() {
-    let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
-    this.setState({data:a.data});
-  }
-
   render(){
+    const { data } = this.props.data;
     return(
       <View>
         <FlatList
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            data={this.state.data}
-            renderItem={({item}) =>{
-                return(
-                <TouchableOpacity style={styles.itemView}>
-                    <Button
-                        style={{
-                            color:'black',
-                        }}  
-                        onPress={() => {
-                            const { navigate } = this.props.navigation;
-                            navigate("Site", {title: item.label, siteID:item.key});
-                        }} title={item.label}>
-                    </Button>
-                </TouchableOpacity>
-                );}}>
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          data={data}
+          renderItem={({item}) =>{
+              return(
+              <TouchableOpacity style={styles.itemView}>
+                  <Button
+                      style={{
+                          color:'black',
+                      }}  
+                      onPress={() => {
+                          const { navigate } = this.props.navigation;
+                          navigate("Site", {title: item.label, siteID:item.key});
+                      }} title={item.label}>
+                  </Button>
+              </TouchableOpacity>
+              );}}>
         </FlatList>
       </View>
     );
@@ -71,22 +62,30 @@ class Header extends Component{
     state={
         search: '',
         searching:false,
+        data:[],
+        dataSearched:[],
+    }
+
+    async componentDidMount() {
+      await Expo.Font.loadAsync({
+        Icon: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
+      });
+
+      let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
+
+      this.setState({data:a.data});
+      this.setState({dataSearched:a.data});
     }
 
     updateSearch = search => {
         this.setState({ search });
-        
+        const formatQuery = search.toLowerCase();
+        this.setState(dataSearched=_.filter(this.state.data, item =>
+          {
+            return contains(item.toLowerCase(), formatQuery);
+          }));
     };
 
-    async componentDidMount() {
-        await Expo.Font.loadAsync({
-            Icon: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
-        });
-        let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
-        this.setState({data:a.data});
-        console.log(a);
-    }
-  
       render(){ 
         const { search } = this.state;
         if(this.state.searching){
@@ -102,7 +101,7 @@ class Header extends Component{
               </View>
   
               <View style={styles.sites}>
-                <SitesList navigation={this.props.navigation}/>
+                <SitesList navigation={this.props.navigation} data={this.state.dataSearched}/>
               </View>
             </View>
           );
@@ -124,7 +123,7 @@ class Header extends Component{
               </View>
   
               <View style={styles.sites}>
-                <SitesList navigation={this.props.navigation}/>
+                <SitesList navigation={this.props.navigation} data={this.state.dataSearched}/>
               </View>
             </View>
           );
@@ -168,7 +167,7 @@ class Header extends Component{
     },
     searchbar:{
       marginTop:20,
-      flex:6,
+      flex:1,
     },
     sb: {
       flex: 1,

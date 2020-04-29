@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AsyncStorage} from 'react-native';
 import { Component } from 'react';
-import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button } from 'react-native';
+import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button, TouchableWithoutFeedback  } from 'react-native';
 
 var FormData = require('form-data');
 let formdata = new FormData();
@@ -18,14 +18,18 @@ async function makeRequest(path, params) {
       },
       body: params
     }).then((response) => (response).headers.get('set-cookie')).then(async cookie => {
-      if(cookie){await AsyncStorage.setItem('cookie', JSON.stringify(cookie))}
+      if(cookie){
+        await AsyncStorage.setItem('cookie', JSON.stringify(cookie));
+        return response;
+      }
     })
 }
 
-async function get() {
+async function get({ navigate }) {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
     let cookie = await AsyncStorage.getItem('cookie');
-    console.log(cookie)
+    console.log(cookie);
+    navigate("Site", {title: 'Home', siteID:this.state.uname});//might be a differed siteID
 }
 
 state={
@@ -35,47 +39,49 @@ state={
 }
 
 class Login extends Component{
-    render(){
-        return(
-            <View style={styles.container}>
-                <View style={styles.logo} >
-                  <Text style={styles.logo}>
-                    vula
-                  </Text>
-                </View>
 
-                <View style={styles.inputView} >
-                    <TextInput  
-                        style={styles.inputText}
-                        placeholder="UserName..." 
-                        placeholderTextColor="#003f5c"
-                        onChangeText={text => this.setState({uname:text})}/>
-                </View>
+    render(){  
+      return(
+          <View style={styles.container}>
+              <View style={styles.logo} >
+                <Text style={styles.logo}>
+                  vula
+                </Text>
+              </View>
 
-                <View style={styles.inputView} >
-                    <TextInput  
-                        style={styles.inputText}
-                        placeholder="Password..." 
-                        placeholderTextColor="#003f5c"
-                        onChangeText={text => this.setState({password:text})}
-                        secureTextEntry={true}/>
-                </View>
+              <View style={styles.inputView} >
+                  <TextInput  
+                      style={styles.inputText}
+                      placeholder="UserName..." 
+                      placeholderTextColor="#003f5c"
+                      onChangeText={text => this.setState({uname:text})}/>
+              </View>
 
-                <TouchableOpacity style={styles.loginBtn}>
-                    <Button  
-                      onPress={() => {
-                        if(this.state.uname&&this.state.password){
-                            const { navigate } = this.props.navigation;
-                            formdata.append('_username', (this.state.uname));
-                            formdata.append('_password', (this.state.password));
-                            get();
-                            navigate("Site", {title: 'Home', siteID:this.state.uname});//might be a differed siteID
-                        }}} title="Login">
-                      <Text style={styles.loginText}>LOGIN</Text>
-                    </Button>
-                </TouchableOpacity>
-            </View>
-        );
+              <View style={styles.inputView} >
+                  <TextInput  
+                      style={styles.inputText}
+                      placeholder="Password..." 
+                      placeholderTextColor="#003f5c"
+                      onChangeText={text => this.setState({password:text})}
+                      secureTextEntry={true}/>
+              </View>
+
+              <TouchableOpacity style={styles.loginBtn}>
+                  <Button  
+                    onPress={() => {
+                      if(this.state.uname||this.state.password != null){
+                          formdata.append('_username', (this.state.uname));
+                          formdata.append('_password', (this.state.password));
+                          get(navigate = this.props.navigation);
+                      }else{
+                        alert('Username or Password is blank');
+                      }
+                      }} title="Login">
+                    <Text style={styles.loginText}>LOGIN</Text>
+                  </Button>
+              </TouchableOpacity>
+          </View>
+      );
     }
 } export default Login;
 
