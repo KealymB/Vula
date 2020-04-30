@@ -18,6 +18,7 @@ async function makeRequest(path, params) {
       },
       body: params
     }).then((response) => (response).headers.get('set-cookie')).then(async cookie => {
+      console.log('calling cookie')
       if(cookie){
         await AsyncStorage.setItem('cookie', JSON.stringify(cookie));
         return response;

@@ -3,8 +3,11 @@ import { AsyncStorage} from 'react-native';
 import { Component } from 'react';
 import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button, FlatList } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import SitesList from './SitesList';
+import { addData } from '../actions/data';
 
 async function makeRequest(path) {
   let response = await fetch(path, {
@@ -29,41 +32,10 @@ async function makeRequest(path) {
   }
 }
 
-class SitesList extends Component {
-  render(){
-    const { data } = this.props.data;
-    return(
-      <View>
-        <FlatList
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          data={data}
-          renderItem={({item}) =>{
-              return(
-              <TouchableOpacity style={styles.itemView}>
-                  <Button
-                      style={{
-                          color:'black',
-                      }}  
-                      onPress={() => {
-                          const { navigate } = this.props.navigation;
-                          navigate("Site", {title: item.label, siteID:item.key});
-                      }} title={item.label}>
-                  </Button>
-              </TouchableOpacity>
-              );}}>
-        </FlatList>
-      </View>
-    );
-  }
-}
-
 class Header extends Component{  
     state={
         search: '',
         searching:false,
-        data:[],
-        dataSearched:[],
     }
 
     async componentDidMount() {
@@ -72,18 +44,14 @@ class Header extends Component{
       });
 
       let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
-
-      this.setState({data:a.data});
-      this.setState({dataSearched:a.data});
+      console.log(a.data)
+      this.props.add(a.data);
     }
 
     updateSearch = search => {
         this.setState({ search });
         const formatQuery = search.toLowerCase();
-        this.setState(dataSearched=_.filter(this.state.data, item =>
-          {
-            return contains(item.toLowerCase(), formatQuery);
-          }));
+        //send formattoredux
     };
 
       render(){ 
@@ -101,7 +69,7 @@ class Header extends Component{
               </View>
   
               <View style={styles.sites}>
-                <SitesList navigation={this.props.navigation} data={this.state.dataSearched}/>
+                <SitesList navigation={this.props.navigation}/>
               </View>
             </View>
           );
@@ -129,7 +97,21 @@ class Header extends Component{
           );
         }
       }
-  } export default Header;
+  } 
+  const mapStateToProps = (state) => {
+    console.log(state.siteReducer)
+    return{
+      dataSearched:state.siteReducer
+    }
+  }
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      search: (query) => dispatch(searchData(query)),
+      add: (data) => dispatch(addData(data))
+    }
+  }
+  export default connect(mapStateToProps, mapDispatchToProps)(Header);
 
   const styles = StyleSheet.create({
     container: {
