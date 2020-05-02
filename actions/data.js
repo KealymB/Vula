@@ -1,7 +1,7 @@
-import { ADD_DATA, SEARCH_DATA } from './types'; 
+import { ADD_SITES, SEARCH_DATA } from './types'; 
 
 export const addData = (info) => ({
-    type: ADD_DATA,
+    type: ADD_SITES,
     data: info,
 })
 
