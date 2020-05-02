@@ -4,10 +4,12 @@ import { Component } from 'react';
 import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button, FlatList } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
+//import Skeleton from 'react-loading-skeleton';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import SitesList from './SitesList';
 import { addData } from '../actions/data';
+import { searchData } from '../actions/data';
 
 async function makeRequest(path) {
   let response = await fetch(path, {
@@ -36,6 +38,7 @@ class Header extends Component{
     state={
         search: '',
         searching:false,
+        loading: true,
     }
 
     async componentDidMount() {
@@ -44,64 +47,64 @@ class Header extends Component{
       });
 
       let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
-      console.log(a.data)
-      this.props.add(a.data);
+      
+      this.props.add(a.data);//passes props to redux
+      console.log(this.props.dataSearched);
     }
 
     updateSearch = search => {
         this.setState({ search });
         const formatQuery = search.toLowerCase();
-        //send formattoredux
+        this.props.search(formatQuery);
     };
+    render(){ 
+      const { search } = this.state;
+      if(this.state.searching){
+        return(
+          <View style={styles.container}>
+            <View style={styles.searchbar}>
+              <SearchBar
+                lightTheme         
+                placeholder="Search Sites:"
+                onChangeText={this.updateSearch}
+                value={search}
+                onClear={()=>this.setState({ searching:false })}
+                showCancel={true}/>
+            </View>
 
-      render(){ 
-        const { search } = this.state;
-        if(this.state.searching){
-          return(
-            <View style={styles.container}>
-              <View style={styles.searchbar}>
-                <SearchBar         
-                  placeholder="Search Sites:"
-                  onChangeText={this.updateSearch}
-                  value={search}
-                  onClear={()=>this.setState({ searching:false })}
-                  showCancel={true}/>
+            <View style={styles.sites}>
+              <SitesList navigation={this.props.navigation}/>
+            </View>
+          </View>
+        );
+      }else{
+        return(
+          <View style={styles.sb}>
+            <View style={styles.header}>
+              <View style={styles.logoview}>
+                <Text style={styles.logo}>
+                  {this.props.title}
+                </Text>
               </View>
-  
-              <View style={styles.sites}>
-                <SitesList navigation={this.props.navigation}/>
+
+              <View style={styles.search}>
+                <TouchableOpacity onPress={()=>{this.setState({ searching:true })}}>
+                    <Icon name="ios-search" size={32}/>
+                </TouchableOpacity>
               </View>
             </View>
-          );
-        }else{
-          return(
-            <View style={styles.sb}>
-              <View style={styles.header}>
-                <View style={styles.logoview}>
-                  <Text style={styles.logo}>
-                    {this.props.title}
-                  </Text>
-                </View>
-  
-                <View style={styles.search}>
-                  <TouchableOpacity onPress={()=>{this.setState({ searching:true })}}>
-                      <Icon name="ios-search" size={32}/>
-                  </TouchableOpacity>
-                </View>
-              </View>
-  
-              <View style={styles.sites}>
-                <SitesList navigation={this.props.navigation} data={this.state.dataSearched}/>
-              </View>
+
+            <View style={styles.sites}>
+              <SitesList navigation={this.props.navigation}/>
             </View>
-          );
-        }
+          </View>
+        );
       }
+    }
   } 
   const mapStateToProps = (state) => {
-    console.log(state.siteReducer)
     return{
-      dataSearched:state.siteReducer
+      dataSearched:state
     }
   }
   
@@ -149,7 +152,6 @@ class Header extends Component{
     },
     searchbar:{
       marginTop:20,
-      flex:1,
     },
     sb: {
       flex: 1,

@@ -1,18 +1,17 @@
 import * as React from 'react';
-import { AsyncStorage} from 'react-native';
 import { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Button, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
+
 class SitesList extends Component {
     render(){
-      const { data } = this.props.siteData;
       return(
         <View>
           <FlatList
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            data={data}
+            data={this.props.dataSearched.siteData}
             renderItem={({item}) =>{
                 return(
                 <TouchableOpacity style={styles.itemView}>
@@ -26,25 +25,19 @@ class SitesList extends Component {
                         }} title={item.label}>
                     </Button>
                 </TouchableOpacity>
-                );}}>
+                );}}
+            keyExtractor={item => item.key}>
           </FlatList>
         </View>
       );
     }
   }  
   const mapStateToProps = (state) => {
-    console.log(state.siteReducer)
     return{
-      dataSearched:state.siteReducer
+      dataSearched:state
     }
   }
-  
-  const mapDispatchToProps = (dispatch) => {
-    return {
-      search: (query) => dispatch(searchData(query))
-    }
-  }
-  export default connect(mapStateToProps, mapDispatchToProps)(SitesList);
+  export default connect(mapStateToProps)(SitesList);
 
   const styles = StyleSheet.create({
     container: {
