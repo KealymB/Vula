@@ -14,7 +14,7 @@ function Side(data, prop) {
   for(var i=0;i<arr.length;i++){
     elements.push(
       <Button 
-        color='black'
+        color='white'
         key={i}
         title={(arr[i]).title}
         onPress={()=>{prop.setTool(arr[i].id)}}
@@ -24,6 +24,7 @@ function Side(data, prop) {
 
   return (
     <View>
+      <Text style={styles.titleText}>Tools</Text>
       {elements}
     </View>
   );
@@ -56,5 +57,13 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop:20,
     backgroundColor: '#1f4166',
+    paddingTop: 50
   },
+  titleText: 
+  {
+    fontSize: 30,
+    color: 'white',
+    paddingLeft: 80,
+    paddingBottom: 50
+  }
 })

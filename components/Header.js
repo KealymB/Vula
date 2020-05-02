@@ -45,7 +45,7 @@ class Header extends Component{
         Icon: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
       });
 
-      let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
+      let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=30")
       
       this.props.add(a.data);//passes props to redux
       this.setState({loading:false})
