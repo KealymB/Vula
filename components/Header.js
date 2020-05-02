@@ -61,6 +61,7 @@ class Header extends Component{
       const { search } = this.state;
       if(this.state.searching){
         return(
+          
           <View style={styles.container}>
             <View style={styles.searchbar}>
               <SearchBar
@@ -69,6 +70,7 @@ class Header extends Component{
                 onChangeText={this.updateSearch}
                 value={search}
                 onClear={()=>this.setState({ searching:false })}
+                autoCapitalize={'characters'}
                 showCancel={true}/>
             </View>
 
@@ -76,6 +78,7 @@ class Header extends Component{
               <SitesList navigation={this.props.navigation}/>
             </View>
           </View>
+
         );
       }else{
         return(
@@ -157,4 +160,10 @@ class Header extends Component{
       flex: 1,
       backgroundColor: '#1f4166',
     },
+    searchText: {
+      fontSize: 20,
+      fontWeight: "bold",
+      textTransform: 'uppercase'
+
+    }
 })
