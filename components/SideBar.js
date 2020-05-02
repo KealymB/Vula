@@ -1,44 +1,60 @@
 import * as React from 'react';
 import { View, StyleSheet, Text, Button} from 'react-native';
 import { Component } from 'react';
-import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { connect } from 'react-redux';
+
+import { setTool } from '../actions/data';
   
 var arr=[]
 var elements=[];
 
-function Side(data) {
-  
-  if(data.data.length>0){console.log(data.data[0].tools);arr=data.data[0].tools}
-    for(var i=0;i<arr.length;i++){
-      console.log("here")
-      elements.push(
-        <DrawerItem 
-        key={i.toString()}
-        label={ arr[i].title } 
-        onPress={() => Linking.openUrl('https://mywebsite.com/help')
-      }/>
+function Side(data, prop) {
+  if(data.data.currSite.tools!=undefined){arr=data.data.currSite.tools}
+  elements=[]
+  for(var i=0;i<arr.length;i++){
+    elements.push(
+      <Button 
+        color='black'
+        key={i}
+        title={(arr[i]).title}
+        onPress={()=>{prop.setTool(arr[i].id)}}
+      />
     );
   }
-    return (
-      <DrawerContentScrollView>
-        {elements}
-      </DrawerContentScrollView>
-    );
-  }
+
+  return (
+    <View>
+      {elements}
+    </View>
+  );
+}
 
 class SideBar extends Component {
     render(){
         return(
-          <Side data={this.props.dataSearched.siteData}/>
+          <View style={styles.container}>
+            <Side data={this.props.currSite} prop={this.props} />
+          </View>
         );
     }
 }  
 
 const mapStateToProps = (state) => {
   return{
-    dataSearched:state
+    currSite:state
   }
 }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setTool: (curTool) => dispatch(setTool(curTool))
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(SideBar);
 
-export default connect(mapStateToProps)(SideBar);
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop:20,
+    backgroundColor: '#1f4166',
+  },
+})
