@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { AsyncStorage} from 'react-native';
 import { Component } from 'react';
-import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button, FlatList } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
-//import Skeleton from 'react-loading-skeleton';
+import Skeleton from 'react-loading-skeleton';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import SitesList from './SitesList';
@@ -49,7 +48,7 @@ class Header extends Component{
       let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
       
       this.props.add(a.data);//passes props to redux
-      console.log(this.props.dataSearched);
+      this.setState({loading:false})
     }
 
     updateSearch = search => {
@@ -64,7 +63,8 @@ class Header extends Component{
           <View style={styles.container}>
             <View style={styles.searchbar}>
               <SearchBar
-                lightTheme         
+                lightTheme 
+                round        
                 placeholder="Search Sites:"
                 onChangeText={this.updateSearch}
                 value={search}

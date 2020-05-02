@@ -1,24 +1,27 @@
 import * as React from 'react';
 import { View, StyleSheet, Text, Button} from 'react-native';
 import { Component } from 'react';
-import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import { connect } from 'react-redux';
   
-
-var arr=["one", "two", "three", "four"]; //need to replace with site tools
+var arr=[]
 var elements=[];
 
-function Side(props) {
+function Side(data) {
+  
+  if(data.data.length>0){console.log(data.data[0].tools);arr=data.data[0].tools}
     for(var i=0;i<arr.length;i++){
+      console.log("here")
       elements.push(
         <DrawerItem 
         key={i.toString()}
-        label={ arr[i] } 
+        label={ arr[i].title } 
         onPress={() => Linking.openUrl('https://mywebsite.com/help')
       }/>
     );
   }
     return (
-      <DrawerContentScrollView {...props}>
+      <DrawerContentScrollView>
         {elements}
       </DrawerContentScrollView>
     );
@@ -27,9 +30,15 @@ function Side(props) {
 class SideBar extends Component {
     render(){
         return(
-            <View>
-
-            </View>
+          <Side data={this.props.dataSearched.siteData}/>
         );
     }
-}export default SideBar;
+}  
+
+const mapStateToProps = (state) => {
+  return{
+    dataSearched:state
+  }
+}
+
+export default connect(mapStateToProps)(SideBar);

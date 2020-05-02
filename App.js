@@ -8,6 +8,7 @@ import { createStore } from 'redux';
 import Login from './screens/Login';
 import Site from './screens/Site';
 import SideBar from './components/SideBar';
+import Loading from './screens/Loading';
 
 import siteReducer from './reducers/siteReducer';
 
@@ -22,6 +23,7 @@ export default function App() {
         <Drawer.Navigator drawerContent={(props) => <SideBar {...props} />}>
           <Drawer.Screen name="Login" component={Login} />
           <Drawer.Screen name="Site" component={Site} initialParams={title='Home'}/>
+          <Drawer.Screen name="Loading" component={Loading} />
         </Drawer.Navigator>
       </NavigationContainer>
     </Provider>

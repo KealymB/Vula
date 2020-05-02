@@ -16,9 +16,7 @@ class SitesList extends Component {
                 return(
                 <TouchableOpacity style={styles.itemView}>
                     <Button
-                        style={{
-                            color:'black',
-                        }}  
+                        color='black'
                         onPress={() => {
                             const { navigate } = this.props.navigation;
                             navigate("Site", {title: item.label, siteID:item.key});
