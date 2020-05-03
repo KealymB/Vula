@@ -8,7 +8,7 @@ import { setSite } from '../actions/data';
 class SitesList extends Component {
     render(){
       return(
-        <View>
+        <View style={styles.marg}>
           <FlatList
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -73,8 +73,7 @@ const styles = StyleSheet.create({
   itemView:{
       backgroundColor: "#f8f8f8",
       borderRadius:10,
-      marginLeft:2,
-      marginRight:2,
+      marginRight:5,
   },
   itemText:{
       fontSize:15,
@@ -87,5 +86,9 @@ const styles = StyleSheet.create({
   sb: {
     flex: 1,
     backgroundColor: '#1f4166',
+  },
+  marg:{
+    marginLeft:10,
+    marginRight:10,
   },
 })

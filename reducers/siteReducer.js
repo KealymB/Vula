@@ -31,7 +31,7 @@ const siteReducer = (state = initialState, action) => {
         case SET_TOOL:
             return{
                 ...state,
-                toolID: action.toolID,
+                toolID: action.tool,
             };
         default:
             return state;

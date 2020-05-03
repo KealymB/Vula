@@ -60,7 +60,6 @@ class Header extends Component{
       const { search } = this.state;
       if(this.state.searching){
         return(
-          
           <View style={styles.container}>
             <View style={styles.searchbar}>
               <SearchBar
@@ -91,7 +90,7 @@ class Header extends Component{
               </View>
 
               <View style={styles.search}>
-                <TouchableOpacity onPress={()=>{this.setState({ searching:true })}}>
+                <TouchableOpacity style={styles.glass} onPress={()=>{this.setState({ searching:true })}}>
                     <Icon name="ios-search" size={32}/>
                 </TouchableOpacity>
               </View>
@@ -126,7 +125,7 @@ class Header extends Component{
     },
     logoview:{
       flex:5,
-      marginLeft:5,
+      marginLeft:10,
     },
     logo:{
       fontWeight:"bold",
@@ -135,9 +134,12 @@ class Header extends Component{
     },
     search:{
       flex:1,
+      alignItems:'flex-end',
+      marginRight:10,
+      justifyContent:'center',
     },
     header:{
-      marginTop:20,
+      marginTop:5,
       flexDirection: 'row',
     },
     sites:{
@@ -154,7 +156,7 @@ class Header extends Component{
         padding:2,
     },
     searchbar:{
-      marginTop:20,
+      marginTop:5,
     },
     sb: {
       flex: 1,
@@ -164,6 +166,5 @@ class Header extends Component{
       fontSize: 20,
       fontWeight: "bold",
       textTransform: 'uppercase'
-
-    }
+    },
 })
