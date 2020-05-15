@@ -1,10 +1,11 @@
-import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL } from '../actions/types';
+import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS } from '../actions/types';
 
 const initialState = {
     siteData: [],
     origin: [],
     currSite: [],
     toolID: '',
+    allAnnouncements: []
 }
 
 const siteReducer = (state = initialState, action) => {
@@ -32,6 +33,11 @@ const siteReducer = (state = initialState, action) => {
             return{
                 ...state,
                 toolID: action.tool,
+            };
+        case SET_ANNOUNCEMENTS:
+            return{
+                ...state,
+                allAnnouncements: action.data,
             };
         default:
             return state;
