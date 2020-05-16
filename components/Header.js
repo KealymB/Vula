@@ -11,6 +11,7 @@ import { addData } from '../actions/data';
 import { searchData } from '../actions/data';
 
 async function makeRequest(path) {
+  
   let response = await fetch(path, {
     method: 'GET',
     headers: { 
