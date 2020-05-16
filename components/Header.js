@@ -11,7 +11,7 @@ import { addData } from '../actions/data';
 import { searchData } from '../actions/data';
 
 async function makeRequest(path) {
-  
+
   let response = await fetch(path, {
     method: 'GET',
     headers: { 
@@ -96,6 +96,7 @@ class Header extends Component{
             <View style={styles.sites}>
               <SitesList navigation={this.props.navigation}/>
             </View>
+            <View style={styles.bottomBorder}></View>
           </View>
         );
       }
