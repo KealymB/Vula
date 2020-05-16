@@ -9,8 +9,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { setAnnouncements } from '../actions/data';
 
-
-
 async function makeRequest(path) {
     let response = await fetch(path, {
         method: 'GET',
@@ -65,23 +63,18 @@ class Announcements extends Component {
     render() {
         if (this.state.loading) {
             return (
-
                 <View style={styles.container}>
                     <Text>Loading...</Text>
                 </View>
-
             );
         } else {
             return (
-                <View style={styles.container}>
-                    <Text>Finished Loading</Text>
-                    
-                        <FlatList
-                            data={this.props.allAnnouncements}
-                            renderItem={({ item }) => <Item title={item.title} />}
-                            keyExtractor={item => item.key}
-                        />
-                    
+                <View style={styles.container}>                  
+                    <FlatList
+                        data={this.props.allAnnouncements}
+                        renderItem={({ item }) => <Item title={item.title} />}
+                        keyExtractor={item => item.key}
+                    />
                 </View>
             );
         }
@@ -91,7 +84,7 @@ const mapStateToProps = (state) => {
     return{
       allAnnouncements:state.allAnnouncements,
     }
-  }
+}
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -125,7 +118,7 @@ const styles = StyleSheet.create({
     },
       item: {
         backgroundColor: 'white',
-        padding: 20,
+        padding: 10,
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         marginHorizontal: 16,
