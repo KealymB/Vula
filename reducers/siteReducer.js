@@ -1,8 +1,11 @@
-import {ADD_SITES, SEARCH_DATA} from '../actions/types';
+import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS } from '../actions/types';
 
 const initialState = {
     siteData: [],
     origin: [],
+    currSite: [],
+    toolID: '',
+    allAnnouncements: []
 }
 
 const siteReducer = (state = initialState, action) => {
@@ -19,6 +22,22 @@ const siteReducer = (state = initialState, action) => {
                 siteData: state.origin.filter(item => {
                     return item.label.toLowerCase().includes(action.query)
                 })
+            };
+        case SET_SITE:
+            return{
+                ...state,
+                currSite: action.site,
+                toolID: '',
+            };
+        case SET_TOOL:
+            return{
+                ...state,
+                toolID: action.tool,
+            };
+        case SET_ANNOUNCEMENTS:
+            return{
+                ...state,
+                allAnnouncements: action.data,
             };
         default:
             return state;

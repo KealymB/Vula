@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { AsyncStorage} from 'react-native';
 import { Component } from 'react';
-import { TextInput, View, StyleSheet, Text, TouchableOpacity, Button, FlatList } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
+import Skeleton from 'react-loading-skeleton';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import SitesList from './SitesList';
@@ -45,10 +45,17 @@ class Header extends Component{
         Icon: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
       });
 
+<<<<<<< HEAD
       let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
       
       this.props.add(a.data);//passes props to redux
       console.log(this.props.dataSearched);
+=======
+      let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=30")
+      
+      this.props.add(a.data);//passes props to redux
+      this.setState({loading:false})
+>>>>>>> 0d5ff60ece55e1e7517a8c2526a0ce1584682d3f
     }
 
     updateSearch = search => {
@@ -60,13 +67,26 @@ class Header extends Component{
       const { search } = this.state;
       if(this.state.searching){
         return(
+<<<<<<< HEAD
           <View style={styles.container}>
             <View style={styles.searchbar}>
               <SearchBar         
+=======
+          
+          <View style={styles.container}>
+            <View style={styles.searchbar}>
+              <SearchBar
+                lightTheme 
+                round        
+>>>>>>> 0d5ff60ece55e1e7517a8c2526a0ce1584682d3f
                 placeholder="Search Sites:"
                 onChangeText={this.updateSearch}
                 value={search}
                 onClear={()=>this.setState({ searching:false })}
+<<<<<<< HEAD
+=======
+                autoCapitalize={'characters'}
+>>>>>>> 0d5ff60ece55e1e7517a8c2526a0ce1584682d3f
                 showCancel={true}/>
             </View>
 
@@ -74,6 +94,10 @@ class Header extends Component{
               <SitesList navigation={this.props.navigation}/>
             </View>
           </View>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0d5ff60ece55e1e7517a8c2526a0ce1584682d3f
         );
       }else{
         return(
@@ -95,6 +119,12 @@ class Header extends Component{
             <View style={styles.sites}>
               <SitesList navigation={this.props.navigation}/>
             </View>
+<<<<<<< HEAD
+=======
+            <View style={styles.bottomBorder}>
+            
+            </View>
+>>>>>>> 0d5ff60ece55e1e7517a8c2526a0ce1584682d3f
           </View>
         );
       }
@@ -155,4 +185,15 @@ class Header extends Component{
       flex: 1,
       backgroundColor: '#1f4166',
     },
+    searchText: {
+      fontSize: 20,
+      fontWeight: "bold",
+      textTransform: 'uppercase'
+
+    },
+    bottomBorder: {
+      marginTop: 10,
+      borderBottomColor: 'black',
+      borderBottomWidth: 1,
+    }
 })
