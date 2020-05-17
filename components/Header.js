@@ -68,7 +68,9 @@ class Header extends Component{
                 onChangeText={this.updateSearch}
                 value={search}
                 onClear={()=>this.setState({ searching:false })}
-                showCancel={true}/>
+                showCancel={true}
+                autoCapitalize='characters'
+                />
             </View>
 
             <View style={styles.sites}>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, StyleSheet, Button, FlatList, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Button, FlatList, TouchableOpacity, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { setAnnouncements } from '../actions/data';
@@ -57,7 +57,7 @@ class Announcements extends Component {
 
     renderAnnouncement = ann => {
         return (
-            <View style={styles.announcementItem}>
+            <TouchableOpacity style={styles.itemView}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <View>
                         <Text style={styles.annTitle}>{ann.title}</Text>
@@ -65,7 +65,7 @@ class Announcements extends Component {
                     </View>
                 </View>
 
-            </View>
+            </TouchableOpacity>
         );
     };
 
@@ -88,14 +88,7 @@ class Announcements extends Component {
                 <FlatList
                     contentContainerStyle={{flexGrow: 1, marginLeft:5, marginRight:5}}
                     data={this.props.allAnnouncements}
-                    renderItem={({ item }) => 
-                    <TouchableOpacity style={styles.itemView}>          
-                        <Button
-                            color='black'
-                            onPress={() => {}} 
-                            title={item.title}>
-                        </Button>
-                    </TouchableOpacity>}   
+                    renderItem={({ item }) => this.renderAnnouncement(item)}   
                     keyExtractor={item => item.key}
                 />
             </View>
@@ -118,12 +111,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(Announcements);
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#1f4166',
-        paddingTop: 50
+        paddingTop: 50,
+        flex: 1
     },
     itemView:{
         backgroundColor: "#f8f8f8",
-        borderRadius:10,
-        marginTop:10,        
+        borderRadius:7,
+        marginTop:10,
+        height: 40
     },
     itemText: {
         fontSize: 15,
