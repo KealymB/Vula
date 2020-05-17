@@ -18,6 +18,7 @@ class SitesList extends Component {
                 <TouchableOpacity style={styles.itemView}>
                     <Button
                         color='black'
+                        style={styles.itemText}
                         onPress={() => {
                             this.props.setSite(item)
                             const { navigate } = this.props.navigation;
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#1f4166',
   },
   marg:{
-    marginLeft:10,
-    marginRight:10,
+    marginLeft:5,
+    marginRight:5,
   },
 })

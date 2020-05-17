@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import { View, StyleSheet, Button, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import Skeleton from 'react-loading-skeleton';
-
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import { setAnnouncements } from '../actions/data';
 
@@ -34,14 +30,6 @@ async function makeRequest(path) {
     }
 }
 
-function Item({ title }) {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.title}>{title}</Text>
-      </View>
-    );
-  }
-
 class Announcements extends Component {
     state = {
         loading: true,
@@ -61,23 +49,23 @@ class Announcements extends Component {
     
 
     render() {
-        if (this.state.loading) {
-            return (
-                <View style={styles.container}>
-                    <Text>Loading...</Text>
-                </View>
-            );
-        } else {
-            return (
-                <View style={styles.container}>                  
-                    <FlatList
-                        data={this.props.allAnnouncements}
-                        renderItem={({ item }) => <Item title={item.title} />}
-                        keyExtractor={item => item.key}
-                    />
-                </View>
-            );
-        }
+        return (
+            <View>                  
+                <FlatList
+                    contentContainerStyle={{flexGrow: 1, marginLeft:5, marginRight:5}}
+                    data={this.props.allAnnouncements}
+                    renderItem={({ item }) => 
+                    <TouchableOpacity style={styles.itemView}>          
+                        <Button
+                            color='black'
+                            onPress={() => {}} 
+                            title={item.title}>
+                        </Button>
+                    </TouchableOpacity>}   
+                    keyExtractor={item => item.key}
+                />
+            </View>
+        );
     }
 }
 const mapStateToProps = (state) => {
@@ -95,14 +83,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(Announcements);
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#1f4166',
     },
-    itemView: {
+    itemView:{
         backgroundColor: "#f8f8f8",
-        borderRadius: 10,
-        marginLeft: 2,
-        marginRight: 2,
+        borderRadius:10,
+        marginTop:10,        
     },
     itemText: {
         fontSize: 15,
