@@ -5,6 +5,7 @@ const initialState = {
     origin: [],
     currSite: [],
     toolID: '',
+    toolName: 'test',
     allAnnouncements: []
 }
 
@@ -28,11 +29,13 @@ const siteReducer = (state = initialState, action) => {
                 ...state,
                 currSite: action.site,
                 toolID: '',
+                toolName: 'test',
             };
         case SET_TOOL:
             return{
                 ...state,
                 toolID: action.tool,
+                toolName: action.name,
             };
         case SET_ANNOUNCEMENTS:
             return{

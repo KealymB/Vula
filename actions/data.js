@@ -15,9 +15,10 @@ export const setSite = (site) => ({
     site: site,
 })
 
-export const setTool = (tool) => ({
+export const setTool = (tool, name) => ({
     type: SET_TOOL,
     tool: tool,
+    name: name,
 })
 
 export const setAnnouncements = (ann) => ({

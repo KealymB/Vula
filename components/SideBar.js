@@ -34,7 +34,7 @@ class SideBar extends Component {
                       <Button
                           color='black'
                           onPress={() => {
-                            this.props.setTool(item.id);
+                            this.props.setTool(item.id,item.title);
                             this.props.navigation.closeDrawer();
                           }} title={item.title}>
                       </Button>
@@ -55,7 +55,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    setTool: (curTool) => dispatch(setTool(curTool))
+    setTool: (curTool,name) => dispatch(setTool(curTool,name))
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(SideBar);
