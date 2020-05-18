@@ -1,4 +1,4 @@
-import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS } from '../actions/types';
+import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT } from '../actions/types';
 
 const initialState = {
     siteData: [],
@@ -6,7 +6,8 @@ const initialState = {
     currSite: [],
     toolID: '',
     toolName: 'test',
-    allAnnouncements: []
+    allAnnouncements: [],
+    cont: [],
 }
 
 const siteReducer = (state = initialState, action) => {
@@ -41,6 +42,11 @@ const siteReducer = (state = initialState, action) => {
             return{
                 ...state,
                 allAnnouncements: action.data,
+            };
+        case SET_CONT:
+            return{
+                ...state,
+                cont: action.cont,
             };
         default:
             return state;

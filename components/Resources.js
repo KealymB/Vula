@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, Text, FlatList} from 'react-native';
+import { View, FlatList, TouchableOpacity, Button} from 'react-native';
 import { connect } from 'react-redux';
+
+import { setCont } from '../actions/data';
 
 async function makeRequest(path) {
     let response = await fetch(path, {
@@ -33,18 +35,31 @@ class Resources extends Component {
             Icon: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
         });
         
-
         var path = "https://vula.uct.ac.za/direct/content/site/"+this.props.currSite.key+".json";
-        console.log(path)
         let a = await makeRequest(path)
-        console.log(a.data)
+        this.props.setCont(a.data);
     }
 
-
+//need to turn flatlist into accordian (also need to stop the collection from rendering outside of another collection...)
      render() {
         return (
             <View>                  
-                <Text>havew data in accorian</Text>
+                <FlatList
+                    data={this.props.cont}
+                    renderItem={({item}) =>{
+                        if(item.numChildren>0){
+                            return(
+                                <TouchableOpacity>
+                                    <Button
+                                        color='black'
+                                        onPress={() => {}} 
+                                        title={item.title}>
+                                    </Button>
+                                </TouchableOpacity>
+                            );}
+                        }}
+                    keyExtractor={item => item.url}>
+                </FlatList>
             </View>
         );
     }
@@ -52,12 +67,13 @@ class Resources extends Component {
 const mapStateToProps = (state) => {
     return {
         currSite: state.currSite,
+        cont: state.cont,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        
+        setCont: (data) => dispatch(setCont(data))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Resources);

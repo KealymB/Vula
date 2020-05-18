@@ -1,4 +1,4 @@
-import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS } from './types'; 
+import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT } from './types'; 
 
 export const addData = (info) => ({
     type: ADD_SITES,
@@ -24,4 +24,8 @@ export const setTool = (tool, name) => ({
 export const setAnnouncements = (ann) => ({
     type: SET_ANNOUNCEMENTS,
     data: ann,
+})
+export const setCont = (data) => ({
+    type: SET_CONT,
+    cont: data,
 })

@@ -14,8 +14,8 @@ class Site extends Component{
         case 'Announcements':
           return(
             <SafeAreaView style={styles.container}>
-              <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
-              <Announcements/>
+              <Header title={this.props.route.params.title} navigation={this.props.navigation} style={styles.header}/>
+              <Announcements style={styles.content}/>
             </SafeAreaView>
           );
         case 'Resources':
@@ -35,8 +35,8 @@ class Site extends Component{
         default:
           return(
             <SafeAreaView style={styles.container}>
-              <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
-              <Announcements/>
+              <Header title={this.props.route.params.title} navigation={this.props.navigation} style={styles.header}/>
+              <Announcements style={styles.content}/>
             </SafeAreaView>
           );
       }
@@ -51,9 +51,12 @@ export default connect(mapStateToProps)(Site);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0,
     backgroundColor: '#1f4166',
-    position: 'absolute'
+    position: 'absolute' //this position absolute allows for components to render not on top of eachother, but doenst let flatlist scroll
+  },
+  header: {
+    flex: 0,
   },
 });
 

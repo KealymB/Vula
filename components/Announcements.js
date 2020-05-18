@@ -83,7 +83,7 @@ class Announcements extends Component {
 
     render() {
         return (
-            <View>                  
+            <View style= {styles.flalist}>                  
                 <FlatList
                     contentContainerStyle={{flexGrow: 1, marginLeft:5, marginRight:5}}
                     data={this.props.allAnnouncements}
@@ -162,6 +162,10 @@ const styles = StyleSheet.create({
         fontSize: 11,
         color: 'black',
         marginTop: 4
+    },
+    flalist:
+    {
+        //need to put in height or some form of styling to get flatlist to scroll
     }
 
 
