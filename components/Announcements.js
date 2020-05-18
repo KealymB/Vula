@@ -64,7 +64,6 @@ class Announcements extends Component {
                         <Text style={styles.annTime}>{this.convertDate(ann.date) + "\t" + ann.author}</Text>
                     </View>
                 </View>
-
             </TouchableOpacity>
         );
     };
@@ -118,7 +117,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#f8f8f8",
         borderRadius:7,
         marginTop:10,
-        height: 40
     },
     itemText: {
         fontSize: 15,

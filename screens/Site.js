@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Announcements from '../components/Announcements';
 import Resources from '../components/Resources';
+import Overview from '../components/Overview';
 
 class Site extends Component{
     render(){
@@ -22,6 +23,13 @@ class Site extends Component{
             <SafeAreaView style={styles.container}>
               <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
               <Resources/>
+            </SafeAreaView>
+          );
+        case 'Overview':
+          return(
+            <SafeAreaView style={styles.container}>
+              <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
+              <Overview/>
             </SafeAreaView>
           );
         default:
