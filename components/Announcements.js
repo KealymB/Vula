@@ -4,6 +4,8 @@ import { View, StyleSheet, Button, FlatList, TouchableOpacity, Text } from 'reac
 import { connect } from 'react-redux';
 
 import { setAnnouncements } from '../actions/data';
+import AnnouncementView from './AnnouncementView'
+
 
 async function makeRequest(path) {
     let response = await fetch(path, {
@@ -19,7 +21,7 @@ async function makeRequest(path) {
                     key: item.announcementId,
                     parentSite: item.siteId,
                     title: item.title,
-                    //body: item.body, -- Removed body because formatting is still an issue
+                    body: item.body,
                     author: item.createdByDisplayName,
                     date: item.createdOn
                 };
@@ -55,15 +57,26 @@ class Announcements extends Component {
         return finaldate.toString()
     }
 
+    openAnnouncementView = ann => {
+        alert(ann.title)
+        return(
+              <AnnouncementView body={ann.body} navigation={this.props.navigation} /> 
+          );
+    };
+    // STILL TO DO:
     renderAnnouncement = ann => {
         return (
-            <TouchableOpacity style={styles.itemView}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <View>
-                        <Text style={styles.annTitle}>{ann.title}</Text>
-                        <Text style={styles.annTime}>{this.convertDate(ann.date) + "\t" + ann.author}</Text>
-                    </View>
+            <TouchableOpacity style={styles.itemView}
+                onPress={() => {}}> 
+
+                <View style={styles.innerItemViewLeft}>
+                    <Text style={styles.annTitle}>{ann.title}</Text>
+                    <Text style={styles.annTime}>{ann.author}</Text>
                 </View>
+                <View style={styles.innerItemViewRight}>
+                    <Text style={styles.annTime}>{this.convertDate(ann.date)}</Text>
+                </View>
+
             </TouchableOpacity>
         );
     };
@@ -74,7 +87,6 @@ class Announcements extends Component {
         });
 
         let a = await makeRequest("https://vula.uct.ac.za/direct/announcement/user.json?n=30")
-        console.log(a.data)
         this.props.setAnnouncements(a.data);
         this.setState({ loading: false })
     }
@@ -83,11 +95,11 @@ class Announcements extends Component {
 
     render() {
         return (
-            <View style= {styles.flalist}>                  
+            <View style={styles.flalist}>
                 <FlatList
-                    contentContainerStyle={{flexGrow: 1, marginLeft:5, marginRight:5}}
+                    contentContainerStyle={{ flexGrow: 1, marginLeft: 5, marginRight: 5 }}
                     data={this.props.allAnnouncements}
-                    renderItem={({ item }) => this.renderAnnouncement(item)}   
+                    renderItem={({ item }) => this.renderAnnouncement(item)}
                     keyExtractor={item => item.key}
                 />
             </View>
@@ -113,10 +125,30 @@ const styles = StyleSheet.create({
         paddingTop: 50,
         flex: 1
     },
-    itemView:{
+    itemView: {
         backgroundColor: "#f8f8f8",
-        borderRadius:7,
-        marginTop:10,
+        borderRadius: 5,
+        marginTop: 10,
+        height: 50,
+        flex: 1,
+        flexDirection: 'row'
+
+    },
+    innerItemViewLeft:
+    {
+        flex: 8.5,
+        marginTop: 5,
+        marginLeft: 2,
+
+    },
+    innerItemViewRight:
+    {
+        flex: 1.5,
+        alignItems: "flex-end",
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#eee'
+
     },
     itemText: {
         fontSize: 15,
