@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import Announcements from '../components/Announcements';
 import Resources from '../components/Resources';
 import Overview from '../components/Overview';
-
+import AnnouncementAccordion from '../components/AnnouncementAccordion'
 class Site extends Component{
     render(){
       switch (this.props.toolName){
@@ -36,7 +36,7 @@ class Site extends Component{
           return(
             <SafeAreaView style={styles.container}>
               <Header title={this.props.route.params.title} navigation={this.props.navigation} style={styles.header}/>
-              <Announcements style={styles.content}/>
+              <AnnouncementAccordion style={styles.content}/>
             </SafeAreaView>
           );
       }

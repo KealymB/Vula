@@ -58,16 +58,15 @@ class Announcements extends Component {
     }
 
     openAnnouncementView = ann => {
-        alert(ann.title)
         return(
-              <AnnouncementView body={ann.body} navigation={this.props.navigation} /> 
+              <AnnouncementView body={ann.body}/> 
           );
     };
     // STILL TO DO:
     renderAnnouncement = ann => {
         return (
             <TouchableOpacity style={styles.itemView}
-                onPress={() => {}}> 
+                onPress={() => {this.openAnnouncementView(ann)}}> 
 
                 <View style={styles.innerItemViewLeft}>
                     <Text style={styles.annTitle}>{ann.title}</Text>
