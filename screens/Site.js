@@ -8,6 +8,7 @@ import Announcements from '../components/Announcements';
 import Resources from '../components/Resources';
 import Overview from '../components/Overview';
 import AnnouncementAccordion from '../components/AnnouncementAccordion'
+import Gradebook from '../components/Gradebook'
 class Site extends Component{
     render(){
       switch (this.props.toolName){
@@ -30,6 +31,13 @@ class Site extends Component{
             <SafeAreaView style={styles.container}>
               <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
               <Overview/>
+            </SafeAreaView>
+          );
+          case 'Gradebook':
+          return(
+            <SafeAreaView style={styles.container}>
+              <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
+              <Gradebook navigation={this.props.navigation}/>
             </SafeAreaView>
           );
         default:
