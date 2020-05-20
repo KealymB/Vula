@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, FlatList, TouchableOpacity, Button} from 'react-native';
+import { View, FlatList, TouchableOpacity, Text} from 'react-native';
 import { connect } from 'react-redux';
+import Accordion from 'react-native-collapsible/Accordion';
 
 import { setCont } from '../actions/data';
+
 
 async function makeRequest(path) {
     let response = await fetch(path, {
@@ -44,17 +46,15 @@ class Resources extends Component {
      render() {
         return (
             <View>                  
-                <FlatList
+                <FlatList 
                     data={this.props.cont}
                     renderItem={({item}) =>{
                         if(item.numChildren>0){
                             return(
-                                <TouchableOpacity>
-                                    <Button
-                                        color='black'
-                                        onPress={() => {}} 
-                                        title={item.title}>
-                                    </Button>
+                                <TouchableOpacity >
+                                    <Text>
+                                        {item.title}
+                                    </Text>
                                 </TouchableOpacity>
                             );}
                         }}
