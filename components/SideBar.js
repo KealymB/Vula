@@ -36,7 +36,9 @@ class SideBar extends Component {
                           onPress={() => {
                             this.props.setTool(item.id,item.title);
                             this.props.navigation.closeDrawer();
-                          }} title={item.title}>
+                          }} 
+                          title={item.title}
+                          key={item.key}>
                       </Button>
                     );}}
                 keyExtractor={item => item.id}>

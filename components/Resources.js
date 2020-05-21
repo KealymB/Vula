@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Component } from 'react';
 import { View, FlatList, TouchableOpacity, Text} from 'react-native';
 import { connect } from 'react-redux';
-import Accordion from 'react-native-collapsible/Accordion';
 
 import { setCont } from '../actions/data';
 
@@ -22,6 +21,7 @@ async function makeRequest(path) {
                     type: item.type,
                     title: item.title,
                     numChildren: item.numChildren,
+                    container: item.container,
                 };
             });
 
@@ -41,6 +41,8 @@ class Resources extends Component {
         let a = await makeRequest(path)
         this.props.setCont(a.data);
     }
+
+    
 
 //need to turn flatlist into accordian (also need to stop the collection from rendering outside of another collection...)
      render() {

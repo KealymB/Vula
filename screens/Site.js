@@ -15,7 +15,7 @@ class Site extends Component{
           return(
             <SafeAreaView style={styles.container}>
               <Header title={this.props.route.params.title} navigation={this.props.navigation} style={styles.header}/>
-              <Announcements style={styles.content}/>
+              <AnnouncementAccordion style={styles.content}/>
             </SafeAreaView>
           );
         case 'Resources':
