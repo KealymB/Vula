@@ -95,9 +95,9 @@ class AnnouncementAccordion extends Component {
     renderHeader = (section, _, isActive) => {
         return (
             <Animatable.View
-                duration={400}
+                //duration={400}
                 style={[styles.itemView, isActive ? styles.active : styles.inactive]}
-                transition="backgroundColor"
+                //transition="backgroundColor"
             >
                 <View style={styles.innerItemViewLeft}>
                     <Text style={styles.annTitle}>{section.title}</Text>
@@ -113,9 +113,9 @@ class AnnouncementAccordion extends Component {
     renderContent(section, _, isActive) {
         return (
             <Animatable.View
-                duration={400}
+                //duration={400}
                 style={[styles.content, isActive ? styles.active : styles.inactive]}
-                transition="backgroundColor"
+                //transition="backgroundColor"
             >
                 {/* <WebView
         source={{ html: section.body.toString()}}
@@ -149,7 +149,7 @@ class AnnouncementAccordion extends Component {
                         expandMultiple={multipleSelect}
                         renderHeader={this.renderHeader}
                         renderContent={this.renderContent}
-                        duration={400}
+                        //duration={400}
                         onChange={this.setSections}
                     />
                 </ScrollView>

@@ -49,7 +49,7 @@ class Header extends Component{
       let a = await makeRequest("https://vula.uct.ac.za/direct/site.json?_limit=100")
       
       this.props.add(a.data);//passes props to redux
-      console.log(this.props.dataSearched);
+      //console.log(this.props.dataSearched);
     }
 
     updateSearch = search => {
