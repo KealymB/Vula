@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, Button, FlatList } from 'react-native';
+import { View, StyleSheet, Text, FlatList } from 'react-native';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { setGrades } from '../actions/data';
@@ -14,9 +14,8 @@ async function makeRequest(path) {
     }).then((response) => response.json())
         .then(text => {
             data = text.assignments.map(function (item) {
-                if(item.grade==null)
-                {
-                    item.grade="-"
+                if (item.grade == null) {
+                    item.grade = "-"
                 }
                 return {
                     gradeTitle: item.itemName,
@@ -43,6 +42,20 @@ class Gradebook extends Component {
         this.props.setGrades(a.data);
     }
 
+    renderGradebookItem = grade => {
+        return (
+            <View style={styles.gradeItem}>
+                <Text style={styles.gradeTitleText}>
+                    {grade.gradeTitle}
+                </Text>
+                <Text style={styles.gradeText}>
+                    {grade.grade} / {grade.points}
+                </Text>
+            </View>
+
+        );
+    }
+
 
     render() {
         return (
@@ -50,18 +63,8 @@ class Gradebook extends Component {
                 <View>
                     <FlatList
                         data={this.props.grades}
-                        renderItem={({ item }) => {
-                                return(
-                                    <View style={styles.gradeItem}>
-                                        <Text style={styles.gradeText}>
-                                            {item.gradeTitle}
-                                        </Text>
-                                        <Text style={styles.gradeText}>
-                                        {item.grade} / {item.points}
-                                        </Text>
-                                    </View>
-                                );
-                            }}
+                        renderItem={({ item }) => this.renderGradebookItem(item)
+                        }
                         keyExtractor={item => item.gradeTitle}
                     />
                 </View>
@@ -95,17 +98,27 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#1f4166'
     },
-    gradeItem: 
+    gradeItem:
     {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: 'black',
+        paddingTop: 5,
+        paddingBottom: 5
     },
-    gradeText: 
+    gradeTitleText:
     {
-        fontSize: 30,
+        fontSize: 25,
         color: 'white'
-    }
+    },
+    gradeText:
+    {
+        fontSize: 20,
+        color: '#eeee',
+    },
+
 
 
 
