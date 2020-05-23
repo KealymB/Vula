@@ -21,7 +21,17 @@ async function makeRequest(path) {
     }).then((response) => response.json())
         .then(text => {
             data = text.content_collection.map(function (item) {
+                var path = item.url;
+
+                if(item.url[item.url.length-1] === '/'){
+                    path = item.url.substring(0, item.url.length-1);
+                }
+            
+                var pathSplit = path.split('/');
+
                 return {
+                    path: path.substring(0, path.indexOf(pathSplit[pathSplit.length-1])-1),
+                    name: pathSplit[pathSplit.length-1],
                     url: item.url,
                     type: item.type,
                     title: item.title,
@@ -37,13 +47,13 @@ async function makeRequest(path) {
 
 // Add an item node in the tree, at the right position
 function addToTree(node, treeNodes) {
-    var parentNode = GetTheParentNodeChildArray(node.container, treeNodes) || treeNodes;
-  
+    var parentNode = GetTheParentNodeChildArray(node.path, treeNodes) || treeNodes;
+
     parentNode.push({
       title: node.title,
-      path: node.container,
-      url: node.container,
+      path: node.path,
       type: node.type,
+      name: node.name,
       children: []
     });
   }
@@ -51,15 +61,17 @@ function addToTree(node, treeNodes) {
   function GetTheParentNodeChildArray(path, treeNodes) {
     for (var i = 0; i < treeNodes.length; i++) {
       var treeNode = treeNodes[i];
-  
-      if (path === (treeNode.path + '/' + treeNode.title)) {
+      console.log(path)
+      if (path === (treeNode.path + '/'+ treeNode.name)) {
+        console.log('true')
         return treeNode.children;
+        
       } 
       else if (treeNode.children.length > 0) {
         var possibleParent = false;
   
         treeNode.children.forEach(function(item) {
-          if (path.indexOf(item.path + '/' + item.title) == 0) {
+          if (path.indexOf(item.path + '/' + item.name) == 0) {
             possibleParent = true;
             return false;
           }
@@ -85,58 +97,18 @@ function addToTree(node, treeNodes) {
   }
 
 class Resources extends Component {
-    state = {
-        activeSections: [],
-        collapsed: true,
-        multipleSelect: false,
-    };
-
-    toggleExpanded = () => {
-        this.setState({ collapsed: !this.state.collapsed });
-    };
-
-    setSections = sections => {
-        this.setState({
-            activeSections: sections.includes(undefined) ? [] : sections,
-        });
-    };
-
-
     async componentDidMount() {
         await Expo.Font.loadAsync({
             Icon: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
         });
         
         var path = "https://vula.uct.ac.za/direct/content/site/"+this.props.currSite.key+".json";
-        let a = await makeRequest(path)
+        let a = await makeRequest(path);
         this.props.setCont(createTree(a.data));
     }
-
-    renderHeader = (section, _, isActive) => {
-        switch (section.type){
-            case 'collection':
-                return (
-                    <Animatable.View style={[styles.itemView, isActive ? styles.active : styles.inactive]}>
-                        <Icon name="md-folder-open" size={36} style={{flex:1, paddingTop:5, marginLeft:5}}/>
-                        <Text style={{flex:5, paddingTop:15}}>{section.title}</Text>
-                    </Animatable.View>
-                );
-            default:
-                return(
-                    <Animatable.View style={[styles.itemView, isActive ? styles.active : styles.inactive]}>
-                        <Icon name="ios-copy" size={36} style={{flex:1, paddingTop:5, marginLeft:5}}/>
-                        <Text style={{flex:5, paddingTop:15}}>{section.title}</Text>
-                    </Animatable.View>
-                );
-        }
-    };
-
-    
-
-//need to turn flatlist into accordian (also need to stop the collection from rendering outside of another collection...)
+   
      render() {
-        const { multipleSelect, activeSections } = this.state;
-        console.log();
+         console.log(this.props.cont)
         return (
             <View>
                 <ScrollView style={{ alignSelf: 'stretch' }}>
@@ -146,22 +118,18 @@ class Resources extends Component {
                                 key={i}
                                 style={styles.dropDownItem}
                                 contentVisible={false}
-
                                 header={
                                     <View>
-                                        
-                                        <Text style={{fontSize: 16, color: 'blue',}}>
+                                        <Text style={{fontSize: 16, color: 'white',}}>
                                             {param.title}
                                         </Text>
                                     </View>
                                 }>
                                 <Text style={[styles.txt,{fontSize: 20,}]}>
-                                    {param.url}
+                                    {param.name}
                                 </Text>
-                            </DropDownItem>
-                        );
-                        })
-                        : null
+                            </DropDownItem>);
+                        }) : null
                     }
                     <View style={{ height: 96 }}/>
                 </ScrollView>
