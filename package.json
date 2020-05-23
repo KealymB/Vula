@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.6",
+    "@fortawesome/fontawesome-free": "^5.13.0",
     "@react-native-community/cookies": "^2.0.8",
     "@react-native-community/masked-view": "^0.1.9",
     "@react-navigation/drawer": "^5.5.0",
@@ -24,6 +25,7 @@
     "react-native-animatable": "^1.3.3",
     "react-native-collapsible": "^1.5.2",
     "react-native-cookies": "^3.3.0",
+    "react-native-drop-down-item": "^1.1.0",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-ionicons": "^5.0.0-rc",
@@ -35,6 +37,7 @@
     "react-native-web": "~0.11.7",
     "react-native-webview": "^9.4.0",
     "react-redux": "^7.2.0",
+    "react-simple-tree-menu": "^1.1.15",
     "redux": "^4.0.5"
   },
   "devDependencies": {

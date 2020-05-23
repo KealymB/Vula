@@ -3,12 +3,15 @@ import { View, StyleSheet, Text, Button, SafeAreaView} from 'react-native';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
+
 import Header from '../components/Header';
-import Announcements from '../components/Announcements';
 import Resources from '../components/Resources';
 import Overview from '../components/Overview';
 import AnnouncementAccordion from '../components/AnnouncementAccordion'
 import Gradebook from '../components/Gradebook'
+
+
+
 class Site extends Component{
     render(){
       switch (this.props.toolName){
@@ -22,8 +25,8 @@ class Site extends Component{
         case 'Resources':
           return(
             <SafeAreaView style={styles.container}>
-              <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
-              <Resources/>
+              <Header title={this.props.route.params.title} navigation={this.props.navigation} style={styles.header}/>
+              <Resources style={styles.content}/>
             </SafeAreaView>
           );
         case 'Overview':
@@ -59,13 +62,17 @@ export default connect(mapStateToProps)(Site);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0,
+    flex:1,
     backgroundColor: '#1f4166',
-    position: 'absolute' //this position absolute allows for components to render not on top of eachother, but doenst let flatlist scroll
+    position:'absolute'
   },
   header: {
-    flex: 0,
+    height:100,
+    
   },
+  content: {
+    height:100
+  }
 });
 
 

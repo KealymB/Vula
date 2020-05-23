@@ -140,8 +140,7 @@ class AnnouncementAccordion extends Component {
             <View style={styles.container}>
                 <View style={{ flex: 1, alignItems: 'flex-end' }}>
                 </View>
-                <ScrollView contentContainerStyle={{ paddingTop: 30 }}>
-                    <Text style={styles.title}>All Announcements</Text>
+                <ScrollView>
                     <Accordion
                         activeSections={activeSections}
                         sections={this.props.allAnnouncements}
