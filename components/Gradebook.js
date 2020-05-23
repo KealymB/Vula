@@ -42,15 +42,19 @@ class Gradebook extends Component {
         this.props.setGrades(a.data);
     }
 
-    renderGradebookItem = grade => {
+    renderGradebookItem = (grade, index) => {
         return (
-            <View style={styles.gradeItem}>
-                <Text style={styles.gradeTitleText}>
-                    {grade.gradeTitle}
-                </Text>
-                <Text style={styles.gradeText}>
-                    {grade.grade} / {grade.points}
-                </Text>
+            <View style={[styles.gradeItem, { backgroundColor: index % 2 === 0 ? '#F2F2F2' : '#FFFFFF' }]}>
+                <View style={styles.gradeItemLeft}>
+                    <Text style={styles.gradeTitleText}>
+                        {grade.gradeTitle}
+                    </Text>
+                </View>
+                <View style={styles.gradeItemRight}>
+                    <Text style={styles.gradeText}>
+                        {grade.grade} / {grade.points}
+                    </Text>
+                </View>
             </View>
 
         );
@@ -61,11 +65,24 @@ class Gradebook extends Component {
         return (
             <View style={styles.container}>
                 <View>
+                    <View style={[styles.gradeItem, { paddingTop: 30, }]}>
+                        <View style={styles.gradeItemLeft}>
+                            <Text style={[styles.gradeTitleText, { color: 'white' }]}>
+                                Gradebook Item
+                    </Text>
+                        </View>
+                        <View style={[styles.gradeItemRight, {borderLeftColor: 'black'} ]}>
+                            <Text style={[styles.gradeTitleText, { color: 'white' }]}>
+                                Grade
+                    </Text>
+                        </View>
+                    </View>
                     <FlatList
                         data={this.props.grades}
-                        renderItem={({ item }) => this.renderGradebookItem(item)
+                        renderItem={({ item, index }) => this.renderGradebookItem(item, index)
                         }
                         keyExtractor={item => item.gradeTitle}
+                        scrollEnabled={false}
                     />
                 </View>
             </View>
@@ -104,19 +121,33 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderBottomWidth: 1,
-        borderBottomColor: 'black',
+        borderBottomColor: '#BFBFBF',
         paddingTop: 5,
-        paddingBottom: 5
+        paddingBottom: 5,
+        paddingLeft: 10,
+        flexDirection: 'row'
+    },
+    gradeItemLeft:
+    {
+        flex: 7,
+    },
+    gradeItemRight:
+    {
+        flex: 3,
+        alignItems: 'flex-end',
+        paddingRight: 20,
+        borderLeftWidth: 1,
+        borderLeftColor: '#BFBFBF'
     },
     gradeTitleText:
     {
         fontSize: 25,
-        color: 'white'
+        color: '#34393b'
     },
     gradeText:
     {
         fontSize: 20,
-        color: '#eeee',
+        color: '#34393b',
     },
 
 
