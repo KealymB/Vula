@@ -55,7 +55,9 @@ class Login extends Component{
                       style={styles.inputText}
                       placeholder="UserName..." 
                       placeholderTextColor="#003f5c"
-                      onChangeText={text => this.setState({uname:text})}/>
+                      onChangeText={text => this.setState({uname:text})}
+                      autoCapitalize='characters'
+                      />
               </View>
 
               <View style={styles.inputView} >
