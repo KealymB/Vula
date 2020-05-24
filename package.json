@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@dooboo-ui/native-accordion": "^0.4.5",
     "@expo/vector-icons": "^10.0.6",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@react-native-community/cookies": "^2.0.8",
@@ -25,7 +26,6 @@
     "react-native-animatable": "^1.3.3",
     "react-native-collapsible": "^1.5.2",
     "react-native-cookies": "^3.3.0",
-    "react-native-drop-down-item": "^1.1.0",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-ionicons": "^5.0.0-rc",

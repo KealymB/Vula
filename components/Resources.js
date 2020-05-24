@@ -2,11 +2,8 @@ import * as React from 'react';
 import { Component } from 'react';
 import { View, FlatList, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native';
 import { connect } from 'react-redux';
-import Accordion from 'react-native-collapsible/Accordion';
-import * as Animatable from 'react-native-animatable';
 import Constants from 'expo-constants';
-import Icon from 'react-native-vector-icons/Ionicons';
-import DropDownItem from 'react-native-drop-down-item';
+import Accordion from '@dooboo-ui/native-accordion';
 
 import { setCont } from '../actions/data';
 
@@ -56,45 +53,69 @@ function addToTree(node, treeNodes) {
       name: node.name,
       children: []
     });
-  }
-  
-  function GetTheParentNodeChildArray(path, treeNodes) {
+}
+
+function GetTheParentNodeChildArray(path, treeNodes) {
     for (var i = 0; i < treeNodes.length; i++) {
-      var treeNode = treeNodes[i];
-      console.log(path)
-      if (path === (treeNode.path + '/'+ treeNode.name)) {
-        console.log('true')
+        var treeNode = treeNodes[i];
+        if (path === (treeNode.path + '/'+ treeNode.name)) {
         return treeNode.children;
-        
-      } 
-      else if (treeNode.children.length > 0) {
+        } 
+        else if (treeNode.children.length > 0) {
         var possibleParent = false;
-  
+
         treeNode.children.forEach(function(item) {
-          if (path.indexOf(item.path + '/' + item.name) == 0) {
+            if (path.indexOf(item.path + '/' + item.name) == 0) {
             possibleParent = true;
             return false;
-          }
+            }
         });
-  
+
         if (possibleParent) {
-          return GetTheParentNodeChildArray(path, treeNode.children)
+            return GetTheParentNodeChildArray(path, treeNode.children)
         }
-      }
+        }
     }
-  }
-  
-  
-  //Create the item tree starting from menuItems
-  function createTree(nodes) {
+}
+
+
+//Create the item tree starting from menuItems
+function createTree(nodes) {
     var tree = [];
-  
+
     for (var i = 0; i < nodes.length; i++) {
-      var node = nodes[i];
-      addToTree(node, tree);
+        var node = nodes[i];
+        addToTree(node, tree);
     }
     return tree;
-  }
+}
+
+const RenderCont = ({cont}) => {//change to be recursive
+    return (
+        <View>
+            {cont.map( param => (
+                <Accordion
+                    key={param.name}
+                    style={styles.dropDownItem}
+                    contentVisible={false}
+                    header={
+                        <View>
+                            <Text style={{fontSize: 16, color: 'white',}}>
+                                {param.title}
+                            </Text>
+                        </View>
+                    }>
+                    <View>
+                        {(param.children.length > 0) &&
+                            <RenderCont cont={param.children}/>
+                        }
+                    </View>
+                </Accordion>
+            ))}
+        </View>
+    );
+            
+}
 
 class Resources extends Component {
     async componentDidMount() {
@@ -108,31 +129,9 @@ class Resources extends Component {
     }
    
      render() {
-         console.log(this.props.cont)
         return (
             <View>
-                <ScrollView style={{ alignSelf: 'stretch' }}>
-                    {this.props.cont ? this.props.cont.map((param, i) => {
-                        return (
-                            <DropDownItem
-                                key={i}
-                                style={styles.dropDownItem}
-                                contentVisible={false}
-                                header={
-                                    <View>
-                                        <Text style={{fontSize: 16, color: 'white',}}>
-                                            {param.title}
-                                        </Text>
-                                    </View>
-                                }>
-                                <Text style={[styles.txt,{fontSize: 20,}]}>
-                                    {param.name}
-                                </Text>
-                            </DropDownItem>);
-                        }) : null
-                    }
-                    <View style={{ height: 96 }}/>
-                </ScrollView>
+                <RenderCont cont={this.props.cont}/>
             </View>
         );
     }
