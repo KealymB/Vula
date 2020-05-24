@@ -1,4 +1,4 @@
-import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES } from '../actions/types';
+import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH } from '../actions/types';
 
 const initialState = {
     siteData: [],
@@ -8,7 +8,8 @@ const initialState = {
     toolName: 'test',
     allAnnouncements: [],
     cont: [],
-    grades: []
+    grades: [],
+    searching: false,
 }
 
 const siteReducer = (state = initialState, action) => {
@@ -53,6 +54,12 @@ const siteReducer = (state = initialState, action) => {
             return{
                 ...state,
                 grades: action.data,
+            };
+        case SET_SEARCH:
+            return{
+                ...state,
+                searching: action.data,
+                siteData: state.origin
             };
         default:
             return state;

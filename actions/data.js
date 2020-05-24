@@ -1,4 +1,4 @@
-import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES } from './types'; 
+import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH } from './types'; 
 
 export const addData = (info) => ({
     type: ADD_SITES,
@@ -32,4 +32,8 @@ export const setCont = (data) => ({
 export const setGrades = (grades) => ({
     type: SET_GRADES,
     data: grades,
+})
+export const setSearch = (search) => ({
+    type: SET_SEARCH,
+    data: search,
 })

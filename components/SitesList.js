@@ -4,6 +4,7 @@ import { View, StyleSheet, Text, TouchableOpacity, Button, FlatList } from 'reac
 import { connect } from 'react-redux';
 
 import { setSite } from '../actions/data';
+import { setSearch } from '../actions/data';
 
 class SitesList extends Component {
     render(){
@@ -23,6 +24,7 @@ class SitesList extends Component {
                             this.props.setSite(item)
                             const { navigate } = this.props.navigation;
                             navigate("Site", {title: item.label, siteID:item.key});
+                            this.props.setSearch(false);
                         }} title={item.label}>
                     </Button>
                 </TouchableOpacity>
@@ -35,14 +37,15 @@ class SitesList extends Component {
   }  
   const mapStateToProps = (state) => {
     return{
-      dataSearched:state
+      dataSearched:state,
     }
   }
   
 const mapDispatchToProps = (dispatch) => {
   return {
     setSite: (curSite) => dispatch(setSite(curSite)),
-    setTool: (curTool) => dispatch(setTool(curTool))
+    setTool: (curTool) => dispatch(setTool(curTool)),
+    setSearch: (data) => dispatch(setSearch(data))
   }
 }
   export default connect(mapStateToProps, mapDispatchToProps)(SitesList);

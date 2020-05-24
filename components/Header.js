@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import SitesList from './SitesList';
 import { addData } from '../actions/data';
 import { searchData } from '../actions/data';
+import { setSearch } from '../actions/data';
 
 async function makeRequest(path) {
 
@@ -59,7 +60,7 @@ class Header extends Component{
     };
     render(){ 
       const { search } = this.state;
-      if(this.state.searching){
+      if(this.props.searching){
         return(
           <View style={styles.container}>
             <View style={styles.searchbar}>
@@ -67,7 +68,7 @@ class Header extends Component{
                 placeholder="Search Sites:"
                 onChangeText={this.updateSearch}
                 value={search}
-                onClear={()=>this.setState({ searching:false })}
+                onClear={()=>{this.props.setSearch(false)}}
                 showCancel={true}
                 autoCapitalize='characters'
                 />
@@ -89,7 +90,7 @@ class Header extends Component{
               </View>
 
               <View style={styles.search}>
-                <TouchableOpacity onPress={()=>{this.setState({ searching:true })}}>
+                <TouchableOpacity onPress={()=>{this.props.setSearch(true)}}>
                     <Icon name="ios-search" size={32}/>
                 </TouchableOpacity>
               </View>
@@ -106,14 +107,16 @@ class Header extends Component{
   } 
   const mapStateToProps = (state) => {
     return{
-      dataSearched:state
+      dataSearched:state,
+      searching:state.searching,
     }
   }
   
   const mapDispatchToProps = (dispatch) => {
     return {
       search: (query) => dispatch(searchData(query)),
-      add: (data) => dispatch(addData(data))
+      add: (data) => dispatch(addData(data)),
+      setSearch: (data) => dispatch(setSearch(data))
     }
   }
   export default connect(mapStateToProps, mapDispatchToProps)(Header);
