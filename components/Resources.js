@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, FlatList, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
-import Accordion from '@dooboo-ui/native-accordion';
 
 import { setCont } from '../actions/data';
-
+import Accordion from './Accordion';
+import { ScrollView } from 'react-native-gesture-handler';
 
 async function makeRequest(path) {
     let response = await fetch(path, {
@@ -90,31 +90,26 @@ function createTree(nodes) {
     return tree;
 }
 
-const RenderCont = ({cont}) => {//change to be recursive
+const RenderCont = ({cont}) => {
     return (
         <View>
             {cont.map( param => (
                 <Accordion
                     key={param.name}
-                    style={styles.dropDownItem}
-                    contentVisible={false}
-                    header={
+                    title={param.title}
+                    url={param.url}
+                    type={param.type}
+                    content={                    
                         <View>
-                            <Text style={{fontSize: 16, color: 'white',}}>
-                                {param.title}
-                            </Text>
+                            {(param.children.length > 0) &&
+                                <RenderCont cont={param.children}/>
+                            }
                         </View>
-                    }>
-                    <View>
-                        {(param.children.length > 0) &&
-                            <RenderCont cont={param.children}/>
-                        }
-                    </View>
-                </Accordion>
+                    }
+                />
             ))}
         </View>
     );
-            
 }
 
 class Resources extends Component {
@@ -127,12 +122,12 @@ class Resources extends Component {
         let a = await makeRequest(path);
         this.props.setCont(createTree(a.data));
     }
-   
-     render() {
+
+    render() {
         return (
-            <View>
+            <ScrollView>
                 <RenderCont cont={this.props.cont}/>
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -164,10 +159,8 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     header: {
-        flex:1,
-        flexDirection:"row",
-        justifyContent:'center',
-        alignContent:"center"
+        backgroundColor: '#F5FCFF',
+        padding: 10,
     },
     headerText: {
         textAlign: 'center',
@@ -217,8 +210,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         height: 50,
         flex: 1,
-        flexDirection: 'row',
-        justifyContent:"center"
+        flexDirection: 'row'
+
     },
     innerItemViewLeft:
     {
