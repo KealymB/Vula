@@ -6,9 +6,7 @@ import * as FileSystem from 'expo-file-system';
 
 
 async function download (url, name) {
-    const testurl = 'https://vula.uct.ac.za/access/content/group/4525ef7b-8431-46b1-bd92-2fb0687c2dcb/Week%208%20-%2013%20Septembr/Making%20Popular%20Culture%20in%20Urban%20Africa.pdf'
-    const testurl2 = 'https://vula.uct.ac.za/access/content/group/67e29053-f714-412c-bee8-e0f0ba062a85/studentadmin_aca09.pdf'
-
+    console.log(url)
     try {
         await FileSystem.makeDirectoryAsync(
           FileSystem.documentDirectory,
@@ -21,21 +19,22 @@ async function download (url, name) {
       }
 
       await FileSystem.downloadAsync(
-        testurl2,
-        FileSystem.documentDirectory+'test.pdf'
+        url,
+        FileSystem.documentDirectory+name
       )
         .then(({ uri }) => {
-          console.log('Finished downloading to ', uri);
-          iconTestPath=FileSystem.documentDirectory+'test.pdf';
-           iconTestPath
-          console.log(iconTestPath)
-        //   console.log(iconTestPath);
-        //   console.log({uri:iconTestPath});
-        //   console.log(Boolean({iconTestPath}.exists));
+          console.log('Finished downloading to:', uri);
+          iconTestPath=FileSystem.documentDirectory+name;
         })
         .catch(error => {
           console.error(error);
       });
+
+      try {
+        console.log(await FileSystem.getInfoAsync(FileSystem.documentDirectory+name))
+      } catch (e) {
+        console.log(e)
+      }
 }
 
 class Accordion extends Component {
@@ -70,9 +69,12 @@ export default Accordion;
 
 const styles = StyleSheet.create({
     titleopen: {
-        color:'white'
+        color:'white',
+        fontSize: 30,
     },
     titleclosed: {
-        color:'black'
+        color:'black',
+        fontSize:20,
+        paddingLeft: 15
     }
 })

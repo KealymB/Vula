@@ -48,6 +48,7 @@ function addToTree(node, treeNodes) {
 
     parentNode.push({
       title: node.title,
+      url: node.url,
       path: node.path,
       type: node.type,
       name: node.name,
