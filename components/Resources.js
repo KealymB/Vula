@@ -91,6 +91,7 @@ function createTree(nodes) {
 }
 
 const RenderCont = ({cont}) => {
+    console.log(cont)
     return (
         <View>
             {cont.map( param => (

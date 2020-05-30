@@ -2,10 +2,36 @@ import * as React from 'react';
 import { Component } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native';
 import Collapsible from 'react-native-collapsible';
+import * as FileSystem from 'expo-file-system';
 
 
 async function download (url, name) {
+    const testurl = 'https://vula.uct.ac.za/access/content/group/4525ef7b-8431-46b1-bd92-2fb0687c2dcb/Week%208%20-%2013%20Septembr/Making%20Popular%20Culture%20in%20Urban%20Africa.pdf'
+    try {
+        await FileSystem.makeDirectoryAsync(
+          FileSystem.documentDirectory,
+          {
+            intermediates: true
+          }
+        )
+      } catch (e) {
+        console.log(e)
+      }
 
+      await FileSystem.downloadAsync(
+        testurl,
+        FileSystem.documentDirectory
+      )
+        .then(({ uri }) => {
+          console.log('Finished downloading to ', uri);
+          iconTestPath=FileSystem.documentDirectory;
+          console.log(iconTestPath);
+          console.log({uri:iconTestPath});
+          console.log(Boolean({iconTestPath}.exists));
+        })
+        .catch(error => {
+          console.error(error);
+      });
 }
 
 class Accordion extends Component {
@@ -17,9 +43,8 @@ class Accordion extends Component {
         if(type == 'collection'){
             this.setState({ collapsed: !this.state.collapsed });
         }else{
-            download(url, type);
+            download(url, name);
         }
-        
     };
 
 
