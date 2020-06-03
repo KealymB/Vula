@@ -1,40 +1,39 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, ScrollView, } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import * as FileSystem from 'expo-file-system';
 
 
-async function download (url, name) {
+async function download(url, name) {
     console.log(url)
     try {
         await FileSystem.makeDirectoryAsync(
-          FileSystem.documentDirectory,
-          {
-            intermediates: true
-          }
+            FileSystem.documentDirectory,
+            {
+                intermediates: true
+            }
         )
-      } catch (e) {
+    } catch (e) {
         console.log(e)
-      }
+    }
 
-      await FileSystem.downloadAsync(
+    await FileSystem.downloadAsync(
         url,
-        FileSystem.documentDirectory+name
-      )
+        FileSystem.documentDirectory + name
+    )
         .then(({ uri }) => {
-          console.log('Finished downloading to:', uri);
-          iconTestPath=FileSystem.documentDirectory+name;
+            console.log('Finished downloading to:', uri);
         })
         .catch(error => {
-          console.error(error);
-      });
+            console.error(error);
+        });
 
-      try {
-        console.log(await FileSystem.getInfoAsync(FileSystem.documentDirectory+name))
-      } catch (e) {
+    try {
+        console.log(await FileSystem.getInfoAsync(FileSystem.documentDirectory + name))
+    } catch (e) {
         console.log(e)
-      }
+    }
 }
 
 class Accordion extends Component {
@@ -43,9 +42,9 @@ class Accordion extends Component {
     };
 
     toggleExpanded = (url, type, name) => {
-        if(type == 'collection'){
+        if (type == 'collection') {
             this.setState({ collapsed: !this.state.collapsed });
-        }else{
+        } else {
             download(url, name);
         }
     };
@@ -55,7 +54,7 @@ class Accordion extends Component {
     render() {
         return (
             <View>
-                <TouchableOpacity onPress={()=>{this.toggleExpanded(this.props.url, this.props.type, this.props.title)}}>
+                <TouchableOpacity onPress={() => { this.toggleExpanded(this.props.url, this.props.type, this.props.title)}}>
                     <Text style={this.state.collapsed ? styles.titleclosed : styles.titleopen}>{this.props.title}</Text>
                     <Collapsible collapsed={this.state.collapsed}>
                         {this.props.content}
@@ -69,12 +68,12 @@ export default Accordion;
 
 const styles = StyleSheet.create({
     titleopen: {
-        color:'white',
+        color: 'white',
         fontSize: 30,
     },
     titleclosed: {
-        color:'black',
-        fontSize:20,
+        color: 'black',
+        fontSize: 20,
         paddingLeft: 15
     }
 })
