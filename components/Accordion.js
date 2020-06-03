@@ -2,60 +2,34 @@ import * as React from 'react';
 import { Component } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native';
 import Collapsible from 'react-native-collapsible';
-import * as FileSystem from 'expo-file-system';
-
-
-async function download (url, name) {
-    console.log(url)
-    try {
-        await FileSystem.makeDirectoryAsync(
-          FileSystem.documentDirectory,
-          {
-            intermediates: true
-          }
-        )
-      } catch (e) {
-        console.log(e)
-      }
-
-      await FileSystem.downloadAsync(
-        url,
-        FileSystem.documentDirectory+name
-      )
-        .then(({ uri }) => {
-          console.log('Finished downloading to:', uri);
-          iconTestPath=FileSystem.documentDirectory+name;
-        })
-        .catch(error => {
-          console.error(error);
-      });
-
-      try {
-        console.log(await FileSystem.getInfoAsync(FileSystem.documentDirectory+name))
-      } catch (e) {
-        console.log(e)
-      }
-}
+import DocViewer from './DocViewer';
 
 class Accordion extends Component {
     state = {
         collapsed: true,
+        docView: false,
     };
 
-    toggleExpanded = (url, type, name) => {
+    toggleExpanded = (type) => {
         if(type == 'collection'){
             this.setState({ collapsed: !this.state.collapsed });
         }else{
-            download(url, name);
+          this.setState({ collapsed: this.state.collapsed, docView: true });
         }
     };
 
-
-
     render() {
-        return (
+      switch (this.state.docView){
+        case true:
+          return (
             <View>
-                <TouchableOpacity onPress={()=>{this.toggleExpanded(this.props.url, this.props.type, this.props.title)}}>
+                <DocViewer url={this.props.url} name={this.props.title}/>
+            </View>
+        );
+        default:
+          return (
+            <View>
+                <TouchableOpacity onPress={()=>{this.toggleExpanded( this.props.type)}}>
                     <Text style={this.state.collapsed ? styles.titleclosed : styles.titleopen}>{this.props.title}</Text>
                     <Collapsible collapsed={this.state.collapsed}>
                         {this.props.content}
@@ -63,6 +37,7 @@ class Accordion extends Component {
                 </TouchableOpacity>
             </View>
         );
+      }
     }
 }
 export default Accordion;

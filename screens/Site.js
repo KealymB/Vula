@@ -3,7 +3,6 @@ import { View, StyleSheet, Text, Button, SafeAreaView} from 'react-native';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
-
 import Header from '../components/Header';
 import Resources from '../components/Resources';
 import Overview from '../components/Overview';
