@@ -10,7 +10,7 @@ import Login from './screens/Login';
 import Site from './screens/Site';
 import SideBar from './components/SideBar';
 import Loading from './screens/Loading';
-
+import DocViewer from './components/DocViewer'
 import siteReducer from './reducers/siteReducer';
 
 const Drawer = createDrawerNavigator();
@@ -25,6 +25,7 @@ class App extends Component{
             <Drawer.Screen name="Login" component={Login} />
             <Drawer.Screen name="Site" component={Site} initialParams={title='Home'}/>
             <Drawer.Screen name="Loading" component={Loading} />
+            <Drawer.Screen name="DocViewer" component={DocViewer}  />
           </Drawer.Navigator>
         </NavigationContainer>
       </Provider>
