@@ -13,11 +13,12 @@
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@react-native-community/cookies": "^2.0.8",
     "@react-native-community/masked-view": "^0.1.9",
-    "@react-navigation/compat": "^5.1.25",
+    "@react-navigation/compat": "^5.1.26",
     "@react-navigation/drawer": "^5.5.0",
     "@react-navigation/native": "^5.1.6",
     "@react-navigation/stack": "^5.2.11",
     "expo": "~37.0.3",
+    "expo-constants": "^9.0.0",
     "expo-linking": "^1.0.1",
     "expo-updates": "~0.1.0",
     "form-data": "^3.0.0",
@@ -42,7 +43,8 @@
     "react-native-webview": "^9.4.0",
     "react-redux": "^7.2.0",
     "react-simple-tree-menu": "^1.1.15",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "rn-pdf-reader-js": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

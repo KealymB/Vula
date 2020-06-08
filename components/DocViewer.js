@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Button, SafeAreaView } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Button, SafeAreaView, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 import * as Linking from 'expo-linking';
-import { withNavigation, getParam, NavigationActions, StackActions } from '@react-navigation/compat'
+import { withNavigation, getParam, NavigationActions, StackActions } from '@react-navigation/compat';
+import PDFReader from 'rn-pdf-reader-js'
 async function download(url, name) {
   console.log(url)
   try {
@@ -36,6 +37,7 @@ async function download(url, name) {
   }
 }
 
+
 class DocViewer extends Component {
   constructor(props) {
     super(props)
@@ -44,11 +46,12 @@ class DocViewer extends Component {
       title: props.route.params.title,
     }
     console.log(this.state.url)
-  }
+  }  
   render() {
     const navigation = this.props
     console.log(this.props.url);
-    return (
+    if (Platform.OS == 'android') {
+      return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#1f4166' }}>
         <View style={{ flex: 1 }}>
           <View style={{ height: 50, backgroundColor: '#1f4166', flexDirection: 'row', alignContent: 'center' }}>
@@ -66,7 +69,7 @@ class DocViewer extends Component {
             
           </View>
           <View style={{ backgroundColor: 'yellow', flex: 1 }}>
-            <WebView
+            <PDFReader
               source={{ uri: this.state.url }}
               sharedCookiesEnabled={true}
               thirdPartyCookiesEnabled={true}
@@ -76,5 +79,36 @@ class DocViewer extends Component {
       </SafeAreaView>
     );
   }
+  else if (Platform.OS == 'ios') {
+    return(
+      <View style={{ flex: 1, backgroundColor: '#1f4166' }}>
+        <View style={{ flex: 1, backgroundColor: 'red' }}>
+          <View style={{paddingTop: 25, height: 70, backgroundColor: '#1f4166', flexDirection: 'row', alignContent: 'center' }}>
+            <View style={{justifyContent:'flex-start'}}>
+              <TouchableOpacity onPress={() => { this.props.navigation.goBack() }}>
+                <Text style={{ fontSize: 20, color: 'white', paddingLeft: 10, paddingTop: 10, justifyContent: 'center' }}>
+                  Go Back
+                  
+            </Text>
+            </TouchableOpacity>
+            </View>
+              <View style={{paddingLeft: 30, paddingTop:15}}>
+                <Text style={{color:'white', fontSize:15}}>{this.state.title} ios</Text>
+              </View>
+            
+          </View>
+          <View style={{flex:1, backgroundColor: 'yellow' }}>
+            <PDFReader
+              source={{ uri: this.state.url }}
+              sharedCookiesEnabled={true}
+              thirdPartyCookiesEnabled={true}
+            />
+          </View>
+        </View>
+      </View>
+
+    )
+  }
+}
 }
 export default withNavigation(DocViewer);
