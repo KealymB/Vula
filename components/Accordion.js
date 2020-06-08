@@ -2,8 +2,10 @@ import * as React from 'react';
 import { Component } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native';
 import Collapsible from 'react-native-collapsible';
-import DocViewer from './DocViewer';
+import { connect } from 'react-redux';
 import { withNavigation} from '@react-navigation/compat'
+
+import { setUrl } from '../actions/data';
 
 class Accordion extends Component {
     state = {
@@ -15,25 +17,16 @@ class Accordion extends Component {
         if(type == 'collection'){
             this.setState({ collapsed: !this.state.collapsed });
         }else{
-            console.log('setting docview')
-          this.setState({ collapsed: this.state.collapsed, docView: true });
-          this.props.navigation.navigate('DocViewer', 
-          {
-              url: this.props.url,
-              title: this.props.title
-          })
+            this.props.setUrl(this.props.url, this.props.title)
+            this.setState({ collapsed: this.state.collapsed, docView: true });
+            this.props.navigation.navigate('DocViewer', 
+            {
+                url: this.props.url,
+                title: this.props.title
+            })
         }
     };
     render() {
-    //   switch (this.state.docView){
-    //     case true:
-    //       return (
-              
-    //         <View style={{flex:1}}>
-    //             <DocViewer url={this.props.url} name={this.props.title}/>
-    //         </View>
-    //     );
-    //     default:
           return (            
             <View>
                 <TouchableOpacity onPress={()=>{this.toggleExpanded( this.props.type)}}>
@@ -47,7 +40,14 @@ class Accordion extends Component {
       }
     //}
 }
-export default withNavigation(Accordion);
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setUrl: (url, title) => dispatch(setUrl(url, title))
+    }
+}
+
+export default withNavigation(connect(null, mapDispatchToProps)(Accordion));
 
 const styles = StyleSheet.create({
     titleopen: {

@@ -6,3 +6,4 @@ export const SET_ANNOUNCEMENTS = "SET_ANNOUNCEMENTS";
 export const SET_CONT = "SET_CONT";
 export const SET_GRADES = "SET_GRADES";
 export const SET_SEARCH = "SET_SEARCH";
+export const SET_URL = "SET_URL";

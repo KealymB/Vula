@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 
 import { setCont } from '../actions/data';
+
 import Accordion from './Accordion';
 import { ScrollView } from 'react-native-gesture-handler';
 

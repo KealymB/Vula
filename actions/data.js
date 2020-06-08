@@ -1,4 +1,4 @@
-import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH } from './types'; 
+import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH, SET_URL } from './types'; 
 
 export const addData = (info) => ({
     type: ADD_SITES,
@@ -36,4 +36,9 @@ export const setGrades = (grades) => ({
 export const setSearch = (search) => ({
     type: SET_SEARCH,
     data: search,
+})
+export const setUrl = (url, title) => ({
+    type: SET_URL,
+    url: url,
+    title: title,
 })

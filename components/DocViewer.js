@@ -2,9 +2,11 @@ import * as React from 'react';
 import { Component } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Button, SafeAreaView, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
-import * as Linking from 'expo-linking';
+import { connect } from 'react-redux';
 import { withNavigation, getParam, NavigationActions, StackActions } from '@react-navigation/compat';
 import PDFReader from 'rn-pdf-reader-js'
+
+
 async function download(url, name) {
   console.log(url)
   try {
@@ -45,7 +47,6 @@ class DocViewer extends Component {
       url: props.route.params.url,
       title: props.route.params.title,
     }
-    console.log(this.state.url)
   }  
   render() {
     const navigation = this.props
@@ -64,13 +65,13 @@ class DocViewer extends Component {
             </TouchableOpacity>
             </View>
               <View style={{paddingLeft: 30, paddingTop:15}}>
-                <Text style={{color:'white', fontSize:15}}>{this.state.title}</Text>
+                <Text style={{color:'white', fontSize:15}}>{this.props.title}</Text>
               </View>
             
           </View>
           <View style={{ backgroundColor: 'yellow', flex: 1 }}>
             <PDFReader
-              source={{ uri: this.state.url }}
+              source={{ uri: this.props.url }}
               sharedCookiesEnabled={true}
               thirdPartyCookiesEnabled={true}
             />
@@ -93,13 +94,13 @@ class DocViewer extends Component {
             </TouchableOpacity>
             </View>
               <View style={{paddingLeft: 30, paddingTop:15}}>
-                <Text style={{color:'white', fontSize:15}}>{this.state.title} ios</Text>
+                <Text style={{color:'white', fontSize:15}}>{this.props.title} ios</Text>
               </View>
             
           </View>
           <View style={{flex:1, backgroundColor: 'yellow' }}>
             <WebView
-              source={{ uri: this.state.url }}
+              source={{ uri: this.props.url}}
               sharedCookiesEnabled={true}
               thirdPartyCookiesEnabled={true}
             />
@@ -111,4 +112,12 @@ class DocViewer extends Component {
   }
 }
 }
-export default withNavigation(DocViewer);
+
+const mapStateToProps = (state) => {
+  return {
+      url: state.url,
+      title: state.title,
+  }
+}
+
+export default withNavigation(connect(mapStateToProps)(DocViewer));
