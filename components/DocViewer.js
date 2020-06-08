@@ -98,7 +98,7 @@ class DocViewer extends Component {
             
           </View>
           <View style={{flex:1, backgroundColor: 'yellow' }}>
-            <PDFReader
+            <WebView
               source={{ uri: this.state.url }}
               sharedCookiesEnabled={true}
               thirdPartyCookiesEnabled={true}
