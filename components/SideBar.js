@@ -8,7 +8,32 @@ import { setTool } from '../actions/data';
 var arr=[]
 var elements=[];
 
+function itemRender(item, nav, props, state, pressed) {
+  return(
+    <Button
+        color = {(state.key==item.id) ? 'white' : 'black'}
+        onPress={() => {
+          props.setTool(item.id,item.title);
+          nav.closeDrawer();
+          pressed(item.id);
+        }} 
+        title={item.title}
+        key={item.key}>
+    </Button>
+  );
+}
+
 class SideBar extends Component {
+    state = {
+      key: '56',
+    };
+
+    pressed = (key) => {
+      this.setState({
+        key: key,
+      })
+    }
+
     render(){  
       return (
         <SafeAreaView style={styles.container}>
@@ -29,19 +54,9 @@ class SideBar extends Component {
               <FlatList
                 contentContainerStyle={{flexGrow: 1, alignItems: 'flex-start',}}
                 data={this.props.currSite.tools}
-                renderItem={({item}) =>{
-                    return(
-                      <Button
-                          color='black'
-                          onPress={() => {
-                            this.props.setTool(item.id,item.title);
-                            this.props.navigation.closeDrawer();
-                          }} 
-                          title={item.title}
-                          key={item.key}>
-                      </Button>
-                    );}}
-                keyExtractor={item => item.id}>
+                renderItem={({item}) =>itemRender(item, this.props.navigation, this.props, this.state, this.pressed)}
+                keyExtractor={item => item.id}
+                extraData={this.state}>
               </FlatList>
             </View>
         </SafeAreaView>
@@ -60,7 +75,7 @@ const mapDispatchToProps = (dispatch) => {
     setTool: (curTool,name) => dispatch(setTool(curTool,name))
   }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(SideBar);
+export default connect(mapStateToProps,mapDispatchToProps)(SideBar, itemRender);
 
 const styles = StyleSheet.create({
   container: {

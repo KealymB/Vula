@@ -16,5 +16,3 @@ class AnnouncmentView extends Component {
 }
 
 export default (AnnouncmentView);
-
-

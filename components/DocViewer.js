@@ -4,6 +4,7 @@ import { View, TouchableOpacity, Text, StyleSheet, Button, SafeAreaView } from '
 import { WebView } from 'react-native-webview';
 import * as Linking from 'expo-linking';
 import { withNavigation, getParam, NavigationActions, StackActions } from '@react-navigation/compat'
+
 async function download(url, name) {
   console.log(url)
   try {
