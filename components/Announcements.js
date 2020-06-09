@@ -4,7 +4,7 @@ import { View, StyleSheet, Button, FlatList, TouchableOpacity, Text } from 'reac
 import { connect } from 'react-redux';
 
 import { setAnnouncements } from '../actions/data';
-import AnnouncementView from './AnnouncementView'
+import AnnouncementView from './AnnouncementView';
 
 
 async function makeRequest(path) {

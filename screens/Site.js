@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Resources from '../components/Resources';
 import Overview from '../components/Overview';
+import AnnouncementAccordionSite from '../components/AnnouncementAccordionSite'
 import AnnouncementAccordion from '../components/AnnouncementAccordion'
 import Gradebook from '../components/Gradebook'
 
@@ -18,7 +19,7 @@ class Site extends Component{
           return(
             <SafeAreaView style={styles.container}>
               <Header title={this.props.route.params.title} navigation={this.props.navigation} style={styles.header}/>
-              <AnnouncementAccordion style={styles.content}/>
+              <AnnouncementAccordionSite style={styles.content}/>
             </SafeAreaView>
           );
         case 'Resources':

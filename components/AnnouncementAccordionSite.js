@@ -39,7 +39,7 @@ async function makeRequest(path) {
     }
 }
 
-class AnnouncementAccordion extends Component {
+class AnnouncementAccordionSite extends Component {
     state = {
         activeSections: [],
         collapsed: true,
@@ -62,7 +62,7 @@ class AnnouncementAccordion extends Component {
             Icon: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
         });
 
-        let a = await makeRequest("https://vula.uct.ac.za/direct/announcement/user.json?n=30")
+        let a = await makeRequest("https://vula.uct.ac.za/direct/announcement/site/"+this.props.currSite.key+".json?n=30")
         this.props.setAnnouncements(a.data);
         this.setState({ loading: false })
     }
@@ -126,6 +126,7 @@ class AnnouncementAccordion extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        currSite: state.currSite,
         allAnnouncements: state.allAnnouncements,
     }
 }
@@ -136,7 +137,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AnnouncementAccordion);
+export default connect(mapStateToProps, mapDispatchToProps)(AnnouncementAccordionSite);
 
 const styles = StyleSheet.create({
     container: {

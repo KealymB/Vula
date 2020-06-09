@@ -25,7 +25,11 @@ async function makeRequest(path) {
                     path = item.url.substring(0, item.url.length-1);
                 }
             
-                var pathSplit = path.split('/');
+                var pathSplit = path.split('/'); 
+
+                //if(item.contian == '/content/group'){
+                //    console.log(true)
+                //}?
 
                 return {
                     path: path.substring(0, path.indexOf(pathSplit[pathSplit.length-1])-1),
