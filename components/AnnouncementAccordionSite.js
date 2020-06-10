@@ -81,8 +81,8 @@ class AnnouncementAccordionSite extends Component {
         return (
             <Animatable.View style={[styles.itemView, isActive ? styles.active : styles.inactive]}>
                 <View style={styles.innerItemViewLeft}>
-                    <Text style={styles.annTitle}>{section.title}</Text>
-                    <Text style={styles.annTime}>{section.author}</Text>
+                    <Text numberOfLines={2}>{section.title}</Text>
+                    <Text numberOfLines={1}>{section.author}</Text>
                 </View>
                 <View style={styles.innerItemViewRight}>
                     <Text style={{paddingLeft:0}}>{this.convertDate(section.date)}</Text>
@@ -115,7 +115,6 @@ class AnnouncementAccordionSite extends Component {
                         expandMultiple={multipleSelect}
                         renderHeader={this.renderHeader}
                         renderContent={this.renderContent}
-                        //duration={400}
                         onChange={this.setSections}
                     />
                 </ScrollView>
@@ -213,7 +212,7 @@ const styles = StyleSheet.create({
         flex: 8.5,
         marginTop: 5,
         marginLeft: 2,
-
+        justifyContent: 'space-between'
     },
     innerItemViewRight:
     {

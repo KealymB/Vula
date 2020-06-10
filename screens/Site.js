@@ -10,8 +10,6 @@ import AnnouncementAccordionSite from '../components/AnnouncementAccordionSite'
 import AnnouncementAccordion from '../components/AnnouncementAccordion'
 import Gradebook from '../components/Gradebook'
 
-
-
 class Site extends Component{
     render(){
       switch (this.props.toolName){
