@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { setSite } from '../actions/data';
 import { setSearch } from '../actions/data';
+import { setTool } from '../actions/data';
 
 class SitesList extends Component {
     render(){

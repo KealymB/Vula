@@ -5,12 +5,16 @@ import {
     Text,
     View,
     TouchableOpacity,
+    Dimensions,
 } from 'react-native';
-import Constants from 'expo-constants';
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import { connect } from 'react-redux';
 import { setAnnouncements } from '../actions/data';
+
+const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
+
+const headerHeight = 120; //used to set header height
 
 
 async function makeRequest(path) {
@@ -140,11 +144,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(AnnouncementAccordio
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         backgroundColor: '#1f4166',
-        paddingTop: Constants.statusBarHeight,
         marginLeft:5,
         marginRight:5,
+        height:screenHeight-headerHeight
     },
     title: {
         textAlign: 'center',

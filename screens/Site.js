@@ -60,16 +60,15 @@ export default connect(mapStateToProps)(Site);
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flexGrow:1,
     backgroundColor: '#1f4166',
     position:'absolute'
   },
   header: {
-    height:100,
     
   },
   content: {
-    height:100
+    
   }
 });
 
