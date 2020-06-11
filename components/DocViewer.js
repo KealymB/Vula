@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Button, SafeAreaView, Platform } from 'react-native';
+import { View, TouchableOpacity, Text, SafeAreaView, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
-import { withNavigation, getParam, NavigationActions, StackActions } from '@react-navigation/compat';
+import { withNavigation } from '@react-navigation/compat';
 import PDFReader from 'rn-pdf-reader-js'
 import * as WebBrowser from 'expo-web-browser';
 

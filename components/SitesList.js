@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Button, FlatList } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Button, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
 import { setSite } from '../actions/data';
 import { setSearch } from '../actions/data';
+import { setTool } from '../actions/data';
 
 class SitesList extends Component {
     render(){

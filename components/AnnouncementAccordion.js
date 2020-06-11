@@ -5,13 +5,23 @@ import {
     Text,
     View,
     TouchableOpacity,
+    Dimensions,
 } from 'react-native';
-import Constants from 'expo-constants';
+
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import { connect } from 'react-redux';
 import { setAnnouncements } from '../actions/data';
 
+import {
+    Placeholder,
+    PlaceholderLine,
+    Shine,
+  } from 'rn-placeholder';
+
+const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
+
+const headerHeight = 120; //used to set header height
 
 async function makeRequest(path) {
     let response = await fetch(path, {
@@ -44,6 +54,7 @@ class AnnouncementAccordion extends Component {
         activeSections: [],
         collapsed: true,
         multipleSelect: false,
+        loading: true,
     };
 
     convertDate = ms => {
@@ -81,8 +92,8 @@ class AnnouncementAccordion extends Component {
         return (
             <Animatable.View style={[styles.itemView, isActive ? styles.active : styles.inactive]}>
                 <View style={styles.innerItemViewLeft}>
-                    <Text style={styles.annTitle}>{section.title}</Text>
-                    <Text style={styles.annTime}>{section.author}</Text>
+                    <Text numberOfLines={2}>{section.title}</Text>
+                    <Text numberOfLines={1}>{section.author}</Text>
                 </View>
                 <View style={styles.innerItemViewRight}>
                     <Text style={{paddingLeft:0}}>{this.convertDate(section.date)}</Text>
@@ -105,8 +116,19 @@ class AnnouncementAccordion extends Component {
         const { multipleSelect, activeSections } = this.state;
         return (
             <View style={styles.container}>
-                <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                </View>
+            {this.state.loading?           
+                <Placeholder
+                    Animation={Shine}>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10, marginTop:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                </Placeholder>
+                :
                 <ScrollView>
                     <Accordion
                         activeSections={activeSections}
@@ -119,6 +141,7 @@ class AnnouncementAccordion extends Component {
                         onChange={this.setSections}
                     />
                 </ScrollView>
+            }
             </View>
         );
     }
@@ -142,9 +165,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#1f4166',
-        paddingTop: Constants.statusBarHeight,
         marginLeft:5,
         marginRight:5,
+        height:screenHeight-headerHeight,
     },
     title: {
         textAlign: 'center',
@@ -212,7 +235,7 @@ const styles = StyleSheet.create({
         flex: 8.5,
         marginTop: 5,
         marginLeft: 2,
-
+        justifyContent: 'space-between'
     },
     innerItemViewRight:
     {

@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, StyleSheet} from 'react-native';
+import { View, StyleSheet, Dimensions} from 'react-native';
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
+import { ScrollView } from 'react-native-gesture-handler';
 
 import { setCont } from '../actions/data';
-
 import Accordion from './Accordion';
-import { ScrollView } from 'react-native-gesture-handler';
+
+
+const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
+const headerHeight = 120; //used to set header height
 
 async function makeRequest(path) {
     let response = await fetch(path, {
@@ -26,10 +29,6 @@ async function makeRequest(path) {
                 }
             
                 var pathSplit = path.split('/'); 
-
-                //if(item.contian == '/content/group'){
-                //    console.log(true)
-                //}?
 
                 return {
                     path: path.substring(0, path.indexOf(pathSplit[pathSplit.length-1])-1),
@@ -131,7 +130,7 @@ class Resources extends Component {
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView style={{height:screenHeight-headerHeight}}>
                 <RenderCont cont={this.props.cont}/>
             </ScrollView>
         );

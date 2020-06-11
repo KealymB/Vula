@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, Button, SafeAreaView} from 'react-native';
+import { StyleSheet, SafeAreaView, Dimensions} from 'react-native';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -11,8 +11,11 @@ import AnnouncementAccordion from '../components/AnnouncementAccordion'
 import Gradebook from '../components/Gradebook'
 
 
+const screenWidth = Math.round(Dimensions.get('window').width); //used to set content width
 
 class Site extends Component{
+
+  
     render(){
       switch (this.props.toolName){
         case 'Announcements':
@@ -64,14 +67,8 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     backgroundColor: '#1f4166',
-    position:'absolute'
-  },
-  header: {
-    height:100,
-    
-  },
-  content: {
-    height:100
+    position:'absolute',
+    minWidth:screenWidth,
   }
 });
 

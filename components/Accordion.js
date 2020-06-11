@@ -1,17 +1,24 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, ScrollView} from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import { connect } from 'react-redux';
 import { withNavigation} from '@react-navigation/compat'
 
 import { setUrl } from '../actions/data';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class Accordion extends Component {
     state = {
         collapsed: true,
         docView: false,
     };
+
+    async componentDidMount() {
+        await Expo.Font.loadAsync({
+          Icon: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
+        });
+    }
     
     toggleExpanded = (type) => {
         if(type == 'collection'){
@@ -28,9 +35,15 @@ class Accordion extends Component {
     };
     render() {
           return (            
-            <View>
+            <View >
                 <TouchableOpacity onPress={()=>{this.toggleExpanded( this.props.type)}}>
-                    <Text style={this.state.collapsed ? styles.titleclosed : styles.titleopen}>{this.props.title}</Text>
+                    <View style={styles.header}>
+                        <Text style={this.state.collapsed ? styles.titleclosed : styles.titleopen}>
+                            {this.props.title}
+                        </Text>
+                        {this.state.collapsed ? <Icon name="md-folder" size={18} style={styles.icons} /> : <Icon name="md-folder-open" size={18}  style={styles.icons}/>}
+                    </View>
+
                     <Collapsible collapsed={this.state.collapsed}>
                         {this.props.content}
                     </Collapsible>
@@ -51,12 +64,31 @@ export default withNavigation(connect(null, mapDispatchToProps)(Accordion));
 
 const styles = StyleSheet.create({
     titleopen: {
-        color:'white',
-        fontSize: 30,
+        color:'black',
+        fontSize: 25,
+        paddingLeft: 15,
+        borderRadius:5,
+        backgroundColor:'white',
     },
     titleclosed: {
         color:'black',
         fontSize:20,
-        paddingLeft: 15
+        paddingLeft: 15,
+    },
+    container:{
+        borderRadius:5,
+        backgroundColor:'white',
+        paddingRight:5,
+        paddingRight:5,
+    },
+    header:{
+        backgroundColor:'white',
+        borderRadius:5,
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+    },
+    icons: {
+        paddingRight:5,
     }
 })

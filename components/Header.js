@@ -10,6 +10,12 @@ import { addData } from '../actions/data';
 import { searchData } from '../actions/data';
 import { setSearch } from '../actions/data';
 
+import {
+  Placeholder,
+  PlaceholderLine,
+  Shine,
+} from 'rn-placeholder';
+
 async function makeRequest(path) {
 
   let response = await fetch(path, {
@@ -50,7 +56,6 @@ class Header extends Component {
     this.setState({ loading: true })
     this.props.add(a.data);//passes props to redux
     this.setState({ loading: false })
-    //console.log(this.props.dataSearched);
   }
 
   updateSearch = search => {
@@ -96,9 +101,18 @@ class Header extends Component {
             </View>
           </View>
 
+          {this.state.loading?
+          <Placeholder
+            style={{marginLeft:5, marginRight:5}}
+            Animation={Shine}>
+            <PlaceholderLine width={97} height={40} style={{marginTop:5, marginBottom:0}}/>
+          </Placeholder>         
+          :
           <View style={styles.sites}>
             <SitesList navigation={this.props.navigation} />
           </View>
+          }
+
           <View style={styles.bottomBorder}></View>
         </View>
       );
