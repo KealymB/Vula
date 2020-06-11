@@ -5,7 +5,7 @@ import { WebView } from 'react-native-webview';
 import { connect } from 'react-redux';
 import { withNavigation, getParam, NavigationActions, StackActions } from '@react-navigation/compat';
 import PDFReader from 'rn-pdf-reader-js'
-
+import * as WebBrowser from 'expo-web-browser';
 
 async function download(url, name) {
   console.log(url)
@@ -38,6 +38,12 @@ async function download(url, name) {
     console.log(e)
   }
 }
+
+openFile = () => {
+    console.log("opening..")
+    WebBrowser.openBrowserAsync(this.props.url);
+};
+
 
 
 class DocViewer extends Component {
@@ -75,6 +81,10 @@ class DocViewer extends Component {
               sharedCookiesEnabled={true}
               thirdPartyCookiesEnabled={true}
             />
+            {/* <View style={{backgroundColor: 'red'}}>
+        <Button title="Open WebBrowser" onPress={()=>{WebBrowser.openAuthSessionAsync(this.props.url)}} />
+        <Text>{this.props.url}</Text>
+      </View> */}
           </View>
         </View>
       </SafeAreaView>
@@ -82,7 +92,7 @@ class DocViewer extends Component {
   }
   else if (Platform.OS == 'ios') {
     return(
-      <View style={{ flex: 1, backgroundColor: '#1f4166' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#1f4166' }}>
         <View style={{ flex: 1, backgroundColor: 'red' }}>
           <View style={{paddingTop: 25, height: 70, backgroundColor: '#1f4166', flexDirection: 'row', alignContent: 'center' }}>
             <View style={{justifyContent:'flex-start'}}>
@@ -106,7 +116,7 @@ class DocViewer extends Component {
             />
           </View>
         </View>
-      </View>
+      </SafeAreaView>
 
     )
   }
