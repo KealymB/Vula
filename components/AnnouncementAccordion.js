@@ -13,6 +13,12 @@ import Accordion from 'react-native-collapsible/Accordion';
 import { connect } from 'react-redux';
 import { setAnnouncements } from '../actions/data';
 
+import {
+    Placeholder,
+    PlaceholderLine,
+    Shine,
+  } from 'rn-placeholder';
+
 const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
 
 const headerHeight = 120; //used to set header height
@@ -48,6 +54,7 @@ class AnnouncementAccordion extends Component {
         activeSections: [],
         collapsed: true,
         multipleSelect: false,
+        loading: true,
     };
 
     convertDate = ms => {
@@ -109,8 +116,19 @@ class AnnouncementAccordion extends Component {
         const { multipleSelect, activeSections } = this.state;
         return (
             <View style={styles.container}>
-                <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                </View>
+            {this.state.loading?           
+                <Placeholder
+                    Animation={Shine}>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10, marginTop:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                </Placeholder>
+                :
                 <ScrollView>
                     <Accordion
                         activeSections={activeSections}
@@ -123,6 +141,7 @@ class AnnouncementAccordion extends Component {
                         onChange={this.setSections}
                     />
                 </ScrollView>
+            }
             </View>
         );
     }

@@ -8,14 +8,14 @@ import { setTool } from '../actions/data';
 var arr=[]
 var elements=[];
 
-function itemRender(item, nav, props, state, pressed) {
+function itemRender(item, nav, props) {
+  console.log(props.toolName+item.title)
   return(
     <Button
-        color = {(state.key==item.id) ? 'white' : 'black'}
+        color = {(props.toolName==item.title) ? 'white' : 'black'}
         onPress={() => {
           props.setTool(item.id,item.title);
           nav.closeDrawer();
-          pressed(item.id);
         }} 
         title={item.title}
         key={item.key}>
@@ -24,16 +24,6 @@ function itemRender(item, nav, props, state, pressed) {
 }
 
 class SideBar extends Component {
-    state = {
-      key: '56',
-    };
-
-    pressed = (key) => {
-      this.setState({
-        key: key,
-      })
-    }
-
     render(){  
       return (
         <SafeAreaView style={styles.container}>
@@ -54,9 +44,9 @@ class SideBar extends Component {
               <FlatList
                 contentContainerStyle={{flexGrow: 1, alignItems: 'flex-start',}}
                 data={this.props.currSite.tools}
-                renderItem={({item}) =>itemRender(item, this.props.navigation, this.props, this.state, this.pressed)}
+                renderItem={({item}) =>itemRender(item, this.props.navigation, this.props, this.pressed)}
                 keyExtractor={item => item.id}
-                extraData={this.state}>
+                extraData={this.props.toolName}>
               </FlatList>
             </View>
         </SafeAreaView>
@@ -67,7 +57,8 @@ class SideBar extends Component {
 const mapStateToProps = (state) => {
   return{
     currSite:state.currSite,
-    toolID:state.toolID
+    toolID:state.toolID,
+    toolName:state.toolName
   }
 }
 const mapDispatchToProps = (dispatch) => {

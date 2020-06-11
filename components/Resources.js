@@ -3,14 +3,13 @@ import { Component } from 'react';
 import { View, StyleSheet, Dimensions} from 'react-native';
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
-
-import { setCont } from '../actions/data';
-
-import Accordion from './Accordion';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
+import { setCont } from '../actions/data';
+import Accordion from './Accordion';
 
+
+const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
 const headerHeight = 120; //used to set header height
 
 async function makeRequest(path) {

@@ -34,7 +34,7 @@ const siteReducer = (state = initialState, action) => {
                 ...state,
                 currSite: action.site,
                 toolID: '',
-                toolName: '1',//change this to set the default site landing
+                toolName: 'Announcements', //change this to set the default site landing
                 url: '',
                 title: '',
             };

@@ -12,6 +12,12 @@ import Accordion from 'react-native-collapsible/Accordion';
 import { connect } from 'react-redux';
 import { setAnnouncements } from '../actions/data';
 
+import {
+    Placeholder,
+    PlaceholderLine,
+    Fade,
+  } from 'rn-placeholder';
+
 const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
 
 const headerHeight = 120; //used to set header height
@@ -48,6 +54,7 @@ class AnnouncementAccordionSite extends Component {
         activeSections: [],
         collapsed: true,
         multipleSelect: false,
+        loading: true,
     };
 
     convertDate = ms => {
@@ -68,7 +75,7 @@ class AnnouncementAccordionSite extends Component {
 
         let a = await makeRequest("https://vula.uct.ac.za/direct/announcement/site/"+this.props.currSite.key+".json?n=30")
         this.props.setAnnouncements(a.data);
-        this.setState({ loading: false })
+        this.setState({ loading: false });
     }
 
     toggleExpanded = () => {
@@ -109,8 +116,19 @@ class AnnouncementAccordionSite extends Component {
         const { multipleSelect, activeSections } = this.state;
         return (
             <View style={styles.container}>
-                <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                </View>
+            {this.state.loading?           
+                <Placeholder
+                    Animation={Fade}>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10, marginTop:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                </Placeholder>
+                :
                 <ScrollView>
                     <Accordion
                         activeSections={activeSections}
@@ -122,6 +140,7 @@ class AnnouncementAccordionSite extends Component {
                         onChange={this.setSections}
                     />
                 </ScrollView>
+            }
             </View>
         );
     }
