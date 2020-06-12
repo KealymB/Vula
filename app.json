@@ -11,8 +11,8 @@
       "web"
     ],
     "splash": {
-      "image": "./assets/VulaSplash.png",
-      "resizeMode": "contain"
+      "image": "./assets/revColours.png",
+      "backgroundColor": "#1f4166"
     },
     "assetBundlePatterns": [
       "**/*"

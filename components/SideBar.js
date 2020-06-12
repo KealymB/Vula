@@ -9,7 +9,6 @@ var arr=[]
 var elements=[];
 
 function itemRender(item, nav, props) {
-  console.log(props.toolName+item.title)
   return(
     <Button
         color = {(props.toolName==item.title) ? 'white' : 'black'}
