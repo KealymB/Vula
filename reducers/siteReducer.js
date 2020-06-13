@@ -19,7 +19,9 @@ const siteReducer = (state = initialState, action) => {
         case ADD_SITES:
             return {
                 ...state,
-                siteData: action.data,
+                siteData: action.data.filter(item => {
+                    return item.label.toLowerCase().includes('2020')
+                }),
                 origin: action.data,
             };
         case SEARCH_DATA:

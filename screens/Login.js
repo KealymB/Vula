@@ -18,7 +18,6 @@ async function makeRequest(path, params) {
       },
       body: params
     }).then((response) => (response).headers.get('set-cookie')).then(async cookie => {
-      console.log('calling cookie')
       if(cookie){
         await AsyncStorage.setItem('cookie', JSON.stringify(cookie));
         return response;
@@ -29,7 +28,6 @@ async function makeRequest(path, params) {
 async function get({ navigate }) {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
     let cookie = await AsyncStorage.getItem('cookie');
-    console.log(cookie);
     navigate("Site", {title: 'Home', siteID:this.state.uname});//might be a differed siteID
 }
 
@@ -72,7 +70,7 @@ class Login extends Component{
               <TouchableOpacity style={styles.loginBtn}>
                   <Button  
                     onPress={() => {
-                      if(this.state.uname||this.state.password != null){
+                      if(this.state.uname != null||this.state.password != null){
                           formdata.append('_username', (this.state.uname));
                           formdata.append('_password', (this.state.password));
                           get(navigate = this.props.navigation);
