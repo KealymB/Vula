@@ -1,4 +1,4 @@
-import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH, SET_URL } from '../actions/types';
+import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH, SET_URL, CLEAR_SEARCH } from '../actions/types';
 
 const initialState = {
     siteData: [],
@@ -20,7 +20,7 @@ const siteReducer = (state = initialState, action) => {
             return {
                 ...state,
                 siteData: action.data.filter(item => {
-                    return item.label.toLowerCase().includes('2020')
+                    return item.label.toLowerCase().includes('2020')//change to follow year
                 }),
                 origin: action.data,
             };
@@ -30,6 +30,13 @@ const siteReducer = (state = initialState, action) => {
                 siteData: state.origin.filter(item => {
                     return item.label.toLowerCase().includes(action.query)
                 })
+            };
+        case CLEAR_SEARCH:
+            return{
+                ...state,
+                siteData: state.origin.filter(item => {
+                    return item.label.toLowerCase().includes('2020')
+                }),
             };
         case SET_SITE:
             return{

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { setSite } from '../actions/data';
 import { setSearch } from '../actions/data';
 import { setTool } from '../actions/data';
+import { clearData } from '../actions/data';
 
 class SitesList extends Component {
     render(){
@@ -26,6 +27,7 @@ class SitesList extends Component {
                             const { navigate } = this.props.navigation;
                             navigate("Site", {title: item.label, siteID:item.key});
                             this.props.setSearch(false);
+                            this.props.clearData();
                         }} title={item.label}>
                     </Button>
                 </TouchableOpacity>
@@ -46,7 +48,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setSite: (curSite) => dispatch(setSite(curSite)),
     setTool: (curTool) => dispatch(setTool(curTool)),
-    setSearch: (data) => dispatch(setSearch(data))
+    setSearch: (data) => dispatch(setSearch(data)),
+    clearData: () => dispatch(clearData()),
   }
 }
   export default connect(mapStateToProps, mapDispatchToProps)(SitesList);

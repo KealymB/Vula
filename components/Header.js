@@ -9,6 +9,7 @@ import SitesList from './SitesList';
 import { addData } from '../actions/data';
 import { searchData } from '../actions/data';
 import { setSearch } from '../actions/data';
+import { clearData } from '../actions/data';
 
 import {
   Placeholder,
@@ -73,7 +74,7 @@ class Header extends Component {
               placeholder="Search Sites:"
               onChangeText={this.updateSearch}
               value={search}
-              onClear={() => { this.props.setSearch(false) }}
+              onClear={() => { this.props.setSearch(false); this.props.clearData(); }}
               showCancel={true}
               autoCapitalize='characters'
             />
@@ -130,7 +131,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     search: (query) => dispatch(searchData(query)),
     add: (data) => dispatch(addData(data)),
-    setSearch: (data) => dispatch(setSearch(data))
+    setSearch: (data) => dispatch(setSearch(data)),
+    clearData: () => dispatch(clearData()),
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
