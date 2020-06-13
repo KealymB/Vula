@@ -72,13 +72,12 @@ const styles = StyleSheet.create({
     },
     titleclosed: {
         color:'black',
-        fontSize:20,
+        fontSize:25,
         paddingLeft: 15,
     },
     container:{
         borderRadius:5,
         backgroundColor:'white',
-        paddingRight:5,
         paddingRight:5,
     },
     header:{

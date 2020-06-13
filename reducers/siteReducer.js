@@ -44,16 +44,12 @@ const siteReducer = (state = initialState, action) => {
                 currSite: action.site,
                 toolID: '',
                 toolName: 'Announcements', //change this to set the default site landing
-                url: '',
-                title: '',
             };
         case SET_TOOL:
             return{
                 ...state,
                 toolID: action.tool,
                 toolName: action.name,
-                url: '',
-                title: '',
             };
         case SET_ANNOUNCEMENTS:
             return{
