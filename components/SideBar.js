@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, Button, FlatList, SafeAreaView} from 'react-native';
+import { View, StyleSheet, Text, Button, FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -10,15 +10,16 @@ var elements=[];
 
 function itemRender(item, nav, props) {
   return(
-    <Button
-        color = {(props.toolName==item.title) ? 'white' : 'black'}
+    <TouchableOpacity
         onPress={() => {
           props.setTool(item.id,item.title);
           nav.closeDrawer();
         }} 
-        title={item.title}
         key={item.key}>
-    </Button>
+          <Text style={{color:(props.toolName==item.title) ? 'white' : 'black', fontSize:20, paddingBottom:5}} numberOfLines={1}>
+            {item.title}
+          </Text>
+    </TouchableOpacity>
   );
 }
 
@@ -45,7 +46,8 @@ class SideBar extends Component {
                 data={this.props.currSite.tools}
                 renderItem={({item}) =>itemRender(item, this.props.navigation, this.props, this.pressed)}
                 keyExtractor={item => item.id}
-                extraData={this.props.toolName}>
+                extraData={this.props.toolName}
+                showsVerticalScrollIndicator={false}>
               </FlatList>
             </View>
         </SafeAreaView>
@@ -81,7 +83,6 @@ const styles = StyleSheet.create({
   itemView:{
     backgroundColor: "#f8f8f8",
     borderRadius:10,
-    marginRight:5,
   },    
   logoview:{
     marginLeft:15,

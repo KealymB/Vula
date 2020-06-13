@@ -1,4 +1,4 @@
-import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH, SET_URL } from '../actions/types';
+import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH, SET_URL, CLEAR_SEARCH } from '../actions/types';
 
 const initialState = {
     siteData: [],
@@ -19,7 +19,9 @@ const siteReducer = (state = initialState, action) => {
         case ADD_SITES:
             return {
                 ...state,
-                siteData: action.data,
+                siteData: action.data.filter(item => {
+                    return item.label.toLowerCase().includes('2020')//change to follow year
+                }),
                 origin: action.data,
             };
         case SEARCH_DATA:
@@ -29,22 +31,25 @@ const siteReducer = (state = initialState, action) => {
                     return item.label.toLowerCase().includes(action.query)
                 })
             };
+        case CLEAR_SEARCH:
+            return{
+                ...state,
+                siteData: state.origin.filter(item => {
+                    return item.label.toLowerCase().includes('2020')
+                }),
+            };
         case SET_SITE:
             return{
                 ...state,
                 currSite: action.site,
                 toolID: '',
                 toolName: 'Announcements', //change this to set the default site landing
-                url: '',
-                title: '',
             };
         case SET_TOOL:
             return{
                 ...state,
                 toolID: action.tool,
                 toolName: action.name,
-                url: '',
-                title: '',
             };
         case SET_ANNOUNCEMENTS:
             return{
