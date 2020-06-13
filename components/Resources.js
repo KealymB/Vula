@@ -21,7 +21,14 @@ async function makeRequest(path) {
         }
     }).then((response) => response.json())
         .then(text => {
-            data = text.content_collection.map(function (item) {
+            var counter = 0;
+            data = text.content_collection.filter(function (test) { // might be too slow
+                if (counter==0) {
+                    counter++;
+                  return false; // skip
+                }
+                return true;
+              }).map(function (item) {
                 var path = item.url;
 
                 if(item.url[item.url.length-1] === '/'){
@@ -39,7 +46,6 @@ async function makeRequest(path) {
                     container: item.container.substring(0, item.container.length-1),
                 };
             });
-
         })
     return {
         data
