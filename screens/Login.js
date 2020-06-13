@@ -17,27 +17,42 @@ async function makeRequest(path, params) {
         'Connection': 'keep-alive',
       },
       body: params
-    }).then((response) => (response).headers.get('set-cookie')).then(async cookie => {
-      if(cookie){
-        await AsyncStorage.setItem('cookie', JSON.stringify(cookie));
-        return response;
-      }
-    })
+    }).then((response) => {
+    if(response.status == 201){
+      return true;
+    }else{
+      return false;
+    }})
+    return response
 }
 
 async function get({ navigate }) {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
-    let cookie = await AsyncStorage.getItem('cookie');
-    navigate("Site", {title: 'Home', siteID:this.state.uname});//might be a differed siteID
+    console.log(a);
+    if(a){
+      navigate("Site", {title: 'Home', siteID:this.state.uname});//might be a differed siteID
+    }else{
+      alert('Incorrect username or password');
+    }
+    
 }
 
 state={
     uname:'',
-    password:'',
-    cookie:''
+    password:''
 }
 
 class Login extends Component{
+    
+
+    constructor(props){
+      super(props);
+
+      this.state = {
+        uname:'',
+        password:'',
+      }
+    }
 
     render(){  
       return(
@@ -70,7 +85,7 @@ class Login extends Component{
               <TouchableOpacity style={styles.loginBtn}>
                   <Button  
                     onPress={() => {
-                      if(this.state.uname != null||this.state.password != null){
+                      if(this.state.uname||this.state.password){
                           formdata.append('_username', (this.state.uname));
                           formdata.append('_password', (this.state.password));
                           get(navigate = this.props.navigation);
