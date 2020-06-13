@@ -90,7 +90,7 @@ class Header extends Component {
         <View style={styles.sb}>
           <View style={styles.header}>
             <View style={styles.logoview}>
-              <Text style={styles.logo} >
+              <Text style={styles.logo} numberOfLines={1}>
                 {this.props.title}
               </Text>
             </View>

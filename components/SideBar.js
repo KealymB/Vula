@@ -46,7 +46,8 @@ class SideBar extends Component {
                 data={this.props.currSite.tools}
                 renderItem={({item}) =>itemRender(item, this.props.navigation, this.props, this.pressed)}
                 keyExtractor={item => item.id}
-                extraData={this.props.toolName}>
+                extraData={this.props.toolName}
+                showsVerticalScrollIndicator={false}>
               </FlatList>
             </View>
         </SafeAreaView>
@@ -82,7 +83,6 @@ const styles = StyleSheet.create({
   itemView:{
     backgroundColor: "#f8f8f8",
     borderRadius:10,
-    marginRight:5,
   },    
   logoview:{
     marginLeft:15,

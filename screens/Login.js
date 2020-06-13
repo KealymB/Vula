@@ -28,7 +28,6 @@ async function makeRequest(path, params) {
 
 async function get({ navigate }) {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
-    console.log(a);
     if(a){
       navigate("Site", {title: 'Home', siteID:this.state.uname});//might be a differed siteID
     }else{
