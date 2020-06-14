@@ -136,7 +136,7 @@ class Resources extends Component {
 
     render() {
         return (
-            <ScrollView style={{height:screenHeight-headerHeight}}>
+            <ScrollView style={{height:screenHeight-headerHeight, paddingLeft:5, paddingRight:5}}>
                 <RenderCont cont={this.props.cont}/>
             </ScrollView>
         );

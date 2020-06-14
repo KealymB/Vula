@@ -8,6 +8,8 @@ import { withNavigation} from '@react-navigation/compat'
 import { setUrl } from '../actions/data';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+//count number of / to determine the positions in file... or use states adding to each other
+
 class Accordion extends Component {
     state = {
         collapsed: true,
@@ -36,7 +38,7 @@ class Accordion extends Component {
     render() {
           return (            
             <View >
-                <TouchableOpacity onPress={()=>{this.toggleExpanded( this.props.type)}}>
+                <TouchableOpacity onPress={()=>{this.toggleExpanded( this.props.type)}} style={styles.container}>
                     <View style={styles.header}>
                         <Text style={this.state.collapsed ? styles.titleclosed : styles.titleopen}>
                             {this.props.title}
@@ -76,9 +78,7 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
     },
     container:{
-        borderRadius:5,
-        backgroundColor:'white',
-        paddingRight:5,
+        paddingTop:5,
     },
     header:{
         backgroundColor:'white',
@@ -90,4 +90,5 @@ const styles = StyleSheet.create({
     icons: {
         paddingRight:5,
     }
+
 })

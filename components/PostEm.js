@@ -1,17 +1,21 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { WebView } from 'react-native-webview';
 
 
+const screenWidth = Math.round(Dimensions.get('window').width); //used to set content width
+const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
+
 //<WebView source={{ uri: this.props.url}} sharedCookiesEnabled={true} thirdPartyCookiesEnabled={true}/>
 
 class PostEm extends Component {
     render() {
+        var url = 'https://vula.uct.ac.za/portal/site/'+this.props.currSite.key+'/tool/'+this.props.toolID
         return (
             <View style={styles.container}>
-
+                <WebView source={{ uri: url}} style={styles.view} sharedCookiesEnabled={true} thirdPartyCookiesEnabled={true}/>
             </View>
         );
     }
@@ -20,7 +24,8 @@ class PostEm extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        grades: state.grades,
+        currSite: state.currSite,
+        toolID: state.toolID,
     }
 }
 
@@ -34,38 +39,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#1f4166'
     },
-    gradeItem:
-    {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#BFBFBF',
-        paddingTop: 5,
-        paddingBottom: 5,
-        paddingLeft: 10,
-        flexDirection: 'row'
-    },
-    gradeItemLeft:
-    {
-        flex: 7,
-    },
-    gradeItemRight:
-    {
-        flex: 3,
-        alignItems: 'flex-end',
-        paddingRight: 20,
-        borderLeftWidth: 1,
-        borderLeftColor: '#BFBFBF'
-    },
-    gradeTitleText:
-    {
-        fontSize: 25,
-        color: '#34393b'
-    },
-    gradeText:
-    {
-        fontSize: 20,
-        color: '#34393b',
-    },
+    view: {
+        height:screenHeight-120,
+        width: screenWidth,
+      }
 })
