@@ -11,8 +11,9 @@ import { clearData } from '../actions/data';
 class SitesList extends Component {
     render(){
       return(
-        <View style={styles.marg}>
+        <View>
           <FlatList
+          style={{ borderBottomLeftRadius:10, borderBottomRightRadius:10 }}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             data={this.props.dataSearched.siteData}
@@ -82,6 +83,17 @@ const styles = StyleSheet.create({
       backgroundColor: "#f8f8f8",
       borderRadius:10,
       marginRight:5,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
+      shadowOpacity: 0.23,
+      shadowRadius: 2.62,
+
+      elevation: 4,
+      margin:5,
+      marginBottom:10,
   },
   itemText:{
       fontSize:15,
@@ -94,9 +106,5 @@ const styles = StyleSheet.create({
   sb: {
     flex: 1,
     backgroundColor: '#1f4166',
-  },
-  marg:{
-    marginLeft:5,
-    marginRight:5,
   },
 })

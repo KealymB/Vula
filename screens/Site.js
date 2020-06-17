@@ -14,22 +14,20 @@ import PostEm from '../components/PostEm'
 const screenWidth = Math.round(Dimensions.get('window').width); //used to set content width
 
 class Site extends Component{
-
-  
     render(){
       switch (this.props.toolName){
         case 'Announcements':
           return(
             <SafeAreaView style={styles.container}>
-              <Header title={this.props.route.params.title} navigation={this.props.navigation} style={styles.header}/>
-              <AnnouncementAccordionSite style={styles.content}/>
+              <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
+              <AnnouncementAccordionSite/>
             </SafeAreaView>
           );
         case 'Resources':
           return(
             <SafeAreaView style={styles.container}>
-              <Header title={this.props.route.params.title} navigation={this.props.navigation} style={styles.header}/>
-              <Resources style={styles.content}/>
+              <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
+              <Resources/>
             </SafeAreaView>
           );
         case 'Overview':
@@ -56,8 +54,8 @@ class Site extends Component{
         default:
           return(
             <SafeAreaView style={styles.container}>
-              <Header title={this.props.route.params.title} navigation={this.props.navigation} style={styles.header}/>
-              <AnnouncementAccordion style={styles.content}/>
+              <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
+              <AnnouncementAccordion/>
             </SafeAreaView>
           );
       }

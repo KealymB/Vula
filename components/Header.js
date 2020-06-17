@@ -68,7 +68,7 @@ class Header extends Component {
     const { search } = this.state;
     if (this.props.searching) {
       return (
-        <View style={styles.container}>
+        <View style={styles.container} shadowColor={'black'}>
           <View style={styles.searchbar}>
             <SearchBar
               placeholder="Search Sites:"
@@ -81,13 +81,13 @@ class Header extends Component {
           </View>
 
           <View style={styles.sites}>
-            <SitesList navigation={this.props.navigation} />
+            <SitesList navigation={this.props.navigation} style={{borderRadius:10,}}/>
           </View>
         </View>
       );
     } else {
       return (
-        <View style={styles.sb}>
+        <View style={styles.sb} shadowColor={'black'} shadowOffset={{width: 5,height: 5}}>
           <View style={styles.header}>
             <View style={styles.logoview}>
               <Text style={styles.logo} numberOfLines={1}>
@@ -110,11 +110,9 @@ class Header extends Component {
           </Placeholder>         
           :
           <View style={styles.sites}>
-            <SitesList navigation={this.props.navigation} />
+            <SitesList navigation={this.props.navigation} style={{borderRadius:10,}}/>
           </View>
           }
-
-          <View style={styles.bottomBorder}></View>
         </View>
       );
     }
@@ -140,7 +138,18 @@ export default connect(mapStateToProps, mapDispatchToProps)(Header);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1f4166',
+    backgroundColor: 'white',
+    borderRadius:10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    
+    elevation: 4,
+    zIndex:999,  
   },
   logoview: {
     flex: 5,
@@ -149,7 +158,7 @@ const styles = StyleSheet.create({
   logo: {
     fontWeight: "bold",
     fontSize: 30,
-    color: "#f8f8f8",
+    color: "black",
   },
   search: {
     flex: 1,
@@ -160,6 +169,7 @@ const styles = StyleSheet.create({
   },
   sites: {
     marginTop: 5,
+    borderRadius:5,
   },
   itemView:{
     backgroundColor: "#f8f8f8",
@@ -176,17 +186,22 @@ itemText:{
   },
   sb: {
     flex: 1,
-    backgroundColor: '#1f4166',
+    backgroundColor: 'white',
+    borderRadius:10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    
+    elevation: 4,
+    zIndex:999,  
   },
   searchText: {
     fontSize: 20,
     fontWeight: "bold",
     textTransform: 'uppercase'
-
-  },
-  bottomBorder: {
-    marginTop: 10,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
   },
 })

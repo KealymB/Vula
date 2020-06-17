@@ -19,8 +19,7 @@ import {
   } from 'rn-placeholder';
 
 const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
-
-const headerHeight = 120; //used to set header height
+const headerHeight = 133; //used to set header height
 
 
 async function makeRequest(path) {
