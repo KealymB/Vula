@@ -102,9 +102,9 @@ class AnnouncementAccordion extends Component {
         );
     };
 
-    renderContent(section, _, isActive) {
+    renderContent(section, _) {
         return (
-            <Animatable.View style={[styles.content, isActive ? styles.active : styles.inactive]}>
+            <Animatable.View style={styles.content}>
                 <Text>
                     {section.body.replace(/<\/?[^>]+(>|$)/g, "")}
                 </Text>
@@ -129,7 +129,7 @@ class AnnouncementAccordion extends Component {
                     <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
                 </Placeholder>
                 :
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <Accordion
                         activeSections={activeSections}
                         sections={this.props.allAnnouncements}
@@ -188,12 +188,17 @@ const styles = StyleSheet.create({
     content: {
         padding: 20,
         backgroundColor: '#fff',
+        borderBottomLeftRadius:5,
+        borderBottomRightRadius:5,
     },
     active: {
         backgroundColor: 'rgba(255,255,255,1)',
+        borderTopLeftRadius:5,
+        borderTopRightRadius:5,
     },
     inactive: {
         backgroundColor: 'rgba(245,252,255,1)',
+        borderRadius: 5,
     },
     selectors: {
         marginBottom: 10,
@@ -224,7 +229,6 @@ const styles = StyleSheet.create({
     },
     itemView: {
         backgroundColor: "#f8f8f8",
-        borderRadius: 5,
         marginTop: 10,
         height: 60,
         flex: 1,

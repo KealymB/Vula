@@ -104,7 +104,7 @@ class Header extends Component {
 
           {this.state.loading?
           <Placeholder
-            style={{marginLeft:5, marginRight:5}}
+            style={{marginLeft:5, marginRight:5, marginBottom:10}}
             Animation={Shine}>
             <PlaceholderLine width={97} height={40} style={{marginTop:5, marginBottom:0}}/>
           </Placeholder>         
