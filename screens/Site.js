@@ -71,7 +71,7 @@ export default connect(mapStateToProps)(Site);
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    backgroundColor: '#1f4166',
+    backgroundColor: '#2e6299',
     position:'absolute',
     minWidth:screenWidth,
   }

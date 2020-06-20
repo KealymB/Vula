@@ -68,7 +68,7 @@ class Header extends Component {
     const { search } = this.state;
     if (this.props.searching) {
       return (
-        <View style={styles.container} shadowColor={'black'}>
+        <View style={styles.container}>
           <View style={styles.searchbar}>
             <SearchBar
               placeholder="Search Sites:"
@@ -87,7 +87,7 @@ class Header extends Component {
       );
     } else {
       return (
-        <View style={styles.sb} shadowColor={'black'} shadowOffset={{width: 5,height: 5}}>
+        <View style={styles.sb}>
           <View style={styles.header}>
             <View style={styles.logoview}>
               <Text style={styles.logo} numberOfLines={1}>
@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    borderRadius:10,
     shadowColor: "#000",
+    borderRadius:10,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -187,8 +187,8 @@ itemText:{
   sb: {
     flex: 1,
     backgroundColor: 'white',
-    borderRadius:10,
     shadowColor: "#000",
+    borderRadius:10,
     shadowOffset: {
       width: 0,
       height: 2,

@@ -81,9 +81,8 @@ class Login extends Component{
                       secureTextEntry={true}/>
               </View>
 
-              <TouchableOpacity style={styles.loginBtn}>
-                  <Button  
-                    onPress={() => {
+              <TouchableOpacity 
+                onPress={() => {
                       if(this.state.uname||this.state.password){
                           formdata.append('_username', (this.state.uname));
                           formdata.append('_password', (this.state.password));
@@ -91,9 +90,11 @@ class Login extends Component{
                       }else{
                         alert('Username or Password is blank');
                       }
-                      }} title="Login">
-                    <Text style={styles.loginText}>LOGIN</Text>
-                  </Button>
+                }}>
+                <Text style={styles.loginBtn}>
+                  Login
+                </Text>
+              
               </TouchableOpacity>
           </View>
       );
@@ -103,13 +104,16 @@ class Login extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1f4166',
+    backgroundColor: '#2e6299',
     alignItems: 'center',
   },  
-  
+  loginBtn:{
+    color:'white',
+    fontSize:20
+  },
   inputView:{
     width:"80%",
-    backgroundColor:"#465881",
+    backgroundColor:"#5984b3",
     borderRadius:25,
     height:65,
     marginBottom:20,

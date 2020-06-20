@@ -72,16 +72,16 @@ export default connect(mapStateToProps,mapDispatchToProps)(SideBar, itemRender);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1f4166',
+    backgroundColor: '#2e6299',
   },
   cont: {
     flex: 1,
-    backgroundColor: '#1f4166',
+    backgroundColor: '#2e6299',
     alignItems: 'flex-start',
     marginLeft:10,
   },
   itemView:{
-    backgroundColor: "#f8f8f8",
+    backgroundColor: "#2e6299",
     borderRadius:10,
   },    
   logoview:{

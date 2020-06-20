@@ -116,19 +116,19 @@ class AnnouncementAccordionSite extends Component {
         return (
             <View style={styles.container}>
             {this.state.loading?           
-                <Placeholder
+                <Placeholder style={styles.PlaceHolder}
                     Animation={Fade}>
-                    <PlaceholderLine width={100} height={60} style={{marginBottom:10, marginTop:10}}/>
-                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={100} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={60} style={{marginBottom:10, marginTop:10}}/>
+                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
                 </Placeholder>
                 :
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView showsVerticalScrollIndicator={false} style={styles.itemContainer}>
                     <Accordion
                         activeSections={activeSections}
                         sections={this.props.allAnnouncements}
@@ -162,11 +162,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(AnnouncementAccordio
 
 const styles = StyleSheet.create({
     container: {
-        flexGrow: 1,
-        backgroundColor: '#1f4166',
-        marginLeft:5,
-        marginRight:5,
-        height:screenHeight-headerHeight
+        flex: 1,
+        backgroundColor: '#2e6299',
+        height:screenHeight-headerHeight,
     },
     title: {
         textAlign: 'center',
@@ -186,17 +184,15 @@ const styles = StyleSheet.create({
     },
     content: {
         padding: 20,
-        backgroundColor: '#fff',
+        backgroundColor: '#eee',
         borderBottomLeftRadius:5,
         borderBottomRightRadius:5,
     },
     active: {
-        backgroundColor: 'rgba(255,255,255,1)',
         borderTopLeftRadius:5,
         borderTopRightRadius:5,
     },
     inactive: {
-        backgroundColor: 'rgba(245,252,255,1)',
         borderRadius: 5,
     },
     selectors: {
@@ -227,7 +223,7 @@ const styles = StyleSheet.create({
         marginRight: 8,
     },
     itemView: {
-        backgroundColor: "#f8f8f8",
+        backgroundColor: "#F5FCFF",
         marginTop: 10,
         height: 60,
         flex: 1,
@@ -246,10 +242,29 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         justifyContent: 'center',
         backgroundColor: '#eee',
-        borderRadius: 5,
+        borderTopRightRadius:5,
+        borderBottomRightRadius:5,
     },
     itemText: {
         fontSize: 15,
         padding: 2,
     },
+    itemContainer: {
+        shadowColor: "#000",
+        shadowOffset: {
+        width: 0,
+        height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        marginLeft:5,
+        marginRight:5,
+        
+        elevation: 4,
+        zIndex:999,  
+    },
+    PlaceHolder:{
+        marginLeft:5,
+        marginRight:5,
+    }
 });

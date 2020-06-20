@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, FlatList } from 'react-native';
+import { View, StyleSheet, Text, FlatList, Dimensions } from 'react-native';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { setGrades } from '../actions/data';
+
+const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
+const headerHeight = 133; //used to set header height
 
 async function makeRequest(path) {
     let response = await fetch(path, {
@@ -56,7 +59,6 @@ class Gradebook extends Component {
                     </Text>
                 </View>
             </View>
-
         );
     }
 
@@ -64,27 +66,14 @@ class Gradebook extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View>
-                    <View style={[styles.gradeItem, { paddingTop: 30, }]}>
-                        <View style={styles.gradeItemLeft}>
-                            <Text style={[styles.gradeTitleText, { color: 'white' }]}>
-                                Gradebook Item
-                    </Text>
-                        </View>
-                        <View style={[styles.gradeItemRight, {borderLeftColor: 'black'} ]}>
-                            <Text style={[styles.gradeTitleText, { color: 'white' }]}>
-                                Grade
-                    </Text>
-                        </View>
-                    </View>
-                    <FlatList
-                        data={this.props.grades}
-                        renderItem={({ item, index }) => this.renderGradebookItem(item, index)
-                        }
-                        keyExtractor={item => item.gradeTitle}
-                        scrollEnabled={false}
-                    />
-                </View>
+                <FlatList
+                    data={this.props.grades}
+                    renderItem={({ item, index }) => this.renderGradebookItem(item, index)
+                    }
+                    keyExtractor={item => item.gradeTitle}
+                    showsVerticalScrollIndicator={false}
+                    style={styles.flatlist}
+                />
             </View>
         );
     }
@@ -109,11 +98,12 @@ export default connect(mapStateToProps, mapDispatchToProps)(Gradebook);
 
 
 const styles = StyleSheet.create({
-
     container:
     {
         flex: 1,
-        backgroundColor: '#1f4166'
+        backgroundColor: '#2e6299',
+        height:screenHeight-headerHeight,
+        paddingTop:10,
     },
     gradeItem:
     {
@@ -149,9 +139,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#34393b',
     },
-
-
-
-
-
+    flatlist:{
+        borderRadius:5,
+    }
 })
