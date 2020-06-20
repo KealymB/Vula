@@ -69,6 +69,9 @@ class Login extends Component{
                       placeholderTextColor="#003f5c"
                       onChangeText={text => this.setState({uname:text})}
                       autoCapitalize='characters'
+                      returnKeyType='next'
+                      onSubmitEditing={() => this.password.focus()}
+                      enablesReturnKeyAutomatically={true}
                       />
               </View>
 
@@ -78,7 +81,21 @@ class Login extends Component{
                       placeholder="Password..." 
                       placeholderTextColor="#003f5c"
                       onChangeText={text => this.setState({password:text})}
-                      secureTextEntry={true}/>
+                      secureTextEntry={true}
+                      enablesReturnKeyAutomatically={true}
+                      returnKeyType='go'
+                      ref={ref => {
+                        this.password = ref;
+                      }}
+                      onSubmitEditing={() => {                      
+                        if(this.state.uname||this.state.password){
+                            formdata.append('_username', (this.state.uname));
+                            formdata.append('_password', (this.state.password));
+                            get(navigate = this.props.navigation);
+                        }else{
+                          alert('Username or Password is blank');
+                        }}}
+                      />
               </View>
 
               <TouchableOpacity 
@@ -124,7 +141,7 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
     fontSize:50,
     color:"#f8f8f8",
-    marginBottom:40,
+    marginBottom:20,
     marginTop:40
   },
 });
