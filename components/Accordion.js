@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         maxWidth:screenWidth-90
     },
     container:{
-        marginTop:5,
+        marginTop:10,
 
         shadowColor: "#000",
         shadowOffset: {

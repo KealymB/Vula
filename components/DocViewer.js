@@ -92,9 +92,9 @@ class DocViewer extends Component {
   }
   else if (Platform.OS == 'ios') {
     return(
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#1f4166' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#2e6299' }}>
         <View style={{ flex: 1, backgroundColor: 'red' }}>
-          <View style={{padding: 10, backgroundColor: '#1f4166', flexDirection: 'row', alignContent: 'center' }}>
+          <View style={{padding: 10, backgroundColor: '#2e6299', flexDirection: 'row', alignContent: 'center' }}>
             <View style={{justifyContent:'flex-start'}}>
               <TouchableOpacity onPress={() => { this.props.navigation.goBack() }}>
                 <Text style={{ fontSize: 20, color: 'white', paddingLeft: 10, paddingTop: 10, justifyContent: 'center' }}>

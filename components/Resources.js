@@ -8,6 +8,12 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { setCont } from '../actions/data';
 import Accordion from './Accordion';
 
+import {
+    Placeholder,
+    PlaceholderLine,
+    Shine,
+  } from 'rn-placeholder';
+
 
 const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
 const headerHeight = 133; //used to set header height
@@ -124,6 +130,10 @@ const RenderCont = ({cont}) => {
 }
 
 class Resources extends Component {
+    state = {
+        loading: true,
+    };
+
     async componentDidMount() {
         await Expo.Font.loadAsync({
             Icon: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
@@ -132,13 +142,31 @@ class Resources extends Component {
         var path = "https://vula.uct.ac.za/direct/content/site/"+this.props.currSite.key+".json";
         let a = await makeRequest(path);
         this.props.setCont(createTree(a.data));
+        this.setState({ loading: false })
     }
 
     render() {
         return (
-            <ScrollView style={{height:screenHeight-headerHeight, paddingLeft:5, paddingRight:5}}>
-                <RenderCont cont={this.props.cont}/>
-            </ScrollView>
+            <View>
+                {this.state.loading ?           
+                    <Placeholder
+                        style={styles.PlaceHolder}
+                        Animation={Shine}>
+                        <PlaceholderLine width={97} height={60} style={{marginBottom:10, marginTop:10}}/>
+                        <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                        <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                        <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                        <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                        <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                        <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                        <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                    </Placeholder>
+                    :
+                <ScrollView style={{height:screenHeight-headerHeight, paddingLeft:5, paddingRight:5}}>
+                    <RenderCont cont={this.props.cont}/>
+                </ScrollView>
+                }
+            </View>
         );
     }
 }
@@ -243,5 +271,9 @@ const styles = StyleSheet.create({
     itemText: {
         fontSize: 15,
         padding: 2,
+    },
+    PlaceHolder:{
+        marginLeft:5,
+        marginRight:5,
     },
 });
