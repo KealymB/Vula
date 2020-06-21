@@ -16,8 +16,8 @@ class Accordion extends Component {
     state = {
         collapsed: true,
         docView: false,
-        open: '',
-        closed: '',
+        open: 'md-folder',
+        closed: 'md-folder',
         space: 0,
     };
 
