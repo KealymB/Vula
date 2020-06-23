@@ -71,12 +71,17 @@ class Header extends Component {
         <View style={styles.container}>
           <View style={styles.searchbar}>
             <SearchBar
+              platform='ios'
               placeholder="Search Sites:"
               onChangeText={this.updateSearch}
               value={search}
               onClear={() => { this.props.setSearch(false); this.props.clearData(); }}
-              showCancel={true}
+              onCancel={() => { this.props.setSearch(false); this.props.clearData(); }}
               autoCapitalize='characters'
+              lightTheme={true}
+              round={true}
+              containerStyle={{backgroundColor: 'white', borderBottomColor:'white', borderTopColor:'white'}}
+              autoFocus={true}
             />
           </View>
 
@@ -96,7 +101,7 @@ class Header extends Component {
             </View>
 
             <View style={styles.search}>
-              <TouchableOpacity onPress={() => { this.props.setSearch(true) }}>
+              <TouchableOpacity onPress={() => { this.props.setSearch(true);}}>
                 <Icon name="ios-search" size={32} />
               </TouchableOpacity>
             </View>
