@@ -10,6 +10,8 @@ import AnnouncementAccordionSite from '../components/AnnouncementAccordionSite'
 import AnnouncementAccordion from '../components/AnnouncementAccordion'
 import Gradebook from '../components/Gradebook'
 import PostEm from '../components/PostEm'
+import Assignments from '../components/Assignments'
+import DropBox from '../components/DropBox'
 
 const screenWidth = Math.round(Dimensions.get('window').width); //used to set content width
 
@@ -49,6 +51,20 @@ class Site extends Component{
             <SafeAreaView style={styles.container}>
               <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
               <PostEm/>
+            </SafeAreaView>
+          );
+        case 'Assignments':
+          return(
+            <SafeAreaView style={styles.container}>
+              <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
+              <Assignments/>
+            </SafeAreaView>
+          );
+        case 'Drop Box':
+          return(
+            <SafeAreaView style={styles.container}>
+              <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
+              <DropBox/>
             </SafeAreaView>
           );
         default:

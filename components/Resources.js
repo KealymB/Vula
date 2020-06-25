@@ -162,7 +162,7 @@ class Resources extends Component {
                         <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
                     </Placeholder>
                     :
-                <ScrollView style={{height:screenHeight-headerHeight, paddingLeft:5, paddingRight:5}}>
+                <ScrollView style={{height:screenHeight-headerHeight, paddingLeft:5, paddingRight:5}} showsVerticalScrollIndicator={false}>
                     <RenderCont cont={this.props.cont}/>
                 </ScrollView>
                 }

@@ -56,7 +56,6 @@ class DocViewer extends Component {
   }  
   render() {
     const navigation = this.props
-    console.log(this.props.url);
     if (Platform.OS == 'android') {
       return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#1f4166' }}>
