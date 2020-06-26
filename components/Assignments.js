@@ -6,18 +6,21 @@ import {
     View,
     TouchableOpacity,
     Dimensions,
+    Webview
 } from 'react-native';
-
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
 import { connect } from 'react-redux';
 import { setAss } from '../actions/data';
+
+import Scrape from './Scrape';
 
 import {
     Placeholder,
     PlaceholderLine,
     Shine,
   } from 'rn-placeholder';
+import { render } from 'react-dom';
 
 const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
 
@@ -39,7 +42,7 @@ async function makeRequest(path) {
                     due: item.dueTime.epochSecond,
                     open: item.openTime.epochSecond,
                     max: item.gradeScaleMaxPoints,
-                    
+                    url: item.entityURL,
                 };
             });
 
@@ -56,7 +59,6 @@ class Assignments extends Component {
         multipleSelect: false,
         loading: true,
     };
-
     convertDate = ms => {
         var utcSeconds = ms;
         var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -99,7 +101,7 @@ class Assignments extends Component {
         return (
             <Animatable.View style={[styles.itemView, isActive ? styles.active : styles.inactive]}>
                 <View style={styles.innerItemViewLeft}>
-                    <Text numberOfLines={2} style={{fontSize:20}}>{section.title}</Text>
+                    <Text numberOfLines={2} style={{fontSize:20, paddingLeft:5,}}>{section.title}</Text>
                 </View>
                 <View style={styles.innerItemViewRight}>
                     <Text style={{paddingLeft:0}}>{this.convertDate(section.due)}</Text>
@@ -111,9 +113,7 @@ class Assignments extends Component {
     renderContent(section, _) {
         return (
             <Animatable.View style={styles.content}>
-                <Text>
-                    {section.key}
-                </Text>
+                
             </Animatable.View>
         );
     }
@@ -138,9 +138,10 @@ class Assignments extends Component {
                 :
                 <ScrollView showsVerticalScrollIndicator={false} 
                     style={styles.itemContainer}>
+                    <Scrape/>
                     <Accordion
                         activeSections={activeSections}
-                        sections={this.props.Ass.sort((a, b) => parseFloat(b.due) - parseFloat(a.due))}
+                        sections={this.props.Ass}
                         touchableComponent={TouchableOpacity}
                         expandMultiple={multipleSelect}
                         renderHeader={this.renderHeader}
@@ -192,10 +193,10 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     content: {
-        padding: 20,
         backgroundColor: '#eee',
         borderBottomLeftRadius:5,
         borderBottomRightRadius:5,
+        height:100,
     },
     active: {
         borderTopLeftRadius:5,

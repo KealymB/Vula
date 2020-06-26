@@ -52,7 +52,6 @@ async function userDetails(path) {
 async function get({ navigate }, props) {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
     let userData = await userDetails("https://vula.uct.ac.za/direct/user/current.json")
-    console.log(userData.data)
     if(a){
       props.setUser(userData.data);
       navigate("Site", {title: 'Home', siteID:this.state.uname});//might be a differed siteID

@@ -84,7 +84,7 @@ const siteReducer = (state = initialState, action) => {
         case SET_ASS:
             return{
                 ...state,
-                assignments: action.data,
+                assignments: action.data.sort((a, b) => parseFloat(b.due) - parseFloat(a.due)),
             };
         case SET_USER:
             return{

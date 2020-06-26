@@ -80,7 +80,7 @@ class Header extends Component {
               autoCapitalize='characters'
               lightTheme={true}
               round={true}
-              containerStyle={{backgroundColor: 'white', borderBottomColor:'white', borderTopColor:'white'}}
+              containerStyle={{backgroundColor: 'white', borderBottomColor:'white', borderTopColor:'white', paddingTop:0, paddingBottom:0, marginTop:0}}
               autoFocus={true}
             />
           </View>
