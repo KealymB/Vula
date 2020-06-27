@@ -6,23 +6,24 @@ import {
     View,
     TouchableOpacity,
     Dimensions,
-    Webview
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import Accordion from 'react-native-collapsible/Accordion';
+
 import { connect } from 'react-redux';
 import { setAss } from '../actions/data';
+import { withNavigation} from '@react-navigation/compat'
+import { setUrl } from '../actions/data';
 
-import Scrape from './Scrape';
+import Collapsible from 'react-native-collapsible';
 
 import {
     Placeholder,
     PlaceholderLine,
     Shine,
   } from 'rn-placeholder';
-import { render } from 'react-dom';
 
 const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
+
+const screenWidth = Math.round(Dimensions.get('window').width); //used to set content width
 
 const headerHeight = 133; //used to set header height
 
@@ -43,6 +44,7 @@ async function makeRequest(path) {
                     open: item.openTime.epochSecond,
                     max: item.gradeScaleMaxPoints,
                     url: item.entityURL,
+                    instructions: item.instructions,
                 };
             });
 
@@ -51,13 +53,106 @@ async function makeRequest(path) {
         data
     }
 }
+async function delay(t, data) {
+    return new Promise(resolve => {
+        setTimeout(resolve.bind(null, data), t);
+    });
+}
+
+async function getAll(array) {
+    let index = 0;
+    function next() {
+        if (index < array.length) {
+            return get(array[index++]).then(function() {
+                return delay(500).then(next);
+            });
+        }        
+    }
+    return Promise.resolve().then(next);
+}
+
+
+var body = [];
+
+async function get(url){
+    var test = 0;
+    await fetch(url).then(resp => resp.text()).then(rep => {test = rep})
+    body.push(test)
+}
+
+function Parser(html, data) {   
+    var mark = null;
+    var point = html.split("(max")[0].split("Grade")[1]
+
+    if(point.includes(".")){
+        mark = parseFloat(point.split("<strong>")[1])
+    }
+
+    //for marks
+    var au = null;
+    var an = null;
+
+    try {
+        au = html.split("<ul class=\"attachList\">")[1].split("<span")[0].split("<a href=\"")[1].split("\"")[0]
+    }
+    catch(err) {
+        
+    }
+
+    try {
+        an = html.split("<ul class=\"attachList\">")[1].split("<span")[0].split("_blank\">")[1].split("</a>")[0]
+    }
+    catch(err) {
+        
+    }
+
+    var mu = null;
+    var mn = null;
+    var start;
+    var end;
+
+    try {
+        start = html.lastIndexOf("class=\"attachList")
+        end = html.lastIndexOf("<span class=\"textPanelFooter\">(")
+        mu = html.substring(start, end).split("</a>")[0].split("<a href=\"")[1].split("\"")[0]
+    }
+    catch(err) {
+        
+    }
+
+    try {
+
+        mn = html.substring(start, end).split("target=\"_blank\">")[1].split("</a>")[0]
+    }
+    catch(err) {
+        
+    }
+
+    return ({
+        key: data.key,
+        title: data.title,
+        due: data.due,
+        open: data.open,
+        max: data.max,
+        url: data.url,
+        instructions: data.instructions,
+        mark: mark,
+        attachments: {
+            url: au,
+            name: an,
+        },
+        myattachments: {
+            url: mu,
+            name: mn,
+        },
+    })
+}
 
 class Assignments extends Component {
     state = {
-        activeSections: [],
-        collapsed: true,
-        multipleSelect: false,
         loading: true,
+        selected: '',
+        docView: false,
     };
     convertDate = ms => {
         var utcSeconds = ms;
@@ -82,44 +177,45 @@ class Assignments extends Component {
         });
 
         let a = await makeRequest("https://vula.uct.ac.za/direct/assignment/site/"+this.props.currSite.key+".json?n=30")
-        //set the id in site
-        this.props.setAss(a.data);
-        this.setState({ loading: false })
-    }
 
-    toggleExpanded = () => {
-        this.setState({ collapsed: !this.state.collapsed });
-    };
+        var urls = [];
 
-    setSections = sections => {
-        this.setState({
-            activeSections: sections.includes(undefined) ? [] : sections,
+        data = a.data.map( function (item) {
+            urls.push(item.url)
+            return {
+                key: item.key,
+                title: item.title,
+                due: item.due,
+                open: item.open,
+                max: item.max,
+                url: item.url,
+                instructions: item.instructions,
+            };
         });
-    };
 
-    renderHeader = (section, _, isActive) => {
-        return (
-            <Animatable.View style={[styles.itemView, isActive ? styles.active : styles.inactive]}>
-                <View style={styles.innerItemViewLeft}>
-                    <Text numberOfLines={2} style={{fontSize:20, paddingLeft:5,}}>{section.title}</Text>
-                </View>
-                <View style={styles.innerItemViewRight}>
-                    <Text style={{paddingLeft:0}}>{this.convertDate(section.due)}</Text>
-                </View>
-            </Animatable.View>
-        );
-    };
-
-    renderContent(section, _) {
-        return (
-            <Animatable.View style={styles.content}>
-                
-            </Animatable.View>
-        );
+        getAll(urls).then(rep => {
+            var counter = 0;
+            var finalData = [];
+            body.map(html => {
+                finalData.push(Parser(html, data[counter]))
+                counter ++;
+            })
+            this.props.setAss(finalData)
+            this.setState({ loading: false })
+        }).catch(err => {
+            console.log(err)
+        });
     }
 
+    toggleExpanded = (name) => {
+        if(this.state.selected != name){
+            this.setState({ selected: name});
+        }else{
+            this.setState({ selected: ''});
+        }
+        
+    };
     render() {
-        const { multipleSelect, activeSections } = this.state;
         return (
             <View style={styles.container}>
             {this.state.loading?           
@@ -138,16 +234,94 @@ class Assignments extends Component {
                 :
                 <ScrollView showsVerticalScrollIndicator={false} 
                     style={styles.itemContainer}>
-                    <Scrape/>
-                    <Accordion
-                        activeSections={activeSections}
-                        sections={this.props.Ass}
-                        touchableComponent={TouchableOpacity}
-                        expandMultiple={multipleSelect}
-                        renderHeader={this.renderHeader}
-                        renderContent={this.renderContent}
-                        onChange={this.setSections}
-                    />
+                        {this.props.Ass.map((item) =>
+                            <TouchableOpacity onPress={()=>{this.toggleExpanded(item.title)}} style={styles.wrapper}>
+                                <View style={styles.header}>
+                                    <View style={!(this.state.selected != item.title)? styles.innerItemViewLeftOpen : styles.innerItemViewLeftClosed}>
+                                        <Text numberOfLines={1} style={{fontSize:20, paddingLeft:5}}>{item.title}</Text>
+                                    </View>
+                                    <View style={!(this.state.selected != item.title)? styles.innerItemViewRightOpen : styles.innerItemViewRightClosed}>
+                                        <Text style={{paddingLeft:0}}>{this.convertDate(item.due)}</Text>
+                                    </View>
+                                </View>
+
+                                <Collapsible collapsed={this.state.selected != item.title} style={styles.content}>
+                                    <Text style={{fontSize:20, paddingLeft:5}}>
+                                        Instructions:
+                                    </Text>
+                                    <Text style={{fontSize:15, paddingLeft:10}} numberOfLines={3}>
+                                        {item.instructions.replace(/<\/?[^>]+(>|$)/g, "")}
+                                    </Text>
+                                    <Text style={{fontSize:20, paddingLeft:5}}>
+                                                Assignment Resources: 
+                                    </Text>
+                                    {
+                                        item.attachments.name?
+                                        <View style={{paddingLeft:10}}>
+                                            {
+                                                <TouchableOpacity onPress={()=>{
+                                                console.log(item.attachments.url)
+                                                this.props.navigation.navigate('DocViewer', 
+                                                {
+                                                    url: item.attachments.url,
+                                                    title: item.attachments.name
+                                                }) 
+                                                
+                                                this.setState({ docView: true })
+                                                
+                                                this.props.setUrl(item.attachments.url, item.attachments.name)
+                                                
+                                                }}>
+                                                        <Text>
+                                                            {item.attachments.name}
+                                                        </Text>
+                                                </TouchableOpacity>
+                                            }
+                                        </View>
+                                        :
+                                        <View>
+                                            <Text style={{paddingLeft:5}}>
+                                                None
+                                            </Text>
+                                        </View>
+                                    }
+                                    <Text style={{fontSize:20, paddingLeft:5}}>
+                                        Uploaded documents: 
+                                    </Text>
+                                    {
+                                        item.myattachments.name?
+                                        <View style={{paddingLeft:5, paddingLeft:10}}>
+                                            {
+                                                <TouchableOpacity onPress={()=>{
+                                                console.log(item.myattachments.url)
+                                                this.props.navigation.navigate('DocViewer', 
+                                                {
+                                                    url: item.myattachments.url,
+                                                    title: item.myattachments.name
+                                                }) 
+                                                
+                                                this.setState({ docView: true })
+                                                
+                                                this.props.setUrl(item.myattachments.url, item.myattachments.name)
+                                                
+                                                }}>
+                                                        <Text>
+                                                            {item.myattachments.name}
+                                                        </Text>
+                                                </TouchableOpacity>
+                                            }
+                                        </View>
+                                        :
+                                        <View>
+                                            <Text style={{paddingLeft:5}}>
+                                                None
+                                            </Text>
+                                        </View>
+                                    }
+                                </Collapsible>
+                        </TouchableOpacity>
+                        )
+                        }
                 </ScrollView>
             }
             </View>
@@ -164,11 +338,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setAss: (data) => dispatch(setAss(data))
+        setAss: (data) => dispatch(setAss(data)),
+        setUrl: (url, title) => dispatch(setUrl(url, title))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Assignments);
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Assignments));
 
 const styles = StyleSheet.create({
     container: {
@@ -176,27 +351,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#2e6299',
         height:screenHeight-headerHeight,
     },
-    title: {
-        textAlign: 'center',
-        fontSize: 35,
-        fontWeight: '500',
-        marginBottom: 20,
-        color: 'white'
-    },
-    header: {
-        backgroundColor: '#F5FCFF',
-        padding: 10,
-    },
-    headerText: {
-        textAlign: 'center',
-        fontSize: 16,
-        fontWeight: '500',
+    PlaceHolder: {
+        marginLeft:5,
     },
     content: {
         backgroundColor: '#eee',
         borderBottomLeftRadius:5,
         borderBottomRightRadius:5,
-        height:100,
+        height:180,
+        marginLeft:2,
     },
     active: {
         borderTopLeftRadius:5,
@@ -205,33 +368,6 @@ const styles = StyleSheet.create({
     inactive: {
         borderRadius: 5,
     },
-    selectors: {
-        marginBottom: 10,
-        flexDirection: 'row',
-        justifyContent: 'center',
-    },
-    selector: {
-        backgroundColor: '#F5FCFF',
-        padding: 10,
-    },
-    activeSelector: {
-        fontWeight: 'bold',
-    },
-    selectTitle: {
-        fontSize: 14,
-        fontWeight: '500',
-        padding: 10,
-    },
-    multipleToggle: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginVertical: 30,
-        alignItems: 'center',
-    },
-    multipleToggle__title: {
-        fontSize: 16,
-        marginRight: 8,
-    },
     itemView: {
         backgroundColor: "#F5FCFF",
         marginTop: 10,
@@ -239,14 +375,16 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row'
     },
-    innerItemViewLeft:
+    innerItemViewLeftClosed:
     {
         flex: 8.5,
-        marginTop: 5,
         marginLeft: 2,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor:'white',
+        borderTopLeftRadius:5,
+        borderBottomLeftRadius:5,
     },
-    innerItemViewRight:
+    innerItemViewRightClosed:
     {
         flex: 2,
         alignItems: "flex-start",
@@ -254,6 +392,22 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
         borderTopRightRadius:5,
         borderBottomRightRadius:5,
+    },
+    innerItemViewLeftOpen:
+    {
+        flex: 8.5,
+        marginLeft: 2,
+        justifyContent: 'center',
+        backgroundColor:'white',
+        borderTopLeftRadius:5,
+    },
+    innerItemViewRightOpen:
+    {
+        flex: 2,
+        alignItems: "flex-start",
+        justifyContent: 'center',
+        backgroundColor: '#eee',
+        borderTopRightRadius:5,
     },
     itemText: {
         fontSize: 15,
@@ -272,9 +426,14 @@ const styles = StyleSheet.create({
         
         elevation: 4,
         zIndex:999,  
+        paddingTop:10,
     },
-    PlaceHolder:{
-        marginLeft:5,
-        marginRight:5,
+    wrapper:{
+        borderRadius:5,
+        marginBottom:10,
+    },
+    header: {
+        flexDirection:"row",
+        height:60,
     },
 });
