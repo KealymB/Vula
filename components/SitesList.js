@@ -34,7 +34,6 @@ class SitesList extends Component {
                                 sites.forEach((site)=>{
                                   if(site == point.title){
                                     flag = true;
-                                    console.log('yes')
                                   }
                                 })
                                 return flag;
