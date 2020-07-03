@@ -129,15 +129,17 @@ class AnnouncementAccordionSite extends Component {
                 </Placeholder>
                 :
                 <ScrollView showsVerticalScrollIndicator={false} style={styles.itemContainer}>
-                    <Accordion
-                        activeSections={activeSections}
-                        sections={this.props.allAnnouncements}
-                        touchableComponent={TouchableOpacity}
-                        expandMultiple={multipleSelect}
-                        renderHeader={this.renderHeader}
-                        renderContent={this.renderContent}
-                        onChange={this.setSections}
-                    />
+                    <View style={{marginBottom:10}}>
+                        <Accordion
+                            activeSections={activeSections}
+                            sections={this.props.allAnnouncements}
+                            touchableComponent={TouchableOpacity}
+                            expandMultiple={multipleSelect}
+                            renderHeader={this.renderHeader}
+                            renderContent={this.renderContent}
+                            onChange={this.setSections}
+                        />
+                    </View>
                 </ScrollView>
             }
             </View>
@@ -187,6 +189,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
         borderBottomLeftRadius:5,
         borderBottomRightRadius:5,
+
     },
     active: {
         borderTopLeftRadius:5,

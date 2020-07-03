@@ -51,7 +51,7 @@ function itemRender(item, props) {
             onPress={ () => { 
                 props.setUrl(item.url, item.title);
                 props.navigation.navigate('DocViewer', { url: item.url, title: item.title })}}
-            key={item.url}
+                key={item.url}
         >
             <Text numberOfLines={1} style={styles.Title}>
                 {item.title}
@@ -90,14 +90,16 @@ class DropBox extends Component {
                     <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
                 </Placeholder>
                 :
-                <FlatList
-                    contentContainerStyle={{flexGrow: 1, marginTop:10}}
-                    data={this.props.drop}
-                    renderItem={({item}) =>itemRender(item, this.props)}
-                    keyExtractor={item => item.id}
-                    extraData={this.props.drop}
-                    showsVerticalScrollIndicator={false}>
-                </FlatList>
+                <View style={{marginBottom:10}}>
+                    <FlatList
+                        contentContainerStyle={{flexGrow: 1, marginTop:10}}
+                        data={this.props.drop}
+                        renderItem={({item}) =>itemRender(item, this.props)}
+                        keyExtractor={item => item.id}
+                        extraData={this.props.drop}
+                        showsVerticalScrollIndicator={false}>
+                    </FlatList>
+                </View>
             }
             </View>
         );

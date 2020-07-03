@@ -7,6 +7,7 @@ import { setTool } from '../actions/data';
   
 var arr=[]
 var elements=[];
+var sites =['Announcements', 'Resources', 'Gradebook', 'PostEm', 'Assignments', 'Drop Box'];
 
 function itemRender(item, nav, props) {
   return(
@@ -29,7 +30,7 @@ class SideBar extends Component {
         <SafeAreaView style={styles.container}>
             <View style={styles.logoview}>
               <Text style={styles.logo}>
-                Tools
+                Tools 
               </Text>
             </View>
 

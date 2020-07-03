@@ -8,6 +8,8 @@ import { setSearch } from '../actions/data';
 import { setTool } from '../actions/data';
 import { clearData } from '../actions/data';
 
+const sites = ['Announcements', 'Resources', 'Gradebook', 'PostEm', 'Assignments', 'Drop Box']
+
 class SitesList extends Component {
     render(){
       return(
@@ -24,7 +26,21 @@ class SitesList extends Component {
                         color='black'
                         style={styles.itemText}
                         onPress={() => {
-                            this.props.setSite(item)
+                            var test={
+                              key:item.key,
+                              label:item.label,
+                              tools:item.tools.filter((point)=>{
+                                var flag = false;
+                                sites.forEach((site)=>{
+                                  if(site == point.title){
+                                    flag = true;
+                                    console.log('yes')
+                                  }
+                                })
+                                return flag;
+                              })
+                            }
+                            this.props.setSite(test)
                             const { navigate } = this.props.navigation;
                             navigate("Site", {title: item.label, siteID:item.key});
                             this.props.setSearch(false);

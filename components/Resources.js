@@ -109,7 +109,7 @@ function createTree(nodes) {
 
 const RenderCont = ({cont}) => {
     return (
-        <View>
+        <View style={{marginBottom:10}}>
             {cont.map( param => (
                 <Accordion
                     key={param.name}

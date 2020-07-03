@@ -132,15 +132,17 @@ class AnnouncementAccordion extends Component {
                 :
                 <ScrollView showsVerticalScrollIndicator={false} 
                     style={styles.itemContainer}>
-                    <Accordion
-                        activeSections={activeSections}
-                        sections={this.props.allAnnouncements}
-                        touchableComponent={TouchableOpacity}
-                        expandMultiple={multipleSelect}
-                        renderHeader={this.renderHeader}
-                        renderContent={this.renderContent}
-                        onChange={this.setSections}
-                    />
+                    <View style={{marginBottom:10}}>
+                        <Accordion
+                            activeSections={activeSections}
+                            sections={this.props.allAnnouncements}
+                            touchableComponent={TouchableOpacity}
+                            expandMultiple={multipleSelect}
+                            renderHeader={this.renderHeader}
+                            renderContent={this.renderContent}
+                            onChange={this.setSections}
+                        />
+                    </View>
                 </ScrollView>
             }
             </View>

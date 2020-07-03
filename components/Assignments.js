@@ -121,7 +121,6 @@ function Parser(html, data) {
     }
 
     try {
-
         mn = html.substring(start, end).split("target=\"_blank\">")[1].split("</a>")[0]
     }
     catch(err) {
@@ -235,7 +234,7 @@ class Assignments extends Component {
                 <ScrollView showsVerticalScrollIndicator={false} 
                     style={styles.itemContainer}>
                         {this.props.Ass.map((item) =>
-                            <TouchableOpacity onPress={()=>{this.toggleExpanded(item.title)}} style={styles.wrapper}>
+                            <TouchableOpacity onPress={()=>{this.toggleExpanded(item.title)}} style={styles.wrapper} key={item.title}>
                                 <View style={styles.header}>
                                     <View style={!(this.state.selected != item.title)? styles.innerItemViewLeftOpen : styles.innerItemViewLeftClosed}>
                                         <Text numberOfLines={1} style={{fontSize:20, paddingLeft:5}}>{item.title}</Text>
