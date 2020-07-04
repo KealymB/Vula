@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, Button, FlatList } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Button, FlatList, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { setSite } from '../actions/data';
@@ -21,31 +21,31 @@ class SitesList extends Component {
             data={this.props.dataSearched.siteData}
             renderItem={({item}) =>{
                 return(
-                <TouchableOpacity style={styles.itemView}>
-                    <Button
-                        color='black'
-                        style={styles.itemText}
-                        onPress={() => {
-                            var test={
-                              key:item.key,
-                              label:item.label,
-                              tools:item.tools.filter((point)=>{
-                                var flag = false;
-                                sites.forEach((site)=>{
-                                  if(site == point.title){
-                                    flag = true;
-                                  }
-                                })
-                                return flag;
-                              })
-                            }
-                            this.props.setSite(test)
-                            const { navigate } = this.props.navigation;
-                            navigate("Site", {title: item.label, siteID:item.key});
-                            this.props.setSearch(false);
-                            this.props.clearData();
-                        }} title={item.label}>
-                    </Button>
+                <TouchableOpacity 
+                  style={styles.itemView}
+                  onPress={() => {
+                    var test={
+                      key:item.key,
+                      label:item.label,
+                      tools:item.tools.filter((point)=>{
+                        var flag = false;
+                        sites.forEach((site)=>{
+                          if(site == point.title){
+                            flag = true;
+                          }
+                        })
+                        return flag;
+                      })
+                    }
+                    this.props.setSite(test)
+                    const { navigate } = this.props.navigation;
+                    navigate("Site", {title: item.label, siteID:item.key});
+                    this.props.setSearch(false);
+                    this.props.clearData();
+                }}>
+                  <Text style={styles.itemText}>
+                    {item.label}
+                  </Text>
                 </TouchableOpacity>
                 );}}
             keyExtractor={item => item.key}>
@@ -106,13 +106,17 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.23,
       shadowRadius: 2.62,
 
+      height:40,
+
       elevation: 4,
       margin:5,
       marginBottom:10,
+      justifyContent:'center'
   },
   itemText:{
-      fontSize:15,
+      fontSize:20,
       padding:2,
+      color:'black',
   },
   searchbar:{
     marginTop:20,
