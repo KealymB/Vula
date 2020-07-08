@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, FlatList, Button } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, FlatList, Button, Animated } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -42,10 +42,37 @@ async function makeRequest(path) {
 }
 
 class Header extends Component {
-  state = {
-    search: '',
-    searching: false,
-    loading: true,
+
+  constructor(props){
+    super(props)
+    this.state = {
+      search: '',
+      searching: false,
+      loading: true,
+      animation: new Animated.Value(140),
+      headerOpen: false
+    }
+  }
+
+  expandHeader = () => {
+    if(this.state.headerOpen){
+    Animated.spring(this.state.animation, 
+      {
+        toValue: 140,
+        duration: 10
+      }).start()
+      this.setState({headerOpen:false})
+    }
+    else
+    {
+      Animated.spring(this.state.animation, 
+        {
+          toValue: 500,
+          duration: 10
+        }).start()
+        this.setState({headerOpen:true})
+    }
+    
   }
 
   async componentDidMount() {
@@ -65,6 +92,11 @@ class Header extends Component {
     this.props.search(formatQuery);
   };
   render() {
+
+    const animatedStyle = 
+    {
+      height: this.state.animation
+    }
     const { search } = this.state;
     if (this.props.searching) {
       return (
@@ -92,7 +124,7 @@ class Header extends Component {
       );
     } else {
       return (
-        <View style={styles.sb}>
+        <Animated.View style={[styles.sb, animatedStyle]}>
           <View style={styles.header}>
             <View style={styles.logoview}>
               <Text style={styles.logo} numberOfLines={1}>
@@ -118,7 +150,12 @@ class Header extends Component {
             <SitesList navigation={this.props.navigation} style={{borderRadius:10,}}/>
           </View>
           }
-        </View>
+          <TouchableOpacity onPress={this.expandHeader} style={{flex: 1, justifyContent: 'cetner', alignItems:'center'}}>
+          <View style={{flex: 1, justifyContent: 'cetner', alignItems:'center'}}>
+          {this.state.headerOpen ? ( <Text style={{fontSize: 50}}>^</Text>)  : ( <Text style={{fontSize: 20, fontWeight: 'bold'}}>V</Text>)}
+          </View>
+          </TouchableOpacity>
+        </Animated.View>
       );
     }
   }
@@ -200,9 +237,9 @@ itemText:{
     },
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
-    
     elevation: 4,
     zIndex:999,  
+    height: 140
   },
   searchText: {
     fontSize: 20,
