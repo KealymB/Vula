@@ -2,13 +2,24 @@ import * as React from 'react';
 import { View, StyleSheet, Text, Button, FlatList, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-
+//import Icon from 'react-native-vector-icons/Ionicons';
+import { Icon } from 'react-native-elements'
 import { setTool } from '../actions/data';
   
 var arr=[]
 var elements=[];
 var sites =['Announcements', 'Resources', 'Gradebook', 'PostEm', 'Assignments', 'Drop Box'];
+var icons = {
+  Announcements: "bullhorn",
+  Resources: "folder-open",
+  Assignments: "file-text",
+  Gradebook : "book",
+  Participants: "group",
+  Chatroom: "comments-alt"
 
+
+
+};
 function itemRender(item, nav, props) {
   return(
     <TouchableOpacity
@@ -17,9 +28,12 @@ function itemRender(item, nav, props) {
           nav.closeDrawer();
         }} 
         key={item.key}>
-          <Text style={{color:(props.toolName==item.title) ? 'white' : 'black', fontSize:20, paddingBottom:5}} numberOfLines={1}>
+        <View style={{width: 280, backgroundColor:(props.toolName==item.title) ? '#21558C' : '#2e6299', flexDirection: 'row', alignItems: 'center', paddingLeft: 10 }}>
+        <Icon name={icons[item.title]}  type='font-awesome' size={22} style={{paddingLeft: 20}} color={'black'} />
+        <Text style={{color:(props.toolName==item.title) ? 'white' : 'black', fontSize:25, paddingBottom:10, paddingLeft: 15, paddingTop: 10}} numberOfLines={1}>
             {item.title}
           </Text>
+          </View>
     </TouchableOpacity>
   );
 }
@@ -48,7 +62,11 @@ class SideBar extends Component {
                 renderItem={({item}) =>itemRender(item, this.props.navigation, this.props, this.pressed)}
                 keyExtractor={item => item.id}
                 extraData={this.props.toolName}
-                showsVerticalScrollIndicator={false}>
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                scrollEnabled={true}
+                bounces={false}>
+                
               </FlatList>
             </View>
         </SafeAreaView>
@@ -79,7 +97,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2e6299',
     alignItems: 'flex-start',
-    marginLeft:10,
+    paddingTop: 10
+
   },
   itemView:{
     backgroundColor: "#2e6299",

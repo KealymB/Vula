@@ -58,16 +58,17 @@ async function userDetails(path) {
 async function get({ navigate }, props) {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
     let userData = await userDetails("https://vula.uct.ac.za/direct/user/current.json")
-    console.log(formdata)
+    //console.log(formdata)
     //console.log("username"+this.state.uname)
     //console.log("password"+this.state.password)
     if(a){
       await SecureStore.setItemAsync("userData", JSON.stringify(formdata))
       await AsyncStorage.setItem("LoginState", 'true')
-      let loginStatus = await AsyncStorage.getItem("LoginState")
+      let loginStatus = await AsyncStorage.getItem('LoginState')
       console.log("loginState: "+loginStatus)
-      let deets = await SecureStore.getItemAsync("userData")
+      let deets = await SecureStore.getItemAsync('userData')
       console.log("details: "+deets)
+      //await SecureStore.deleteItemAsync('userData')
       props.setUser(userData.data);
       navigate("Site", {title: 'Home', siteID:this.state.uname});//might be a differed siteID
     }else{

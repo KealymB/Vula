@@ -13,50 +13,72 @@ import Loading from './screens/Loading';
 import DocViewer from './components/DocViewer'
 import siteReducer from './reducers/siteReducer';
 import AsyncStorage from '@react-native-community/async-storage';
+import * as SecureStore from 'expo-secure-store';
 const Drawer = createDrawerNavigator();
 const store = createStore(siteReducer);
 
 
 
-class App extends Component{
+class App extends Component {
 
-  
-  constructor(props){
+
+  constructor(props) {
     super(props)
     this.state = {
       loggedIn: false
     }
     this.getLoginState()
-    
+
   }
-    
+
 
   getLoginState = async () => {
-    console.log('val: '+this.state.loggedIn)
+    await this.getSavedDetails()
+    console.log('val: ' + this.state.loggedIn)
     try {
       const value = await AsyncStorage.getItem('LoginState')
-      if(value !== null) {
-        if(value=='true')
-        this.setState({loggedIn:true})
-        console.log('val: '+this.state.loggedIn)
+      if (value !== null) {
+        if (value == 'true')
+          this.setState({ loggedIn: true })
+        console.log('val: ' + this.state.loggedIn)
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
   }
-  render(){
-    const loggedIn = this.state.loggedIn
-    return (
-      <Provider store={store}>
-        <NavigationContainer>
-          <Drawer.Navigator drawerContent={(props) => <SideBar {...props} />}>
-            <Drawer.Screen name="Login" component={Login} />
-            <Drawer.Screen name="Site" component={Site} initialParams={title='Home'}/>
-            <Drawer.Screen name="Loading" component={Loading} />
-            <Drawer.Screen name="DocViewer" component={DocViewer}  />
-          </Drawer.Navigator>
-        </NavigationContainer>
-      </Provider>
-    );
+
+  getSavedDetails = async () => {
+    try {
+      const value = await SecureStore.getItemAsync('userData')
+      if (value !== null) 
+      {
+        console.log('details saved!')
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
-}export default App;
+  render() {
+    const loggedIn = this.state.loggedIn
+    if (loggedIn) {
+      return (
+        <Provider store={store}>
+          <NavigationContainer>
+            <Drawer.Navigator drawerContent={(props) => <SideBar {...props} />}>
+              <Drawer.Screen name="Login" component={Login} />
+              <Drawer.Screen name="Site" component={Site} initialParams={title = 'Home'} />
+              <Drawer.Screen name="Loading" component={Loading} />
+              <Drawer.Screen name="DocViewer" component={DocViewer} />
+            </Drawer.Navigator>
+          </NavigationContainer>
+        </Provider>
+      );
+    }
+    else {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text>Hello</Text></View>
+      );
+    }
+  }
+} export default App;

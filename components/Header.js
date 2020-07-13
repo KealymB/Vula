@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, FlatList, Button, Animated } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, FlatList, Button, Animated, Dimensions } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -17,6 +17,7 @@ import {
   Shine,
 } from 'rn-placeholder';
 
+const { width, height } = Dimensions.get('window');
 async function makeRequest(path) {
 
   let response = await fetch(path, {
@@ -239,7 +240,9 @@ itemText:{
     shadowRadius: 2.62,
     elevation: 4,
     zIndex:999,  
-    height: 140
+    height: 140,
+
+
   },
   searchText: {
     fontSize: 20,
