@@ -47,12 +47,13 @@ async function makeRequest(path) {
 
 function itemRender(item, props) {
     return(
-        <TouchableOpacity style={styles.itemContainer}
+        <TouchableOpacity
+            style={styles.itemContainer}
             onPress={ () => { 
                 props.setUrl(item.url, item.title);
                 props.navigation.navigate('DocViewer', { url: item.url, title: item.title })}}
-                key={item.url}
-        >
+                
+            >
             <Text numberOfLines={1} style={styles.Title}>
                 {item.title}
             </Text>
@@ -90,12 +91,13 @@ class DropBox extends Component {
                     <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
                 </Placeholder>
                 :
-                <View style={{marginBottom:10}}>
+                <View>
                     <FlatList
+                        style={{marginBottom:10}}
                         contentContainerStyle={{flexGrow: 1, marginTop:10}}
                         data={this.props.drop}
                         renderItem={({item}) =>itemRender(item, this.props)}
-                        keyExtractor={item => item.id}
+                        keyExtractor={item => item.id?'test':item.id}
                         extraData={this.props.drop}
                         showsVerticalScrollIndicator={false}>
                     </FlatList>
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
         marginRight:5,
         
         elevation: 4,
-        zIndex:999,  
+        zIndex:999,
     },
     PlaceHolder:{
         marginLeft:5,
