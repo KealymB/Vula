@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, StyleSheet, Dimensions} from 'react-native';
+import { View, StyleSheet, Dimensions, Text} from 'react-native';
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -117,7 +117,7 @@ const RenderCont = ({cont}) => {
                     url={param.url}
                     type={param.type}
                     content={                    
-                        <View>
+                        <View style={{marginLeft: 15, marginTop: 20}}>
                             {(param.children.length > 0) &&
                                 <RenderCont cont={param.children}/>
                             }

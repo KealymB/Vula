@@ -2,14 +2,17 @@ import * as React from 'react';
 import { Component } from 'react';
 import { TextInput, View, StyleSheet, Text, TouchableOpacity  } from 'react-native';
 import { connect } from 'react-redux';
-
+import * as SecureStore from 'expo-secure-store';
 import { setUser } from '../actions/data';
-
+import AsyncStorage from '@react-native-community/async-storage';
 var FormData = require('form-data');
 let formdata = new FormData();
 
-
-let test = '';
+state = 
+{
+  uname:'',
+  password:''
+}
 
 async function makeRequest(path, params) {
     let response = await fetch(path, {
@@ -22,8 +25,11 @@ async function makeRequest(path, params) {
       body: params
     }).then((response) => {
     if(response.status == 201){
+      console.log('good login')
       return true;
+      
     }else{
+      console.log('bad login')
       return false;
     }})
     return response
@@ -52,18 +58,25 @@ async function userDetails(path) {
 async function get({ navigate }, props) {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
     let userData = await userDetails("https://vula.uct.ac.za/direct/user/current.json")
+    console.log(formdata)
+    //console.log("username"+this.state.uname)
+    //console.log("password"+this.state.password)
     if(a){
+      await SecureStore.setItemAsync("userData", JSON.stringify(formdata))
+      await AsyncStorage.setItem("LoginState", 'true')
+      let loginStatus = await AsyncStorage.getItem("LoginState")
+      console.log("loginState: "+loginStatus)
+      let deets = await SecureStore.getItemAsync("userData")
+      console.log("details: "+deets)
       props.setUser(userData.data);
       navigate("Site", {title: 'Home', siteID:this.state.uname});//might be a differed siteID
     }else{
+      formdata = new FormData()
       alert('Incorrect username or password');
     }
 }
 
-state={
-    uname:'',
-    password:''
-}
+
 
 class Login extends Component{
     constructor(props){
