@@ -15,7 +15,9 @@ var icons = {
   Assignments: "file-text",
   Gradebook : "book",
   Participants: "group",
-  Chatroom: "comments-alt"
+  Chatroom: "comments-alt",
+  "Drop Box": "exchange",
+  "PostEm": "sticky-note-o"
 
 
 
