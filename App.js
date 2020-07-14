@@ -59,8 +59,6 @@ class App extends Component {
     }
   }
   render() {
-    const loggedIn = this.state.loggedIn
-    if (loggedIn) {
       return (
         <Provider store={store}>
           <NavigationContainer>
@@ -73,12 +71,5 @@ class App extends Component {
           </NavigationContainer>
         </Provider>
       );
-    }
-    else {
-      return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Hello</Text></View>
-      );
-    }
   }
 } export default App;

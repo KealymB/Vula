@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { TextInput, View, StyleSheet, Text, TouchableOpacity  } from 'react-native';
+import { TextInput, View, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback  } from 'react-native';
 import { connect } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 import { setUser } from '../actions/data';
@@ -97,43 +97,47 @@ class Login extends Component{
                   vula
                 </Text>
               </View>
-
-              <View style={styles.inputView} >
-                  <TextInput  
-                      style={styles.inputText}
-                      placeholder="UserName..." 
-                      placeholderTextColor="#003f5c"
-                      onChangeText={text => this.setState({uname:text})}
-                      autoCapitalize='characters'
-                      returnKeyType='next'
-                      onSubmitEditing={() => this.password.focus()}
-                      enablesReturnKeyAutomatically={true}
-                      />
-              </View>
-
-              <View style={styles.inputView} >
-                  <TextInput  
-                      style={styles.inputText}
-                      placeholder="Password..." 
-                      placeholderTextColor="#003f5c"
-                      onChangeText={text => this.setState({password:text})}
-                      secureTextEntry={true}
-                      enablesReturnKeyAutomatically={true}
-                      returnKeyType='go'
-                      ref={ref => {
-                        this.password = ref;
-                      }}
-                      onSubmitEditing={() => {                      
-                        if(this.state.uname||this.state.password){
-                            formdata.append('_username', (this.state.uname));
-                            formdata.append('_password', (this.state.password));
-                            get(navigate = this.props.navigation, this.props);
-                        }else{
-                          alert('Username or Password is blank');
-                        }}}
-                      />
-              </View>
-
+              <TouchableWithoutFeedback onPress={() => this.uname.focus()}>
+                <View style={styles.inputView} >
+                    <TextInput  
+                        style={styles.inputText}
+                        placeholder="UserName..." 
+                        placeholderTextColor="#003f5c"
+                        onChangeText={text => this.setState({uname:text})}
+                        autoCapitalize='characters'
+                        returnKeyType='next'
+                        ref={ref => {
+                          this.uname = ref;
+                        }}
+                        onSubmitEditing={() => this.password.focus()}
+                        enablesReturnKeyAutomatically={true}
+                        />
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => this.password.focus()}>
+                <View style={styles.inputView} >
+                    <TextInput  
+                        style={styles.inputText}
+                        placeholder="Password..." 
+                        placeholderTextColor="#003f5c"
+                        onChangeText={text => this.setState({password:text})}
+                        secureTextEntry={true}
+                        enablesReturnKeyAutomatically={true}
+                        returnKeyType='go'
+                        ref={ref => {
+                          this.password = ref;
+                        }}
+                        onSubmitEditing={() => {                      
+                          if(this.state.uname||this.state.password){
+                              formdata.append('_username', (this.state.uname));
+                              formdata.append('_password', (this.state.password));
+                              get(navigate = this.props.navigation, this.props);
+                          }else{
+                            alert('Username or Password is blank');
+                          }}}
+                        />
+                </View>
+              </TouchableWithoutFeedback>
               <TouchableOpacity 
                 onPress={() => {
                       if(this.state.uname||this.state.password){

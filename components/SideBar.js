@@ -15,10 +15,8 @@ var icons = {
   Assignments: "file-text",
   Gradebook : "book",
   Participants: "group",
-  Chatroom: "comments-alt"
-
-
-
+  Chatroom: "comments-alt",
+  "Drop Box": "exchange",
 };
 function itemRender(item, nav, props) {
   return(
