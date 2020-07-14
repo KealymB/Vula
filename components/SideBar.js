@@ -16,7 +16,7 @@ var icons = {
   Gradebook : "book",
   Participants: "group",
   Chatroom: "comments-alt",
-  "Drop Box": "exchange",
+  "Drop Box": "exchange"
 };
 function itemRender(item, nav, props) {
   return(
