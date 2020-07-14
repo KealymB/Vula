@@ -49,7 +49,7 @@ class Header extends Component {
       search: '',
       searching: false,
       loading: true,
-      animation: new Animated.Value(140),
+      animation: new Animated.Value(115),
       headerOpen: false
     }
   }
@@ -58,7 +58,7 @@ class Header extends Component {
     if(this.state.headerOpen){
     Animated.spring(this.state.animation, 
       {
-        toValue: 140,
+        toValue: 115,
         duration: 10
       }).start()
       this.setState({headerOpen:false})
@@ -67,7 +67,7 @@ class Header extends Component {
     {
       Animated.spring(this.state.animation, 
         {
-          toValue: 500,
+          toValue: 160,
           duration: 10
         }).start()
         this.setState({headerOpen:true})
@@ -100,15 +100,15 @@ class Header extends Component {
     const { search } = this.state;
     if (this.props.searching) {
       return (
-        <View style={styles.container}>
+        <Animated.View style={[styles.container, animatedStyle]}>
           <View style={styles.searchbar}>
             <SearchBar
               platform='ios'
               placeholder="Search Sites:"
               onChangeText={this.updateSearch}
               value={search}
-              onClear={() => { this.props.setSearch(false); this.props.clearData(); }}
-              onCancel={() => { this.props.setSearch(false); this.props.clearData(); }}
+              onClear={() => { this.props.setSearch(false); this.props.clearData(); this.expandHeader()}}
+              onCancel={() => { this.props.setSearch(false); this.props.clearData(); this.expandHeader()}}
               autoCapitalize='characters'
               lightTheme={true}
               round={true}
@@ -120,7 +120,13 @@ class Header extends Component {
           <View style={styles.sites}>
             <SitesList navigation={this.props.navigation} style={{borderRadius:10,}}/>
           </View>
-        </View>
+
+          <View>
+            <Text>
+              filters
+            </Text>
+          </View>
+        </Animated.View>
       );
     } else {
       return (
@@ -133,7 +139,7 @@ class Header extends Component {
             </View>
 
             <View style={styles.search}>
-              <TouchableOpacity onPress={() => { this.props.setSearch(true);}}>
+              <TouchableOpacity onPress={() => {this.props.setSearch(true); this.expandHeader()}}>
                 <Icon name="ios-search" size={32} />
               </TouchableOpacity>
             </View>
@@ -150,11 +156,6 @@ class Header extends Component {
             <SitesList navigation={this.props.navigation} style={{borderRadius:10,}}/>
           </View>
           }
-          <TouchableOpacity onPress={this.expandHeader} style={{flex: 1, justifyContent: 'cetner', alignItems:'center'}}>
-          <View style={{flex: 1, justifyContent: 'cetner', alignItems:'center'}}>
-          {this.state.headerOpen ? ( <Text style={{fontSize: 50}}>^</Text>)  : ( <Text style={{fontSize: 20, fontWeight: 'bold'}}>V</Text>)}
-          </View>
-          </TouchableOpacity>
         </Animated.View>
       );
     }
