@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, FlatList, Button, Animated, Dimensions } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Picker, Animated, Dimensions } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -50,7 +50,9 @@ class Header extends Component {
       searching: false,
       loading: true,
       animation: new Animated.Value(115),
-      headerOpen: false
+      headerOpen: false,
+      year: 2020,
+      course: ""
     }
   }
 
@@ -67,7 +69,7 @@ class Header extends Component {
     {
       Animated.spring(this.state.animation, 
         {
-          toValue: 160,
+          toValue: 174,
           duration: 10
         }).start()
         this.setState({headerOpen:true})
@@ -92,7 +94,6 @@ class Header extends Component {
     this.props.search(formatQuery);
   };
   render() {
-
     const animatedStyle = 
     {
       height: this.state.animation
@@ -121,10 +122,26 @@ class Header extends Component {
             <SitesList navigation={this.props.navigation} style={{borderRadius:10,}}/>
           </View>
 
-          <View>
-            <Text>
-              filters
-            </Text>
+          <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+            <Picker
+              style={styles.onePicker} itemStyle={styles.onePickerItem}
+              selectedValue={this.state.year}
+              onValueChange={(year) => this.setState({year: year})}
+            >
+              <Picker.Item label="2020" value="2020" />
+              <Picker.Item label="2019" value="2019" />
+              <Picker.Item label="2018" value="2018" />
+              <Picker.Item label="2017" value="2017" />
+              <Picker.Item label="2016" value="2016" />
+            </Picker>
+            <Picker
+              style={styles.onePicker} itemStyle={styles.onePickerItem}
+              selectedValue={this.state.course}
+              onValueChange={(course) => this.setState({course: course})}
+            >
+              <Picker.Item label="MAM" value="MAM" />
+              <Picker.Item label="EEE" value="EEE" />
+            </Picker>
           </View>
         </Animated.View>
       );
@@ -248,5 +265,13 @@ itemText:{
     fontSize: 20,
     fontWeight: "bold",
     textTransform: 'uppercase'
+  },
+  onePicker: {
+    width: 150,
+    height: 44,
+    borderRadius:5,
+  },
+  onePickerItem: {
+    height: 44,
   },
 })
