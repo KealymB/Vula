@@ -15,7 +15,7 @@ class SitesList extends Component {
       return(
         <View>
           <FlatList
-          style={{ borderBottomLeftRadius:10, borderBottomRightRadius:10 }}
+            style={{ borderBottomLeftRadius:10, borderBottomRightRadius:10 }}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             data={this.props.dataSearched.siteData}

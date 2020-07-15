@@ -10,6 +10,7 @@ import { addData } from '../actions/data';
 import { searchData } from '../actions/data';
 import { setSearch } from '../actions/data';
 import { clearData } from '../actions/data';
+import { setFilter } from '../actions/data';
 
 import {
   Placeholder,
@@ -126,21 +127,31 @@ class Header extends Component {
             <Picker
               style={styles.onePicker} itemStyle={styles.onePickerItem}
               selectedValue={this.state.year}
-              onValueChange={(year) => this.setState({year: year})}
+              onValueChange={(year) => {
+                this.setState({year: year});
+                this.props.setFilter(year, this.state.course);
+              }}
             >
               <Picker.Item label="2020" value="2020" />
               <Picker.Item label="2019" value="2019" />
               <Picker.Item label="2018" value="2018" />
               <Picker.Item label="2017" value="2017" />
               <Picker.Item label="2016" value="2016" />
+              <Picker.Item label="2015" value="2015" />
             </Picker>
             <Picker
               style={styles.onePicker} itemStyle={styles.onePickerItem}
               selectedValue={this.state.course}
-              onValueChange={(course) => this.setState({course: course})}
+              onValueChange={(course) => {
+                this.setState({course: course});
+                this.props.setFilter(this.state.year, course);
+              }}
             >
-              <Picker.Item label="MAM" value="MAM" />
-              <Picker.Item label="EEE" value="EEE" />
+              <Picker.Item label="COURSE" value=""/>
+              <Picker.Item label="EEE" value="EEE"/>
+              <Picker.Item label="CSC" value="CSC"/>
+              <Picker.Item label="MAM" value="MAM"/>
+              <Picker.Item label="MAM" value="MAM"/>
             </Picker>
           </View>
         </Animated.View>
@@ -191,6 +202,7 @@ const mapDispatchToProps = (dispatch) => {
     add: (data) => dispatch(addData(data)),
     setSearch: (data) => dispatch(setSearch(data)),
     clearData: () => dispatch(clearData()),
+    setFilter: (year, course) => dispatch(setFilter(year, course)),
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

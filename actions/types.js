@@ -11,3 +11,4 @@ export const CLEAR_SEARCH = "CLEAR_SEARCH";
 export const SET_ASS = "SET_ASS";
 export const SET_USER = "SET_USER";
 export const SET_DROP = "SET_DROP";
+export const SET_FILT = "SET_FILT";

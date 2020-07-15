@@ -1,4 +1,4 @@
-import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH, SET_URL, CLEAR_SEARCH, SET_ASS, SET_USER, SET_DROP } from '../actions/types';
+import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH, SET_URL, CLEAR_SEARCH, SET_ASS, SET_USER, SET_DROP, SET_FILT } from '../actions/types';
 
 const initialState = {
     userData:[],
@@ -15,6 +15,9 @@ const initialState = {
     title: '',
     assignments: [],
     drop: [],
+    course: '',
+    year: '2020',
+    query: '',
 }
 
 const siteReducer = (state = initialState, action) => {
@@ -27,12 +30,72 @@ const siteReducer = (state = initialState, action) => {
                 }),
                 origin: action.data,
             };
+        case SET_FILT:
+            return{
+                ...state,
+                course: action.course,
+                year: action.year,
+                siteData: state.origin.filter(item => {
+                    if(action.course!=''){
+                        if(item.label.toLowerCase().includes(state.query)||state.query==''){
+                            if(item.label.toLowerCase().includes(action.year)){
+                                if(item.label.includes(action.course)){
+                                    return true;
+                                }else{
+                                    return false;
+                                }
+                            }else{
+                                return false;
+                            }
+                        }else{
+                            return false
+                        }
+                    }else{
+                        if(item.label.toLowerCase().includes(state.query)){
+                            if(item.label.toLowerCase().includes(action.year)){
+                                return true;
+                            }else{
+                                return false;
+                            }
+                        }else{
+                            return false
+                        }
+                    }
+                    
+                })
+            };
         case SEARCH_DATA:
             return{
                 ...state,
                 siteData: state.origin.filter(item => {
-                    return item.label.toLowerCase().includes(action.query)
-                })
+                    if(action.course!=''){
+                        if(item.label.toLowerCase().includes(action.query)||action.query==''){
+                            if(item.label.toLowerCase().includes(state.year)){
+                                if(item.label.includes(state.course)){
+                                    return true;
+                                }else{
+                                    return false;
+                                }
+                            }else{
+                                return false;
+                            }
+                        }else{
+                            return false
+                        }
+                    }else{
+                        if(item.label.toLowerCase().includes(action.query)){
+                            if(item.label.toLowerCase().includes(state.year)){
+                                return true;
+                            }else{
+                                return false;
+                            }
+                        }else{
+                            return false
+                        }
+                    }
+                    
+                }),
+                query: action.query,
             };
         case CLEAR_SEARCH:
             return{

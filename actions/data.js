@@ -1,4 +1,4 @@
-import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH, SET_URL, CLEAR_SEARCH, SET_ASS, SET_DROP, SET_USER } from './types'; 
+import { ADD_SITES, SEARCH_DATA, SET_SITE, SET_TOOL, SET_ANNOUNCEMENTS, SET_CONT, SET_GRADES, SET_SEARCH, SET_URL, CLEAR_SEARCH, SET_ASS, SET_DROP, SET_USER, SET_FILT } from './types'; 
 
 export const addData = (info) => ({
     type: ADD_SITES,
@@ -57,4 +57,9 @@ export const setUser = (data) => ({
 export const setDrop = (data) => ({
     type: SET_DROP,
     data: data,
+})
+export const setFilter = (year, course) => ({
+    type: SET_FILT,
+    year: year,
+    course: course,
 })
