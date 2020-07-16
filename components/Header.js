@@ -62,7 +62,7 @@ class Header extends Component {
     Animated.spring(this.state.animation, 
       {
         toValue: 115,
-        duration: 10
+        duration: 10,
       }).start()
       this.setState({headerOpen:false})
     }
@@ -100,6 +100,16 @@ class Header extends Component {
       height: this.state.animation
     }
     const { search } = this.state;
+
+    const interpolateOpacity = this.state.animation.interpolate({
+      inputRange: [115, 174],
+      outputRange: [0,1]
+    })
+
+    const animatedOpacityStyle = 
+    {
+      opacity: interpolateOpacity
+    }
     if (this.props.searching) {
       return (
         <Animated.View style={[styles.container, animatedStyle]}>
@@ -123,7 +133,7 @@ class Header extends Component {
             <SitesList navigation={this.props.navigation} style={{borderRadius:10,}}/>
           </View>
 
-          <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+          <Animated.View style={[{flexDirection:'row', justifyContent:'space-around'}]}>
             <Picker
               style={styles.onePicker} itemStyle={styles.onePickerItem}
               selectedValue={this.state.year}
@@ -153,7 +163,7 @@ class Header extends Component {
               <Picker.Item label="MAM" value="MAM"/>
               <Picker.Item label="MAM" value="MAM"/>
             </Picker>
-          </View>
+          </Animated.View>
         </Animated.View>
       );
     } else {

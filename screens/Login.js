@@ -55,7 +55,7 @@ async function userDetails(path) {
   }
 }
 
-async function get({ navigate }, props) {
+async function tryLogin({ navigate }, props) {
     let a = await makeRequest("https://vula.uct.ac.za/direct/session/new", formdata)
     let userData = await userDetails("https://vula.uct.ac.za/direct/user/current.json")
     //console.log(formdata)
@@ -86,6 +86,7 @@ class Login extends Component{
       this.state = {
         uname:'',
         password:'',
+        buttonDisabled: false
       }
     }
 
@@ -94,7 +95,7 @@ class Login extends Component{
           <View style={styles.container}>
               <View style={styles.logo} >
                 <Text style={styles.logo}>
-                  vula
+                  Vula
                 </Text>
               </View>
               <TouchableWithoutFeedback onPress={() => this.uname.focus()}>
@@ -131,7 +132,7 @@ class Login extends Component{
                           if(this.state.uname||this.state.password){
                               formdata.append('_username', (this.state.uname));
                               formdata.append('_password', (this.state.password));
-                              get(navigate = this.props.navigation, this.props);
+                              tryLogin(navigate = this.props.navigation, this.props) ;
                           }else{
                             alert('Username or Password is blank');
                           }}}
@@ -141,17 +142,19 @@ class Login extends Component{
               <TouchableOpacity 
                 onPress={() => {
                       if(this.state.uname||this.state.password){
+                        
                           formdata.append('_username', (this.state.uname));
                           formdata.append('_password', (this.state.password));
-                          get(navigate = this.props.navigation, this.props);
+                          tryLogin(navigate = this.props.navigation, this.props);
+                          
                       }else{
                         alert('Username or Password is blank');
                       }
-                }}>
+                }}
+                >
                 <Text style={styles.loginBtn}>
                   Login
                 </Text>
-              
               </TouchableOpacity>
           </View>
       );
