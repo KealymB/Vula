@@ -133,7 +133,7 @@ class Header extends Component {
             <SitesList navigation={this.props.navigation} style={{borderRadius:10,}}/>
           </View>
 
-          <Animated.View style={[{flexDirection:'row', justifyContent:'space-around'}]}>
+          <Animated.View style={[{flexDirection:'row', justifyContent:'space-around', animatedOpacityStyle}]}>
             <Picker
               style={styles.onePicker} itemStyle={styles.onePickerItem}
               selectedValue={this.state.year}

@@ -70,7 +70,7 @@ class Site extends Component{
         default:
           return(
             <SafeAreaView style={styles.container}>
-              <Header title={this.props.route.params.title} navigation={this.props.navigation}/>
+              <Header title={'Home'} navigation={this.props.navigation}/>
               <AnnouncementAccordion/>
             </SafeAreaView>
           );

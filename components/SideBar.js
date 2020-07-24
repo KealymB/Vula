@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 //import Icon from 'react-native-vector-icons/Ionicons';
 import { Icon } from 'react-native-elements'
 import { setTool } from '../actions/data';
-  
+import * as SecureStore from 'expo-secure-store';
 var arr=[]
 var elements=[];
 var sites =['Announcements', 'Resources', 'Gradebook', 'PostEm', 'Assignments', 'Drop Box'];
@@ -35,6 +35,13 @@ function itemRender(item, nav, props) {
     </TouchableOpacity>
   );
 }
+
+async function clearData()
+{
+  await SecureStore.deleteItemAsync('userData')
+
+}
+
 
 class SideBar extends Component {
     render(){  
@@ -66,6 +73,11 @@ class SideBar extends Component {
                 bounces={false}>
                 
               </FlatList>
+              <TouchableOpacity onPress={()=> {clearData(); alert('Data Cleared, Please Refresh App')}}> 
+              <View style={{backgroundColor: 'rgba(255,255,255, 0.3)', width: 280, justifyContent: 'center', paddingLeft: 20, height: 40}}>
+                <Text style={{fontSize: 25}}>Logout</Text>
+              </View>
+              </TouchableOpacity>
             </View>
         </SafeAreaView>
       );
@@ -90,6 +102,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2e6299',
+    width: 280 //constant. Could maybe be variable based on screen size?
   },
   cont: {
     flex: 1,
