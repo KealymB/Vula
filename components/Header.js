@@ -20,7 +20,6 @@ import {
 
 const { width, height } = Dimensions.get('window');
 async function makeRequest(path) {
-
   let response = await fetch(path, {
     method: 'GET',
     headers: {
@@ -51,31 +50,25 @@ class Header extends Component {
       searching: false,
       loading: true,
       animation: new Animated.Value(115),
-      headerOpen: false,
       year: 2020,
       course: ""
     }
   }
 
   expandHeader = () => {
-    if(this.state.headerOpen){
+    Animated.spring(this.state.animation, 
+      {
+        toValue: 174,
+        duration: 10
+      }).start()
+  }
+
+  collapseHeader = () => {
     Animated.spring(this.state.animation, 
       {
         toValue: 115,
         duration: 10,
       }).start()
-      this.setState({headerOpen:false})
-    }
-    else
-    {
-      Animated.spring(this.state.animation, 
-        {
-          toValue: 174,
-          duration: 10
-        }).start()
-        this.setState({headerOpen:true})
-    }
-    
   }
 
   async componentDidMount() {
@@ -119,8 +112,8 @@ class Header extends Component {
               placeholder="Search Sites:"
               onChangeText={this.updateSearch}
               value={search}
-              onClear={() => { this.props.setSearch(false); this.props.clearData(); this.expandHeader()}}
-              onCancel={() => { this.props.setSearch(false); this.props.clearData(); this.expandHeader()}}
+              onClear={() => { this.props.setSearch(false); this.props.clearData(); this.collapseHeader()}}
+              onCancel={() => { this.props.setSearch(false); this.props.clearData(); this.collapseHeader()}}
               autoCapitalize='characters'
               lightTheme={true}
               round={true}
@@ -167,6 +160,7 @@ class Header extends Component {
         </Animated.View>
       );
     } else {
+      this.collapseHeader();
       return (
         <Animated.View style={[styles.sb, animatedStyle]}>
           <View style={styles.header}>
