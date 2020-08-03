@@ -73,7 +73,7 @@ class SideBar extends Component {
                 bounces={false}>
                 
               </FlatList>
-              <TouchableOpacity onPress={()=> {clearData(); alert('Data Cleared, Please Refresh App')}}> 
+              <TouchableOpacity onPress={()=> {clearData(); alert('Please refresh the app')}}> 
               <View style={{backgroundColor: 'rgba(255,255,255, 0.3)', width: 280, justifyContent: 'center', paddingLeft: 20, height: 40}}>
                 <Text style={{fontSize: 25}}>Logout</Text>
               </View>

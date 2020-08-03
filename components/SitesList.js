@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, Button, FlatList, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Dimensions, FlatList, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { setSite } from '../actions/data';
@@ -9,14 +9,23 @@ import { setTool } from '../actions/data';
 import { clearData } from '../actions/data';
 
 const sites = ['Announcements', 'Resources', 'Gradebook', 'PostEm', 'Assignments', 'Drop Box']
+const { width, height } = Dimensions.get('window');
 
 class SitesList extends Component {
+    emptyComponent= () => {
+      return(
+      <View style={{flex: 1, height:55, width:width, justifyContent:"center"}}>
+        <Text style={{fontSize:20, textAlign:"center"}}>No sites found</Text>
+      </View>);
+    }
+
     render(){
       return(
-        <View>
+        <View stlye={{height:30}}>
           <FlatList
             style={{ borderBottomLeftRadius:10, borderBottomRightRadius:10 }}
             horizontal={true}
+            ListEmptyComponent={this.emptyComponent}
             showsHorizontalScrollIndicator={false}
             data={this.props.dataSearched.siteData}
             renderItem={({item}) =>{
