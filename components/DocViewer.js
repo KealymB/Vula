@@ -79,6 +79,7 @@ class DocViewer extends Component {
               source={{ uri: this.props.url }}
               sharedCookiesEnabled={true}
               thirdPartyCookiesEnabled={true}
+              withPinchZoom={true}
             />
             {/* <View style={{backgroundColor: 'red'}}>
         <Button title="Open WebBrowser" onPress={()=>{WebBrowser.openAuthSessionAsync(this.props.url)}} />
