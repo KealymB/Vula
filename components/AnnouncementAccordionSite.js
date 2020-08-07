@@ -6,6 +6,7 @@ import {
     View,
     TouchableOpacity,
     Dimensions,
+    TouchableWithoutFeedback,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Accordion from 'react-native-collapsible/Accordion';
@@ -20,7 +21,7 @@ import {
 
 const screenHeight = Math.round(Dimensions.get('window').height); //used to set content height
 const headerHeight = 133; //used to set header height
-
+const announcementCardHeight = 80
 
 async function makeRequest(path) {
     let response = await fetch(path, {
@@ -67,6 +68,33 @@ class AnnouncementAccordionSite extends Component {
         return finaldate.toString()
     }
 
+    getTimeAgo = timeCreated => 
+    {
+        var periods = {
+            month: 30 * 24 * 60 * 60 * 1000,
+            week: 7 * 24 * 60 * 60 * 1000,
+            day: 24 * 60 * 60 * 1000,
+            hour: 60 * 60 * 1000,
+            minute: 60 * 1000
+          };
+          
+          
+            var diff = Date.now() - timeCreated;
+          
+            if (diff > periods.month) {
+              return Math.floor(diff / periods.month) + ((Math.floor(diff / periods.month)===1) ? " Month Ago" : " Months Ago" ) ;
+            } else if (diff > periods.week) {
+              return Math.floor(diff / periods.week) + ((Math.floor(diff / periods.week)===1) ? " Week Ago" : " Weeks Ago" ) ;
+            } else if (diff > periods.day) {
+              return Math.floor(diff / periods.day) + ((Math.floor(diff / periods.day)===1) ? " Day Ago" : " Days Ago" );
+            } else if (diff > periods.hour) {
+              return Math.floor(diff / periods.hour) + ((Math.floor(diff / periods.hour)===1) ? " Hour Ago" : " Hours Ago" );
+            } else if (diff > periods.minute) {
+              return Math.floor(diff / periods.minute) + " Minutes Ago";
+            }
+            return "Just now";
+    }
+
     async componentDidMount() {
         await Expo.Font.loadAsync({
             Icon: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
@@ -88,14 +116,16 @@ class AnnouncementAccordionSite extends Component {
     };
 
     renderHeader = (section, _, isActive) => {
+
+        const returnDate = isActive ? this.getTimeAgo(section.date) : this.convertDate(section.date)
         return (
             <Animatable.View style={[styles.itemView, isActive ? styles.active : styles.inactive]}>
                 <View style={styles.innerItemViewLeft}>
-                    <Text numberOfLines={2}>{section.title}</Text>
-                    <Text numberOfLines={1}>{section.author}</Text>
+                    <Text style={styles.itemHeadingText} numberOfLines={2}>{section.title}</Text>
+                    <Text style={styles.itemAuhtorText} numberOfLines={1}>{section.author}</Text>
                 </View>
                 <View style={styles.innerItemViewRight}>
-                    <Text style={{paddingLeft:0}}>{this.convertDate(section.date)}</Text>
+                    <Text style={{paddingLeft:5}}>{returnDate}</Text>
                 </View>
             </Animatable.View>
         );
@@ -118,14 +148,14 @@ class AnnouncementAccordionSite extends Component {
             {this.state.loading?           
                 <Placeholder style={styles.PlaceHolder}
                     Animation={Fade}>
-                    <PlaceholderLine width={97} height={60} style={{marginBottom:10, marginTop:10}}/>
-                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
-                    <PlaceholderLine width={97} height={60} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={announcementCardHeight} style={{marginBottom:10, marginTop:10}}/>
+                    <PlaceholderLine width={97} height={announcementCardHeight} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={announcementCardHeight} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={announcementCardHeight} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={announcementCardHeight} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={announcementCardHeight} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={announcementCardHeight} style={{marginBottom:10}}/>
+                    <PlaceholderLine width={97} height={announcementCardHeight} style={{marginBottom:10}}/>
                 </Placeholder>
                 :
                 <ScrollView showsVerticalScrollIndicator={false} style={styles.itemContainer}>
@@ -226,9 +256,9 @@ const styles = StyleSheet.create({
         marginRight: 8,
     },
     itemView: {
-        backgroundColor: "#F5FCFF",
+        backgroundColor: "white", // old colour: "#F5FCFF"
         marginTop: 10,
-        height: 60,
+        height: announcementCardHeight,
         flex: 1,
         flexDirection: 'row'
     },
@@ -237,20 +267,26 @@ const styles = StyleSheet.create({
         flex: 8.5,
         marginTop: 5,
         marginLeft: 2,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     innerItemViewRight:
     {
         flex: 2,
-        alignItems: "flex-start",
+        alignItems: "center",
         justifyContent: 'center',
         backgroundColor: '#eee',
         borderTopRightRadius:5,
         borderBottomRightRadius:5,
     },
-    itemText: {
-        fontSize: 15,
-        padding: 2,
+    itemHeadingText: {
+        fontSize: 20,
+        padding: 5,
+    },
+    itemAuhtorText: 
+    {
+      paddingLeft: 5,
+      paddingBottom: 5,
+      opacity: 0.8
     },
     itemContainer: {
         shadowColor: "#000",
