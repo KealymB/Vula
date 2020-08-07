@@ -18,6 +18,8 @@ import {
   Shine,
 } from 'rn-placeholder';
 
+import HeaderTitle from './HeaderTitle'
+
 const { width, height } = Dimensions.get('window');
 async function makeRequest(path) {
   let response = await fetch(path, {
@@ -51,7 +53,8 @@ class Header extends Component {
       loading: true,
       animation: new Animated.Value(115),
       year: 2020,
-      course: ""
+      course: "",
+      titleSearch: false
     }
   }
 
@@ -165,9 +168,12 @@ class Header extends Component {
         <Animated.View style={[styles.sb, animatedStyle]}>
           <View style={styles.header}>
             <View style={styles.logoview}>
-              <Text style={styles.logo} numberOfLines={1}>
+            <TouchableOpacity onPress={()=> this.setState({titleSearch:true})}>
+              {/* <Text style={styles.logo} numberOfLines={1}>
                 {this.props.title}
-              </Text>
+              </Text> */}
+              <HeaderTitle title={this.props.title} searching={this.state.titleSearch}/>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.search}>
